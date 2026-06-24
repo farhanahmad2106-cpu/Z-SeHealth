@@ -493,8 +493,13 @@ async def scan_ingredients(request: dict):
     if "," in image_data: 
         image_data = image_data.split(",")[1]
     
-    prompt = "Analyze this food packaging. Return ONLY a JSON object: {name, safety_score, ingredients: [{name, safety, description}], warnings}. No markdown."
-    
+    prompt = (
+        "Analyze this image. First, determine if it clearly contains a food item, food packaging, or an ingredients list. "
+        "If it DOES NOT contain any of those (e.g., it is a person, random object, dark room, etc.), you MUST return EXACTLY this JSON: "
+        '{"has_ingredients": false, "error_message": "Ingredients list not Detected, Scan Again."}. '
+        "If it DOES contain food/ingredients, analyze it and return ONLY a JSON object with: "
+        "{name, safety_score, ingredients: [{name, safety, description}], warnings}. No markdown."
+    )    
     errors = []
     
     # 1. Try Ollama (Primary)
