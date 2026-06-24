@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { X, Mail, Lock, Loader2 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
 export default function LoginModal() {
   const { showLoginModal, setShowLoginModal, signInWithGoogle } = useAuth();
