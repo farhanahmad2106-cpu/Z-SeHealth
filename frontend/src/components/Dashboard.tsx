@@ -18,7 +18,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto p-8 sm:p-10 lg:p-12 bg-gradient-to-br from-slate-900 via-[#162032] to-slate-950 rounded-[3rem] shadow-2xl border border-slate-800/50 mt-4 mb-12">
+    <div className="max-w-6xl mx-auto p-5 sm:p-8 lg:p-12 bg-gradient-to-br from-slate-900 via-[#162032] to-slate-950 rounded-3xl sm:rounded-[3rem] shadow-2xl border border-slate-800/50 mt-4 mb-12">
       {/* Welcome Heading */}
       <div className="mb-10 text-left">
         <h2 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
