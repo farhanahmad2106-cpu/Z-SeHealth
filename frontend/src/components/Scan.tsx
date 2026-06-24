@@ -1,5 +1,6 @@
 import { useState, useRef, useMemo } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
@@ -41,6 +42,8 @@ export default function Scan() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  const { currentUser, setShowLoginModal } = useAuth();
 
   // 1. Start the actual webcam stream
   const startCamera = async () => {
@@ -112,6 +115,15 @@ export default function Scan() {
   // 5. Send the base64 image string to your FastAPI backend
   const analyzeImage = async () => {
     if (!image) return;
+
+    if (!currentUser) {
+      const scanCount = parseInt(localStorage.getItem('unauthenticatedScanCount') || '0', 10);
+      if (scanCount >= 2) {
+        setShowLoginModal(true);
+        return;
+      }
+      localStorage.setItem('unauthenticatedScanCount', (scanCount + 1).toString());
+    }
 
     setLoading(true);
     setScanError(null);

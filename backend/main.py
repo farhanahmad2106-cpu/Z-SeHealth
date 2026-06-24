@@ -11,6 +11,8 @@ from google import genai
 from google.genai import types
 import asyncio
 import httpx
+import firebase_admin
+from firebase_admin import credentials, auth as firebase_auth
 
 # Load environment variables
 load_dotenv()
@@ -45,6 +47,16 @@ MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 mongo_client = AsyncIOMotorClient(MONGODB_URI)
 db = mongo_client["Z-sehealth"]
 foods_collection = db["foods"]
+users_collection = db["users"]
+
+# --- FIREBASE SETUP ---
+try:
+    cred_path = os.path.join(os.path.dirname(__file__), "firebase-admin-key.json")
+    cred = credentials.Certificate(cred_path)
+    firebase_admin.initialize_app(cred)
+    print("Firebase Admin initialized successfully.")
+except Exception as e:
+    print(f"Warning: Failed to initialize Firebase Admin SDK. {e}")
 
 @app.on_event("startup")
 async def startup_event():
@@ -434,6 +446,43 @@ async def try_nvidia_scan(image_data: str, prompt: str) -> Optional[dict]:
     except Exception as e:
         print(f"NVIDIA API scan failed: {e}")
     return None
+
+class ScanRequest(BaseModel):
+    image: str
+
+class TokenRequest(BaseModel):
+    token: str
+
+@app.post("/api/auth/sync")
+async def sync_user(req: TokenRequest):
+    try:
+        # Verify the Firebase ID token
+        decoded_token = firebase_auth.verify_id_token(req.token)
+        uid = decoded_token.get("uid")
+        email = decoded_token.get("email")
+        name = decoded_token.get("name", "")
+        picture = decoded_token.get("picture", "")
+
+        # Check if user exists in our DB
+        existing_user = await users_collection.find_one({"uid": uid})
+        
+        user_data = {
+            "uid": uid,
+            "email": email,
+            "name": name,
+            "picture": picture,
+            "last_login": decoded_token.get("auth_time")
+        }
+
+        if existing_user:
+            await users_collection.update_one({"uid": uid}, {"$set": user_data})
+        else:
+            await users_collection.insert_one(user_data)
+
+        return {"status": "success", "user_id": uid}
+    except Exception as e:
+        print(f"Token verification error: {e}")
+        raise HTTPException(status_code=401, detail="Invalid authentication token")
 
 @app.post("/api/scan")
 async def scan_ingredients(request: dict):

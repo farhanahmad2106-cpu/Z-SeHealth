@@ -1,14 +1,20 @@
 import { useState } from 'react';
+import { LogOut, User } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Search from './components/Search';
 import Scan from './components/Scan';
+import LoginModal from './components/auth/LoginModal';
+import { useAuth } from './context/AuthContext';
 
 function App() {
   // Simple tab-based navigation state for the MVP
   const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan'>('dashboard');
+  
+  const { currentUser, setShowLoginModal, logout } = useAuth();
 
   return (
     <div className="min-h-screen font-manrope text-white bg-slate-950">
+      <LoginModal />
       {/* Universal Navigation Header */}
       <header className="border-b border-slate-800 bg-gradient-to-r from-slate-950 via-[#162032] to-slate-900 shadow-xl sticky top-0 z-50">
         <div className="flex flex-col md:flex-row justify-between items-center py-3 md:py-4 px-4 sm:px-8 max-w-6xl mx-auto gap-3 md:gap-0">
@@ -20,8 +26,19 @@ function App() {
               <img src="/logo.png" alt="Z-SeHealth Logo" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
               <span>Z-SeHealth</span>
             </h1>
-            <div className="md:hidden w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold text-xs shadow-md ring-2 ring-emerald-500/20 shrink-0">
-              RA
+            <div className="md:hidden flex items-center gap-2">
+              {currentUser ? (
+                <button onClick={logout} className="p-2 text-gray-400 hover:text-white" title="Sign Out">
+                  <LogOut className="w-5 h-5" />
+                </button>
+              ) : (
+                <button 
+                  onClick={() => setShowLoginModal(true)}
+                  className="px-3 py-1.5 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors"
+                >
+                  Log In
+                </button>
+              )}
             </div>
           </div>
 
@@ -46,8 +63,37 @@ function App() {
             </button>
           </nav>
 
-          <div className="hidden md:flex w-9 h-9 rounded-full bg-emerald-600 items-center justify-center text-white font-bold text-sm shadow-md ring-2 ring-emerald-500/20 shrink-0">
-            RA
+          <div className="hidden md:flex items-center gap-3">
+            {currentUser ? (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
+                    {currentUser.photoURL ? (
+                      <img src={currentUser.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-4 h-4 text-gray-400" />
+                    )}
+                  </div>
+                  <span className="text-sm font-medium text-gray-300 hidden lg:block">
+                    {currentUser.displayName || currentUser.email}
+                  </span>
+                </div>
+                <button 
+                  onClick={logout}
+                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-5 h-5" />
+                </button>
+              </div>
+            ) : (
+              <button 
+                onClick={() => setShowLoginModal(true)}
+                className="px-4 py-2 text-sm font-bold bg-emerald-600 hover:bg-emerald-500 rounded-xl shadow-lg shadow-emerald-900/20 transition-all hover:-translate-y-0.5"
+              >
+                Log In / Sign Up
+              </button>
+            )}
           </div>
         </div>
       </header>
