@@ -13,10 +13,10 @@ function App() {
       <header className={`border-b backdrop-blur-md sticky top-0 z-50 transition-colors duration-300 ${activeTab !== 'dashboard' ? 'bg-slate-950/80 border-slate-800' : 'bg-white/80 border-gray-100'}`}>
         <div className="flex justify-between items-center py-4 px-8 max-w-6xl mx-auto">
           <h1 
-            className={`text-2xl font-outfit font-bold tracking-tight cursor-pointer flex items-center gap-2 ${activeTab !== 'dashboard' ? 'text-white' : 'text-moss'}`}
+            className={`text-3xl font-outfit font-bold tracking-tight cursor-pointer flex items-center gap-3 ${activeTab !== 'dashboard' ? 'text-white' : 'text-moss'}`}
             onClick={() => setActiveTab('dashboard')}
           >
-            <img src="/logo.png" alt="Z-SeHealth Logo" className="w-8 h-8 object-contain" />
+            <img src="/logo.png" alt="Z-SeHealth Logo" className="w-12 h-12 object-contain" />
             Z-SeHealth
           </h1>
           <nav className="flex space-x-6 text-sm font-semibold">
