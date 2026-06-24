@@ -1,0 +1,5110 @@
+[
+  {
+    "_id": "mock-0",
+    "name": "Amul Paneer",
+    "brand": "Amul",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-1",
+    "name": "Britannia Paneer",
+    "brand": "Britannia",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-2",
+    "name": "Tata Sampann Paneer",
+    "brand": "Tata Sampann",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-3",
+    "name": "Lay's Paneer",
+    "brand": "Lay's",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-4",
+    "name": "Amul Potato Chips",
+    "brand": "Amul",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-5",
+    "name": "Britannia Potato Chips",
+    "brand": "Britannia",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-6",
+    "name": "Tata Sampann Potato Chips",
+    "brand": "Tata Sampann",
+    "safety_score": 43,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-7",
+    "name": "Lay's Potato Chips",
+    "brand": "Lay's",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-8",
+    "name": "Amul Ghee",
+    "brand": "Amul",
+    "safety_score": 84,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-9",
+    "name": "Britannia Ghee",
+    "brand": "Britannia",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-10",
+    "name": "Tata Sampann Ghee",
+    "brand": "Tata Sampann",
+    "safety_score": 88,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-11",
+    "name": "Lay's Ghee",
+    "brand": "Lay's",
+    "safety_score": 87,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-12",
+    "name": "Amul Atta",
+    "brand": "Amul",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-13",
+    "name": "Britannia Atta",
+    "brand": "Britannia",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-14",
+    "name": "Tata Sampann Atta",
+    "brand": "Tata Sampann",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-15",
+    "name": "Lay's Atta",
+    "brand": "Lay's",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-16",
+    "name": "Amul Biscuits",
+    "brand": "Amul",
+    "safety_score": 49,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-17",
+    "name": "Britannia Biscuits",
+    "brand": "Britannia",
+    "safety_score": 52,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-18",
+    "name": "Tata Sampann Biscuits",
+    "brand": "Tata Sampann",
+    "safety_score": 54,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-19",
+    "name": "Lay's Biscuits",
+    "brand": "Lay's",
+    "safety_score": 53,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-20",
+    "name": "Amul Moong Dal",
+    "brand": "Amul",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-21",
+    "name": "Britannia Moong Dal",
+    "brand": "Britannia",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-22",
+    "name": "Tata Sampann Moong Dal",
+    "brand": "Tata Sampann",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-23",
+    "name": "Lay's Moong Dal",
+    "brand": "Lay's",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-24",
+    "name": "Amul Masala Oats",
+    "brand": "Amul",
+    "safety_score": 81,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-25",
+    "name": "Britannia Masala Oats",
+    "brand": "Britannia",
+    "safety_score": 82,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-26",
+    "name": "Tata Sampann Masala Oats",
+    "brand": "Tata Sampann",
+    "safety_score": 81,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-27",
+    "name": "Lay's Masala Oats",
+    "brand": "Lay's",
+    "safety_score": 77,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-28",
+    "name": "Amul Roti",
+    "brand": "Amul",
+    "safety_score": 94,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-29",
+    "name": "Britannia Roti",
+    "brand": "Britannia",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-30",
+    "name": "Tata Sampann Roti",
+    "brand": "Tata Sampann",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-31",
+    "name": "Lay's Roti",
+    "brand": "Lay's",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-32",
+    "name": "Amul Ketchup",
+    "brand": "Amul",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-33",
+    "name": "Britannia Ketchup",
+    "brand": "Britannia",
+    "safety_score": 41,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-34",
+    "name": "Tata Sampann Ketchup",
+    "brand": "Tata Sampann",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-35",
+    "name": "Lay's Ketchup",
+    "brand": "Lay's",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-36",
+    "name": "Amul Butter",
+    "brand": "Amul",
+    "safety_score": 78,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-37",
+    "name": "Britannia Butter",
+    "brand": "Britannia",
+    "safety_score": 73,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-38",
+    "name": "Tata Sampann Butter",
+    "brand": "Tata Sampann",
+    "safety_score": 78,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-39",
+    "name": "Lay's Butter",
+    "brand": "Lay's",
+    "safety_score": 77,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-40",
+    "name": "Amul Instant Noodles",
+    "brand": "Amul",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-41",
+    "name": "Britannia Instant Noodles",
+    "brand": "Britannia",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-42",
+    "name": "Tata Sampann Instant Noodles",
+    "brand": "Tata Sampann",
+    "safety_score": 31,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-43",
+    "name": "Lay's Instant Noodles",
+    "brand": "Lay's",
+    "safety_score": 34,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-44",
+    "name": "Amul Diet Soda",
+    "brand": "Amul",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-45",
+    "name": "Britannia Diet Soda",
+    "brand": "Britannia",
+    "safety_score": 43,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-46",
+    "name": "Tata Sampann Diet Soda",
+    "brand": "Tata Sampann",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-47",
+    "name": "Lay's Diet Soda",
+    "brand": "Lay's",
+    "safety_score": 44,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-48",
+    "name": "Amul Makhana",
+    "brand": "Amul",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-49",
+    "name": "Britannia Makhana",
+    "brand": "Britannia",
+    "safety_score": 94,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-50",
+    "name": "Tata Sampann Makhana",
+    "brand": "Tata Sampann",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-51",
+    "name": "Lay's Makhana",
+    "brand": "Lay's",
+    "safety_score": 90,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-52",
+    "name": "Masala Paneer",
+    "brand": "Organic Tattva",
+    "safety_score": 94,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-53",
+    "name": "Gold Diet Soda",
+    "brand": "Lay's",
+    "safety_score": 43,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-54",
+    "name": "Roasted Instant Noodles",
+    "brand": "MTR",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-55",
+    "name": "Pepper Roti",
+    "brand": "Tata Sampann",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-56",
+    "name": "Baked Potato Chips",
+    "brand": "Britannia",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-57",
+    "name": "Sweet Ketchup",
+    "brand": "Lay's",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-58",
+    "name": "Spicy Ketchup",
+    "brand": "Britannia",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-59",
+    "name": "Roasted Paneer",
+    "brand": "Haldiram's",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-60",
+    "name": "Gold Moong Dal",
+    "brand": "Tata Sampann",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-61",
+    "name": "Tangy Atta",
+    "brand": "Tata Sampann",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-62",
+    "name": "Masala Atta",
+    "brand": "Aashirvaad",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-63",
+    "name": "Salted Paneer",
+    "brand": "Saffola",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-64",
+    "name": "Tomato Makhana",
+    "brand": "Saffola",
+    "safety_score": 90,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-65",
+    "name": "Organic Potato Chips",
+    "brand": "Organic Tattva",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-66",
+    "name": "Classic Paneer",
+    "brand": "Haldiram's",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-67",
+    "name": "Tomato Roti",
+    "brand": "Saffola",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-68",
+    "name": "Ginger Biscuits",
+    "brand": "Britannia",
+    "safety_score": 56,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-69",
+    "name": "Sweet Roti",
+    "brand": "Saffola",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-70",
+    "name": "Ginger Diet Soda",
+    "brand": "Britannia",
+    "safety_score": 36,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-71",
+    "name": "Sweet Diet Soda",
+    "brand": "Aashirvaad",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-72",
+    "name": "Ginger Butter",
+    "brand": "Lay's",
+    "safety_score": 77,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-73",
+    "name": "Pudina Moong Dal",
+    "brand": "MTR",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-74",
+    "name": "Lite Masala Oats",
+    "brand": "Saffola",
+    "safety_score": 73,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-75",
+    "name": "Classic Moong Dal",
+    "brand": "Britannia",
+    "safety_score": 89,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-76",
+    "name": "Baked Atta",
+    "brand": "Organic Tattva",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-77",
+    "name": "Salted Atta",
+    "brand": "MTR",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-78",
+    "name": "Chili Makhana",
+    "brand": "Amul",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-79",
+    "name": "Sweet Potato Chips",
+    "brand": "Aashirvaad",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-80",
+    "name": "Spicy Biscuits",
+    "brand": "Saffola",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-81",
+    "name": "Ginger Paneer",
+    "brand": "Tata Sampann",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-82",
+    "name": "Spicy Ketchup 47",
+    "brand": "Tata Sampann",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-83",
+    "name": "Spicy Instant Noodles",
+    "brand": "MTR",
+    "safety_score": 30,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-84",
+    "name": "Pudina Masala Oats",
+    "brand": "Lay's",
+    "safety_score": 75,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-85",
+    "name": "Classic Ghee",
+    "brand": "Aashirvaad",
+    "safety_score": 88,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-86",
+    "name": "Premium Roti",
+    "brand": "Amul",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-87",
+    "name": "Salted Ketchup",
+    "brand": "Haldiram's",
+    "safety_score": 45,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-88",
+    "name": "Masala Ketchup",
+    "brand": "Saffola",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-89",
+    "name": "Premium Paneer",
+    "brand": "Britannia",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-90",
+    "name": "Pepper Roti 84",
+    "brand": "Aashirvaad",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-91",
+    "name": "Premium Ketchup",
+    "brand": "Amul",
+    "safety_score": 45,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-92",
+    "name": "Organic Atta",
+    "brand": "Lay's",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-93",
+    "name": "Masala Moong Dal",
+    "brand": "Tata Sampann",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-94",
+    "name": "Roasted Roti",
+    "brand": "MTR",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-95",
+    "name": "Organic Ketchup",
+    "brand": "Lay's",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-96",
+    "name": "Ginger Moong Dal",
+    "brand": "Britannia",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-97",
+    "name": "Lite Atta",
+    "brand": "Tata Sampann",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-98",
+    "name": "Garlic Butter",
+    "brand": "Organic Tattva",
+    "safety_score": 79,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-99",
+    "name": "Sweet Roti 21",
+    "brand": "Mother Dairy",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-100",
+    "name": "Roasted Makhana",
+    "brand": "MTR",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-101",
+    "name": "Pudina Atta",
+    "brand": "Amul",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-102",
+    "name": "Sweet Potato Chips 92",
+    "brand": "Organic Tattva",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-103",
+    "name": "Tangy Diet Soda",
+    "brand": "Aashirvaad",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-104",
+    "name": "Chili Biscuits",
+    "brand": "MTR",
+    "safety_score": 54,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-105",
+    "name": "Pepper Ghee",
+    "brand": "Aashirvaad",
+    "safety_score": 85,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-106",
+    "name": "Gold Roti",
+    "brand": "Mother Dairy",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-107",
+    "name": "Masala Instant Noodles",
+    "brand": "Amul",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-108",
+    "name": "Pudina Roti",
+    "brand": "Organic Tattva",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-109",
+    "name": "Salted Butter",
+    "brand": "Britannia",
+    "safety_score": 76,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-110",
+    "name": "Ginger Paneer 53",
+    "brand": "MTR",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-111",
+    "name": "Pudina Diet Soda",
+    "brand": "Tata Sampann",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-112",
+    "name": "Diet Diet Soda",
+    "brand": "Organic Tattva",
+    "safety_score": 45,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-113",
+    "name": "Spicy Paneer",
+    "brand": "Aashirvaad",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-114",
+    "name": "Roasted Diet Soda",
+    "brand": "Haldiram's",
+    "safety_score": 42,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-115",
+    "name": "Tangy Instant Noodles",
+    "brand": "Haldiram's",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-116",
+    "name": "Classic Makhana",
+    "brand": "MTR",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-117",
+    "name": "Chili Roti",
+    "brand": "Haldiram's",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-118",
+    "name": "Organic Ghee",
+    "brand": "Organic Tattva",
+    "safety_score": 83,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-119",
+    "name": "Lite Atta 89",
+    "brand": "Lay's",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-120",
+    "name": "Lite Butter",
+    "brand": "Saffola",
+    "safety_score": 78,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-121",
+    "name": "Pepper Roti 25",
+    "brand": "MTR",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-122",
+    "name": "Masala Masala Oats",
+    "brand": "Saffola",
+    "safety_score": 77,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-123",
+    "name": "Sweet Moong Dal",
+    "brand": "Britannia",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-124",
+    "name": "Organic Paneer",
+    "brand": "Tata Sampann",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-125",
+    "name": "Salted Masala Oats",
+    "brand": "Amul",
+    "safety_score": 74,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-126",
+    "name": "Tomato Instant Noodles",
+    "brand": "Saffola",
+    "safety_score": 30,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-127",
+    "name": "Organic Ghee 27",
+    "brand": "Haldiram's",
+    "safety_score": 86,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-128",
+    "name": "Ginger Potato Chips",
+    "brand": "Lay's",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-129",
+    "name": "Pudina Makhana",
+    "brand": "Britannia",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-130",
+    "name": "Garlic Moong Dal",
+    "brand": "Haldiram's",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-131",
+    "name": "Gold Roti 60",
+    "brand": "Haldiram's",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-132",
+    "name": "Pepper Butter",
+    "brand": "Tata Sampann",
+    "safety_score": 73,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-133",
+    "name": "Tangy Paneer",
+    "brand": "Mother Dairy",
+    "safety_score": 91,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-134",
+    "name": "Tomato Instant Noodles 84",
+    "brand": "Organic Tattva",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-135",
+    "name": "Premium Biscuits",
+    "brand": "Mother Dairy",
+    "safety_score": 49,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-136",
+    "name": "Gold Potato Chips",
+    "brand": "Haldiram's",
+    "safety_score": 43,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-137",
+    "name": "Spicy Butter",
+    "brand": "Tata Sampann",
+    "safety_score": 77,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-138",
+    "name": "Premium Masala Oats",
+    "brand": "Lay's",
+    "safety_score": 83,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-139",
+    "name": "Salted Ghee",
+    "brand": "MTR",
+    "safety_score": 88,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-140",
+    "name": "Premium Roti 53",
+    "brand": "MTR",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-141",
+    "name": "Salted Diet Soda",
+    "brand": "MTR",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-142",
+    "name": "Spicy Butter 11",
+    "brand": "Organic Tattva",
+    "safety_score": 76,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-143",
+    "name": "Lite Roti",
+    "brand": "Aashirvaad",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-144",
+    "name": "Gold Biscuits",
+    "brand": "Haldiram's",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-145",
+    "name": "Sweet Moong Dal 73",
+    "brand": "Tata Sampann",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-146",
+    "name": "Baked Moong Dal",
+    "brand": "Saffola",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-147",
+    "name": "Masala Biscuits",
+    "brand": "Amul",
+    "safety_score": 51,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-148",
+    "name": "Diet Diet Soda 7",
+    "brand": "Aashirvaad",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-149",
+    "name": "Pudina Masala Oats 12",
+    "brand": "Saffola",
+    "safety_score": 74,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-150",
+    "name": "Sweet Biscuits",
+    "brand": "Saffola",
+    "safety_score": 53,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-151",
+    "name": "Gold Atta",
+    "brand": "Mother Dairy",
+    "safety_score": 93,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-152",
+    "name": "Ginger Atta",
+    "brand": "Aashirvaad",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-153",
+    "name": "Salted Potato Chips",
+    "brand": "Organic Tattva",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-154",
+    "name": "Chili Paneer",
+    "brand": "Tata Sampann",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-155",
+    "name": "Roasted Diet Soda 67",
+    "brand": "Amul",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-156",
+    "name": "Diet Butter",
+    "brand": "Tata Sampann",
+    "safety_score": 79,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-157",
+    "name": "Baked Instant Noodles",
+    "brand": "Organic Tattva",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-158",
+    "name": "Gold Instant Noodles",
+    "brand": "Organic Tattva",
+    "safety_score": 31,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-159",
+    "name": "Spicy Diet Soda",
+    "brand": "Tata Sampann",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-160",
+    "name": "Salted Ketchup 47",
+    "brand": "Aashirvaad",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-161",
+    "name": "Spicy Makhana",
+    "brand": "Organic Tattva",
+    "safety_score": 90,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-162",
+    "name": "Diet Diet Soda 27",
+    "brand": "Haldiram's",
+    "safety_score": 41,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-163",
+    "name": "Lite Potato Chips",
+    "brand": "Tata Sampann",
+    "safety_score": 44,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-164",
+    "name": "Classic Atta",
+    "brand": "Tata Sampann",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-165",
+    "name": "Garlic Ghee",
+    "brand": "Organic Tattva",
+    "safety_score": 83,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-166",
+    "name": "Spicy Ketchup 20",
+    "brand": "Haldiram's",
+    "safety_score": 40,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-167",
+    "name": "Classic Biscuits",
+    "brand": "Amul",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-168",
+    "name": "Spicy Ketchup 89",
+    "brand": "Organic Tattva",
+    "safety_score": 49,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-169",
+    "name": "Premium Biscuits 44",
+    "brand": "Saffola",
+    "safety_score": 57,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)"
+    ]
+  },
+  {
+    "_id": "mock-170",
+    "name": "Organic Roti",
+    "brand": "Saffola",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-171",
+    "name": "Masala Ketchup 9",
+    "brand": "Amul",
+    "safety_score": 48,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-172",
+    "name": "Salted Instant Noodles",
+    "brand": "Tata Sampann",
+    "safety_score": 37,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-173",
+    "name": "Gold Paneer",
+    "brand": "MTR",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-174",
+    "name": "Sweet Butter",
+    "brand": "Mother Dairy",
+    "safety_score": 78,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Green Tea Extract",
+        "safety": "Safe",
+        "description": "Rich in organic catechins and antioxidants."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-175",
+    "name": "Tangy Makhana",
+    "brand": "Mother Dairy",
+    "safety_score": 94,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-176",
+    "name": "Chili Biscuits 84",
+    "brand": "Saffola",
+    "safety_score": 54,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-177",
+    "name": "Gold Paneer 7",
+    "brand": "Haldiram's",
+    "safety_score": 97,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-178",
+    "name": "Ginger Potato Chips 81",
+    "brand": "Mother Dairy",
+    "safety_score": 43,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-179",
+    "name": "Roasted Paneer 53",
+    "brand": "Haldiram's",
+    "safety_score": 96,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-180",
+    "name": "Classic Potato Chips",
+    "brand": "Britannia",
+    "safety_score": 39,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-181",
+    "name": "Classic Butter",
+    "brand": "Organic Tattva",
+    "safety_score": 79,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-182",
+    "name": "Organic Biscuits",
+    "brand": "Haldiram's",
+    "safety_score": 52,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Synthetic Color (INS 150d)",
+        "safety": "Moderate",
+        "description": "Sulfite ammonia caramel coloring; highly processed visual additive."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-183",
+    "name": "Gold Potato Chips 69",
+    "brand": "Mother Dairy",
+    "safety_score": 44,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-184",
+    "name": "Ginger Biscuits 2",
+    "brand": "Saffola",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  },
+  {
+    "_id": "mock-185",
+    "name": "Lite Potato Chips 59",
+    "brand": "Tata Sampann",
+    "safety_score": 41,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Yeast",
+        "safety": "Safe",
+        "description": "Natural leavening agent used for fermenting dough textures."
+      },
+      {
+        "name": "Monosodium Glutamate (MSG)",
+        "safety": "Moderate",
+        "description": "Chemical flavor enhancer that can trigger sensitivities."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "CONTAINS ARTIFICIAL FLAVOR ENHANCERS (MSG)",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-186",
+    "name": "Premium Instant Noodles",
+    "brand": "Aashirvaad",
+    "safety_score": 34,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Common Salt",
+        "safety": "Safe",
+        "description": "Essential dietary sodium mineral used for flavor preservation."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-187",
+    "name": "Lite Ghee",
+    "brand": "Mother Dairy",
+    "safety_score": 90,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-188",
+    "name": "Ginger Paneer 11",
+    "brand": "Mother Dairy",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-189",
+    "name": "Premium Paneer 31",
+    "brand": "Britannia",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-190",
+    "name": "Tangy Diet Soda 71",
+    "brand": "Organic Tattva",
+    "safety_score": 38,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Acidity Regulator (INS 330)",
+        "safety": "Safe",
+        "description": "Citric acid used to balance tangy flavor profiles."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Sodium Benzoate (INS 211)",
+        "safety": "Moderate",
+        "description": "Synthetic chemical preservative."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-191",
+    "name": "Tomato Potato Chips",
+    "brand": "Lay's",
+    "safety_score": 41,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      },
+      {
+        "name": "Aspartame",
+        "safety": "Unhealthy",
+        "description": "Intense artificial sweetener linked to metabolic disruptions."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS",
+      "ULTRA-PROCESSED DIET PRODUCT"
+    ]
+  },
+  {
+    "_id": "mock-192",
+    "name": "Baked Roti",
+    "brand": "Aashirvaad",
+    "safety_score": 98,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-193",
+    "name": "Roasted Makhana 98",
+    "brand": "Britannia",
+    "safety_score": 95,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-194",
+    "name": "Salted Atta 41",
+    "brand": "Britannia",
+    "safety_score": 99,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Turmeric (Haldi)",
+        "safety": "Safe",
+        "description": "Active curcumin compound carrying strong anti-inflammatory profiles."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      },
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-195",
+    "name": "Pepper Roti 88",
+    "brand": "Haldiram's",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      },
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Spinach Leaves",
+        "safety": "Safe",
+        "description": "Iron and Vitamin K-dense dark leafy green vegetable."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-196",
+    "name": "Classic Masala Oats",
+    "brand": "Organic Tattva",
+    "safety_score": 75,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Split Yellow Moong Dal",
+        "safety": "Safe",
+        "description": "Easy-to-digest plant protein packed with dietary fiber."
+      },
+      {
+        "name": "Raw Coconut Water",
+        "safety": "Safe",
+        "description": "Pure hydrating liquid loaded with natural potassium."
+      },
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Refined Wheat Flour (Maida)",
+        "safety": "Moderate",
+        "description": "Processed starchy flour stripped of natural grain fiber."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-197",
+    "name": "Salted Moong Dal",
+    "brand": "Organic Tattva",
+    "safety_score": 92,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Ginger Extract",
+        "safety": "Safe",
+        "description": "Natural root spice known to aid digestion."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      },
+      {
+        "name": "Ragi (Finger Millet)",
+        "safety": "Safe",
+        "description": "Gluten-free ancient grain rich in calcium."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-198",
+    "name": "Salted Roti",
+    "brand": "Organic Tattva",
+    "safety_score": 100,
+    "status": "Safe",
+    "ingredients": [
+      {
+        "name": "Almonds",
+        "safety": "Safe",
+        "description": "Nutrient-dense nut supplying heart-healthy monounsaturated fats."
+      },
+      {
+        "name": "Fresh Cottage Cheese (Paneer)",
+        "safety": "Safe",
+        "description": "High-quality dairy protein and calcium source."
+      },
+      {
+        "name": "Whole Wheat Flour (Atta)",
+        "safety": "Safe",
+        "description": "Fiber-rich whole grain providing complex carbohydrates."
+      }
+    ],
+    "warnings": []
+  },
+  {
+    "_id": "mock-199",
+    "name": "Masala Ketchup 23",
+    "brand": "Britannia",
+    "safety_score": 47,
+    "status": "Unhealthy",
+    "ingredients": [
+      {
+        "name": "Sugar Crystalline",
+        "safety": "Moderate",
+        "description": "Refined sweetening agent; elevates blood glucose rapidly."
+      },
+      {
+        "name": "Artificial Vanilla Flavoring",
+        "safety": "Moderate",
+        "description": "Synthesized chemical compounds designed to mimic real vanilla."
+      },
+      {
+        "name": "Refined Palm Oil",
+        "safety": "Unhealthy",
+        "description": "Highly refined vegetable fat with high saturated fatty acids."
+      },
+      {
+        "name": "Emulsifier (INS 452)",
+        "safety": "Moderate",
+        "description": "Polyphosphates used to chemically stabilize water-fat binding."
+      }
+    ],
+    "warnings": [
+      "CONTAINS HIGH SATURATED INDUSTRIAL FATS"
+    ]
+  }
+]
