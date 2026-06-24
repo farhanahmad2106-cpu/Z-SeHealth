@@ -127,18 +127,156 @@ async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
         print(f"AI Fallback error: {e}")
         return None
 
+async def try_gemini_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
+    """Attempts translation using the Gemini API."""
+    print("Attempting translation using Gemini API...")
+    prompt = f"Translate this list to {target_lang}: {text_items}. Return ONLY a JSON list of strings. No markdown."
+    try:
+        loop = asyncio.get_event_loop()
+        def call_gemini():
+            return client.models.generate_content(
+                model=MODEL_NAME,
+                contents=prompt
+            )
+        response = await loop.run_in_executor(None, call_gemini)
+        return clean_json_response(response.text)
+    except Exception as e:
+        raise e
+
+async def try_ollama_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
+    """Attempts translation using a local Ollama model."""
+    print("Checking for local Ollama models for translation...")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            try:
+                tags_resp = await http_client.get("http://localhost:11434/api/tags")
+                if tags_resp.status_code == 200:
+                    models_info = tags_resp.json().get("models", [])
+                    installed_models = [m.get("name") for m in models_info]
+                else:
+                    installed_models = []
+            except Exception as tags_err:
+                print(f"Ollama local service is not running or tags fetch failed: {tags_err}")
+                return None
+
+            if not installed_models:
+                return None
+            
+            selected_model = installed_models[0]
+            for m in installed_models:
+                if "llama3" in m or "mistral" in m or "gemma" in m or "qwen" in m:
+                    selected_model = m
+                    break
+            
+            print(f"Attempting local translation using Ollama model: {selected_model}")
+            prompt = f"Translate this JSON list of strings to {target_lang}: {text_items}. Return ONLY a raw JSON list of strings. No markdown, explanation, or notes."
+            payload = {
+                "model": selected_model,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                "stream": False,
+                "options": {
+                    "temperature": 0.1
+                }
+            }
+            resp = await http_client.post("http://localhost:11434/api/chat", json=payload)
+            if resp.status_code == 200:
+                result = resp.json()
+                message_content = result.get("message", {}).get("content", "")
+                print(f"Ollama translation response received: {message_content[:200]}...")
+                return clean_json_response(message_content)
+    except Exception as e:
+        print(f"Ollama translation failed: {e}")
+    return None
+
+async def try_nvidia_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
+    """Attempts translation using the NVIDIA API."""
+    nvidia_key = os.getenv("NVIDIA_API_KEY")
+    if not nvidia_key:
+        print("NVIDIA_API_KEY not found in environment variables.")
+        return None
+    
+    print("Attempting translation using NVIDIA API...")
+    prompt = f"Translate this JSON list of strings to {target_lang}: {text_items}. Return ONLY a raw JSON list of strings. No markdown, explanation, or notes."
+    
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            headers = {
+                "Authorization": f"Bearer {nvidia_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": "nvidia/llama-3.1-nemotron-70b-instruct",
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                "temperature": 0.1
+            }
+            resp = await http_client.post(
+                "https://integrate.api.nvidia.com/v1/chat/completions",
+                headers=headers,
+                json=payload
+            )
+            if resp.status_code == 200:
+                result = resp.json()
+                content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
+                print(f"NVIDIA translation response received: {content[:200]}...")
+                return clean_json_response(content)
+            else:
+                print(f"NVIDIA API returned status code {resp.status_code}: {resp.text}")
+    except Exception as e:
+        print(f"NVIDIA API translation failed: {e}")
+    return None
+
 @app.post("/api/translate")
 async def translate_text(request: dict):
     text_items = request.get("text_items", [])
     target_lang = request.get("target_language", "Hindi")
-    if not text_items: return {"translations": []}
-    prompt = f"Translate this list to {target_lang}: {text_items}. Return ONLY a JSON list of strings. No markdown."
+    if not text_items: 
+        return {"translations": []}
+        
+    errors = []
+    
+    # 1. Try Ollama (Primary)
     try:
-        response = client.models.generate_content(model=MODEL_NAME, contents=prompt)
-        return {"translations": clean_json_response(response.text)}
+        result = await try_ollama_translate(text_items, target_lang)
+        if result:
+            print("Successfully translated using Local Ollama model.")
+            return {"translations": result}
     except Exception as e:
-        print(f"Translation Error: {e}")
-        return {"translations": text_items}
+        print(f"Ollama translation fallback failed: {e}")
+        errors.append(f"Ollama: {str(e)}")
+
+    # 2. Try NVIDIA (Secondary)
+    try:
+        result = await try_nvidia_translate(text_items, target_lang)
+        if result:
+            print("Successfully translated using NVIDIA API.")
+            return {"translations": result}
+    except Exception as e:
+        print(f"NVIDIA translation fallback failed: {e}")
+        errors.append(f"NVIDIA: {str(e)}")
+
+    # 3. Try Gemini (Tertiary)
+    try:
+        result = await try_gemini_translate(text_items, target_lang)
+        if result:
+            print("Successfully translated using Gemini API.")
+            return {"translations": result}
+    except Exception as e:
+        print(f"Gemini API translation failed: {e}")
+        errors.append(f"Gemini: {str(e)}")
+
+    # Fallback to returning original untranslated text items
+    print(f"All translation methods failed. Returning original texts. Errors: {errors}")
+    return {"translations": text_items}
 
 async def try_gemini_scan(image_data: str, prompt: str) -> Optional[dict]:
     """Attempts to analyze the image using the Gemini API."""
@@ -278,18 +416,7 @@ async def scan_ingredients(request: dict):
     
     errors = []
     
-    # 1. Try Gemini (Primary)
-    try:
-        result = await try_gemini_scan(image_data, prompt)
-        if result:
-            print("Successfully processed using Gemini API.")
-            return result
-    except Exception as e:
-        err_msg = str(e)
-        print(f"Gemini API scan failed: {err_msg}")
-        errors.append(f"Gemini: {err_msg}")
-        
-    # 2. Try Ollama (Local Fallback)
+    # 1. Try Ollama (Primary)
     try:
         result = await try_ollama_scan(image_data, prompt)
         if result:
@@ -299,7 +426,7 @@ async def scan_ingredients(request: dict):
         print(f"Ollama fallback failed: {e}")
         errors.append(f"Ollama: {str(e)}")
 
-    # 3. Try NVIDIA (Cloud Fallback)
+    # 2. Try NVIDIA (Secondary)
     try:
         result = await try_nvidia_scan(image_data, prompt)
         if result:
@@ -308,6 +435,17 @@ async def scan_ingredients(request: dict):
     except Exception as e:
         print(f"NVIDIA fallback failed: {e}")
         errors.append(f"NVIDIA: {str(e)}")
+
+    # 3. Try Gemini (Tertiary)
+    try:
+        result = await try_gemini_scan(image_data, prompt)
+        if result:
+            print("Successfully processed using Gemini API.")
+            return result
+    except Exception as e:
+        err_msg = str(e)
+        print(f"Gemini API scan failed: {err_msg}")
+        errors.append(f"Gemini: {err_msg}")
         
     # If all options failed, determine error type and raise appropriate code
     is_gemini_429 = any("429" in err or "ResourceExhausted" in err for err in errors)
