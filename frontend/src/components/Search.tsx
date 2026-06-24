@@ -28,6 +28,8 @@ const ALL_INDIAN_LANGUAGES = [
   'Mina', 'Bhil', 'Gondi', 'Korku', 'Varli', 'Dravidian', 'Badaga', 'Irula', 'Paniya', 'Kurumba'
 ];
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 export default function Search() {
   // --- STATE MANAGEMENT ---
   const [searchQuery, setSearchQuery] = useState('');           // Main search input
@@ -58,7 +60,7 @@ export default function Search() {
   const fetchInitialFoods = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/foods?search=`);
+      const response = await fetch(`${API_BASE}/api/foods?search=`);
       const data = await response.json();
       setFoods(data);
     } catch (err) { console.error(err); } finally { setLoading(false); }
@@ -69,7 +71,7 @@ export default function Search() {
     setLoading(true);
     setVisibleCount(18); // Reset pagination on new search
     try {
-      const response = await fetch(`http://localhost:8000/api/foods?search=${encodeURIComponent(searchQuery)}`);
+      const response = await fetch(`${API_BASE}/api/foods?search=${encodeURIComponent(searchQuery)}`);
       const data = await response.json();
       setFoods(data);
     } catch (err) { console.error(err); } finally { setLoading(false); }
@@ -89,7 +91,7 @@ export default function Search() {
     const textsToTranslate = selectedFoodItem.ingredients.flatMap(i => [i.name, i.description]);
     
     try {
-      const response = await fetch("http://localhost:8000/api/translate", {
+      const response = await fetch(`${API_BASE}/api/translate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text_items: textsToTranslate, target_language: language })

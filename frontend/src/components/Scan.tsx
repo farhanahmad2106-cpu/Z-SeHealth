@@ -1,6 +1,8 @@
 import { useState, useRef, useMemo } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
 const ALL_INDIAN_LANGUAGES = [
   'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia', 'Punjabi', 
   'Malayalam', 'Assamese', 'Sanskrit', 'Maithili', 'Santali', 'Kashmiri', 'Konkani', 'Dogri', 'Nepali', 'Sindhi',
@@ -118,7 +120,7 @@ export default function Scan() {
     setActiveModal(null);
     
     try {
-      const response = await fetch("http://localhost:8000/api/scan", {
+      const response = await fetch(`${API_BASE}/api/scan`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +168,7 @@ export default function Scan() {
     const textsToTranslate = analysisResult.ingredients.flatMap((i: any) => [i.name, i.description]);
     
     try {
-      const response = await fetch("http://localhost:8000/api/translate", {
+      const response = await fetch(`${API_BASE}/api/translate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text_items: textsToTranslate, target_language: language })
