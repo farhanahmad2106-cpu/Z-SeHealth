@@ -21,7 +21,12 @@ app = FastAPI(title="Z-SeHealth API")
 # --- CORS SETUP ---
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://z-sehealth.vercel.app"
+    ],
+    allow_origin_regex=r"https://z-sehealth-.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -40,6 +45,33 @@ MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 mongo_client = AsyncIOMotorClient(MONGODB_URI)
 db = mongo_client["Z-sehealth"]
 foods_collection = db["foods"]
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        count = await foods_collection.count_documents({})
+        if count == 0:
+            print("Database is empty. Automatically seeding items...")
+            try:
+                from seed_1000 import generate_1000_items
+                await generate_1000_items()
+                print("Database successfully seeded with 1,000 items.")
+            except Exception as e:
+                print(f"Failed to run seed_1000 generator: {e}. Falling back to mock_foods.json.")
+                mock_file = os.path.join(os.path.dirname(__file__), "mock_foods.json")
+                if os.path.exists(mock_file):
+                    with open(mock_file, "r", encoding="utf-8") as f:
+                        foods = json.load(f)
+                    for food in foods:
+                        if "_id" in food:
+                            del food["_id"]
+                    if foods:
+                        await foods_collection.insert_many(foods)
+                        print(f"Successfully auto-seeded database with {len(foods)} items from mock_foods.json.")
+                else:
+                    print("mock_foods.json not found. Auto-seeding skipped.")
+    except Exception as e:
+        print(f"Error during auto-seeding check: {e}")
 
 # --- HELPER: CLEAN JSON RESPONSE ---
 def clean_json_response(text: str):
