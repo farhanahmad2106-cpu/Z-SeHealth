@@ -210,7 +210,7 @@ async def try_nvidia_translate(text_items: List[str], target_lang: str) -> Optio
                 "Content-Type": "application/json"
             }
             payload = {
-                "model": "nvidia/llama-3.1-nemotron-70b-instruct",
+                "model": "meta/llama-3.1-8b-instruct",
                 "messages": [
                     {
                         "role": "user",
