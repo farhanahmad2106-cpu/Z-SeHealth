@@ -74,11 +74,11 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logMeal = async (foodItem: any) => {
+  const logMeal = async (foodItem: any): Promise<boolean> => {
     if (!currentUser) {
       alert("Please log in to log a meal.");
       setShowLoginModal(true);
-      return;
+      return false;
     }
     
     // Optimistic UI could be added here
@@ -96,11 +96,15 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
         const data = await response.json();
         setStats(data.new_stats);
         alert(`Successfully logged ${foodItem.name}. Estimated macros added!`);
+        return true;
       } else {
         alert("Failed to log meal. Please try again.");
+        return false;
       }
     } catch (error) {
       console.error("Failed to log meal", error);
+      alert("Failed to log meal due to a network error.");
+      return false;
     }
   };
 

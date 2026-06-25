@@ -119,7 +119,7 @@ function App() {
       {/* Render the Active Tab Page */}
       <main className="py-8 px-4">
         {activeTab === 'dashboard' && <Dashboard />}
-        {activeTab === 'search' && <Search />}
+        {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
         {activeTab === 'scan' && <Scan />}
       </main>
     </div>

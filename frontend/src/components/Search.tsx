@@ -31,7 +31,7 @@ const ALL_INDIAN_LANGUAGES = [
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
-export default function Search() {
+export default function Search({ onNavigateToDashboard }: { onNavigateToDashboard?: () => void }) {
   // --- STATE MANAGEMENT ---
   const [searchQuery, setSearchQuery] = useState('');           // Main search input
   const [foods, setFoods] = useState<FoodItem[]>([]);           // Data from Backend
@@ -222,7 +222,12 @@ export default function Search() {
                 </div>
 
                 <button 
-                  onClick={() => logMeal(food)}
+                  onClick={async () => {
+                    const success = await logMeal(food);
+                    if (success && onNavigateToDashboard) {
+                      onNavigateToDashboard();
+                    }
+                  }}
                   className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-950/20"
                 >
                     <Plus className="w-5 h-5" /> Log Meal
