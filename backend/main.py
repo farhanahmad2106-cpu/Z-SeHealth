@@ -53,8 +53,14 @@ users_collection = db["users"]
 
 # --- FIREBASE SETUP ---
 try:
-    cred_path = os.path.join(os.path.dirname(__file__), "firebase-admin-key.json")
-    cred = credentials.Certificate(cred_path)
+    firebase_creds_json = os.getenv("FIREBASE_CREDENTIALS")
+    if firebase_creds_json:
+        cred_dict = json.loads(firebase_creds_json)
+        cred = credentials.Certificate(cred_dict)
+    else:
+        cred_path = os.path.join(os.path.dirname(__file__), "firebase-admin-key.json")
+        cred = credentials.Certificate(cred_path)
+        
     firebase_admin.initialize_app(cred)
     print("Firebase Admin initialized successfully.")
 except Exception as e:
