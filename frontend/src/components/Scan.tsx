@@ -24,7 +24,11 @@ const ComingSoonOption = ({ title }: { title: string }) => (
   </div>
 );
 
-export default function Scan() {
+interface ScanProps {
+  onNavigateToSearch?: () => void;
+}
+
+export default function Scan({ onNavigateToSearch }: ScanProps) {
   const [image, setImage] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -202,9 +206,18 @@ export default function Scan() {
     <div className="max-w-4xl mx-auto px-4 py-8 font-manrope text-white">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-outfit font-bold mb-2">Scan a label or dish.</h2>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-400 text-sm mb-4">
           Drop a packaging label photo or snap a picture to instantly analyze ingredients.
         </p>
+        {onNavigateToSearch && (
+          <button 
+            onClick={onNavigateToSearch}
+            className="px-6 py-2.5 bg-slate-800/80 hover:bg-slate-700 text-emerald-400 rounded-xl font-bold text-sm transition-colors border border-emerald-500/30 inline-flex items-center gap-2"
+          >
+            <MiniSearch className="w-4 h-4" />
+            Manual Search for Food Items
+          </button>
+        )}
       </div>
 
       <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col items-center justify-center min-h-\[400px\] relative overflow-hidden">

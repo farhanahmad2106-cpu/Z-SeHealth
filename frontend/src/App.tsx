@@ -184,7 +184,7 @@ function App() {
       <main className="py-8 px-4">
         {activeTab === 'dashboard' && <Dashboard />}
         {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
-        {activeTab === 'scan' && <Scan />}
+        {activeTab === 'scan' && <Scan onNavigateToSearch={() => setActiveTab('search')} />}
         {activeTab === 'profile' && <Profile onBack={() => setActiveTab('dashboard')} />}
         {activeTab === 'settings' && <Settings onBack={() => setActiveTab('dashboard')} />}
       </main>
