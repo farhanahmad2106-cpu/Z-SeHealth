@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 import os
@@ -13,6 +13,8 @@ import asyncio
 import httpx
 import firebase_admin
 from firebase_admin import credentials, auth as firebase_auth
+from datetime import datetime, timezone, timedelta
+from fastapi import Header, Request
 
 # Load environment variables
 load_dotenv()
@@ -463,26 +465,164 @@ async def sync_user(req: TokenRequest):
         name = decoded_token.get("name", "")
         picture = decoded_token.get("picture", "")
 
+        now = datetime.now(timezone.utc)
+        today_str = now.strftime("%Y-%m-%d")
+
         # Check if user exists in our DB
         existing_user = await users_collection.find_one({"uid": uid})
         
-        user_data = {
-            "uid": uid,
-            "email": email,
-            "name": name,
-            "picture": picture,
-            "last_login": decoded_token.get("auth_time")
-        }
-
         if existing_user:
+            last_login_date = existing_user.get("last_login_date")
+            streak = existing_user.get("streak", 0)
+            
+            if last_login_date != today_str:
+                # Check if missed a day
+                if last_login_date:
+                    last_date = datetime.strptime(last_login_date, "%Y-%m-%d").date()
+                    if (now.date() - last_date).days == 1:
+                        streak += 1
+                    else:
+                        streak = 1 # reset
+                else:
+                    streak = 1
+            
+            user_data = {
+                "uid": uid,
+                "email": email,
+                "name": name,
+                "picture": picture,
+                "last_login_date": today_str,
+                "streak": streak
+            }
             await users_collection.update_one({"uid": uid}, {"$set": user_data})
         else:
+            user_data = {
+                "uid": uid,
+                "email": email,
+                "name": name,
+                "picture": picture,
+                "last_login_date": today_str,
+                "streak": 1,
+                "stats": {
+                    "calories": 0, "protein": 0, "carbs": 0, "fat": 0, "last_updated": today_str
+                }
+            }
             await users_collection.insert_one(user_data)
 
         return {"status": "success", "user_id": uid}
     except Exception as e:
         print(f"Token verification error: {e}")
         raise HTTPException(status_code=401, detail="Invalid authentication token")
+
+async def get_current_user_id(authorization: str = Header(None)):
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid token")
+    token = authorization.split(" ")[1]
+    try:
+        decoded_token = firebase_auth.verify_id_token(token)
+        return decoded_token.get("uid")
+    except Exception as e:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+@app.get("/api/user/stats")
+async def get_user_stats(uid: str = Depends(get_current_user_id)):
+    user = await users_collection.find_one({"uid": uid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    now = datetime.now(timezone.utc)
+    today_str = now.strftime("%Y-%m-%d")
+    
+    stats = user.get("stats", {})
+    if stats.get("last_updated") != today_str:
+        stats = {"calories": 0, "protein": 0, "carbs": 0, "fat": 0, "last_updated": today_str}
+        await users_collection.update_one({"uid": uid}, {"$set": {"stats": stats}})
+        
+    return {
+        "streak": user.get("streak", 0),
+        "stats": stats
+    }
+
+async def try_ollama_estimate_macros(prompt: str) -> Optional[dict]:
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            tags_resp = await http_client.get("http://localhost:11434/api/tags")
+            if tags_resp.status_code == 200:
+                installed_models = [m.get("name") for m in tags_resp.json().get("models", [])]
+            else: return None
+            if not installed_models: return None
+            selected_model = next((m for m in installed_models if any(kw in m for kw in ["llama3", "mistral", "gemma"])), installed_models[0])
+            payload = {"model": selected_model, "messages": [{"role": "user", "content": prompt}], "stream": False, "options": {"temperature": 0.1}}
+            resp = await http_client.post("http://localhost:11434/api/chat", json=payload)
+            if resp.status_code == 200:
+                return clean_json_response(resp.json().get("message", {}).get("content", ""))
+    except Exception as e:
+        print(f"Ollama macro estimation failed: {e}")
+    return None
+
+async def try_nvidia_estimate_macros(prompt: str) -> Optional[dict]:
+    nvidia_key = os.getenv("NVIDIA_API_KEY")
+    if not nvidia_key: return None
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            headers = {"Authorization": f"Bearer {nvidia_key}", "Content-Type": "application/json"}
+            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
+            resp = await http_client.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload)
+            if resp.status_code == 200:
+                content = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
+                return clean_json_response(content)
+    except Exception as e:
+        print(f"NVIDIA macro estimation failed: {e}")
+    return None
+
+async def try_gemini_estimate_macros(prompt: str) -> Optional[dict]:
+    try:
+        loop = asyncio.get_event_loop()
+        def call_gemini():
+            return client.models.generate_content(model=MODEL_NAME, contents=prompt)
+        response = await loop.run_in_executor(None, call_gemini)
+        return clean_json_response(response.text)
+    except Exception as e:
+        print(f"Gemini macro estimation failed: {e}")
+    return None
+
+@app.post("/api/user/log_meal")
+async def log_meal(request: dict, uid: str = Depends(get_current_user_id)):
+    food_name = request.get("name", "Unknown Food")
+    ingredients = request.get("ingredients", [])
+    
+    prompt = f"Estimate the nutritional macros for 1 serving of '{food_name}' containing these ingredients: {ingredients}. Return ONLY a JSON object with integer values for: calories, protein, carbs, fat. No markdown."
+    
+    macros = None
+    try:
+        macros = await try_ollama_estimate_macros(prompt)
+        if not macros: macros = await try_nvidia_estimate_macros(prompt)
+        if not macros: macros = await try_gemini_estimate_macros(prompt)
+    except Exception as e:
+        print(f"Macro estimation failed: {e}")
+        
+    if not macros or "calories" not in macros:
+        # Fallback generic mock if AI fails entirely
+        macros = {"calories": 250, "protein": 10, "carbs": 30, "fat": 10}
+        
+    user = await users_collection.find_one({"uid": uid})
+    if not user: raise HTTPException(status_code=404, detail="User not found")
+    
+    now = datetime.now(timezone.utc)
+    today_str = now.strftime("%Y-%m-%d")
+    
+    stats = user.get("stats", {})
+    if stats.get("last_updated") != today_str:
+        stats = {"calories": 0, "protein": 0, "carbs": 0, "fat": 0, "last_updated": today_str}
+        
+    stats["calories"] += int(macros.get("calories", 0))
+    stats["protein"] += int(macros.get("protein", 0))
+    stats["carbs"] += int(macros.get("carbs", 0))
+    stats["fat"] += int(macros.get("fat", 0))
+    stats["last_updated"] = today_str
+    
+    await users_collection.update_one({"uid": uid}, {"$set": {"stats": stats}})
+    return {"status": "success", "added_macros": macros, "new_stats": stats}
 
 @app.post("/api/scan")
 async def scan_ingredients(request: dict):

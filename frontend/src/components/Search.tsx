@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search as SearchIcon, SlidersHorizontal, Plus, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
+import { useUserStats } from '../context/UserStatsContext';
 
 /** * INTERFACES
  * Define the structure of our data to ensure Type Safety across the app.
@@ -51,6 +52,8 @@ export default function Search() {
    * The value is an array of strings [TranslatedName1, TranslatedDesc1, TranslatedName2, TranslatedDesc2...]
    */
   const [translatedData, setTranslatedData] = useState<Record<string, string[]>>({});
+  
+  const { logMeal } = useUserStats();
 
   // --- API CALLS ---
 
@@ -218,7 +221,10 @@ export default function Search() {
                     </div>
                 </div>
 
-                <button className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-950/20">
+                <button 
+                  onClick={() => logMeal(food)}
+                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-950/20"
+                >
                     <Plus className="w-5 h-5" /> Log Meal
                 </button>
                 </div>

@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, Flame } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Search from './components/Search';
 import Scan from './components/Scan';
 import LoginModal from './components/auth/LoginModal';
 import { useAuth } from './context/AuthContext';
+import { useUserStats } from './context/UserStatsContext';
 
 function App() {
   // Simple tab-based navigation state for the MVP
   const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan'>('dashboard');
   
   const { currentUser, setShowLoginModal, logout } = useAuth();
+  const { streak } = useUserStats();
 
   return (
     <div className="min-h-screen font-manrope text-white bg-slate-950">
@@ -66,6 +68,10 @@ function App() {
           <div className="hidden md:flex items-center gap-3">
             {currentUser ? (
               <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 bg-amber-500/10 px-3 py-1.5 rounded-xl border border-amber-500/20 shadow-sm">
+                  <Flame className="w-4 h-4 text-amber-500" />
+                  <span className="text-sm font-bold text-amber-500">{streak} Day{streak !== 1 && 's'}</span>
+                </div>
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
                     {currentUser.photoURL ? (
