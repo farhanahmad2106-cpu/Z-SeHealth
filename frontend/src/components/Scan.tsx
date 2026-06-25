@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -26,9 +26,11 @@ const ComingSoonOption = ({ title }: { title: string }) => (
 
 interface ScanProps {
   onNavigateToSearch?: () => void;
+  initialImage?: string | null;
+  onClearInitialImage?: () => void;
 }
 
-export default function Scan({ onNavigateToSearch }: ScanProps) {
+export default function Scan({ onNavigateToSearch, initialImage, onClearInitialImage }: ScanProps) {
   const [image, setImage] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,6 +50,23 @@ export default function Scan({ onNavigateToSearch }: ScanProps) {
   const streamRef = useRef<MediaStream | null>(null);
 
   const { currentUser, setShowLoginModal } = useAuth();
+
+  // Handle initialImage passed from other tabs (like Dashboard)
+  useEffect(() => {
+    if (initialImage) {
+      setImage(initialImage);
+      setAnalysisResult(null);
+      setScanError(null);
+      setTranslatedList(null);
+      setActiveModal(null);
+      setIsSearchingLang(false);
+      setLangSearchTerm('');
+      setShowMoreClicks(0);
+      if (onClearInitialImage) {
+        onClearInitialImage();
+      }
+    }
+  }, [initialImage, onClearInitialImage]);
 
   // 1. Start the actual webcam stream
   const startCamera = async () => {

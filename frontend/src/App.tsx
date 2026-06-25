@@ -13,6 +13,7 @@ function App() {
   // Simple tab-based navigation state for the MVP
   const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan' | 'profile' | 'settings'>('dashboard');
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [scanImageData, setScanImageData] = useState<string | null>(null);
   
   const { currentUser, setShowLoginModal, logout } = useAuth();
   const { streak } = useUserStats();
@@ -182,9 +183,22 @@ function App() {
 
       {/* Render the Active Tab Page */}
       <main className="py-8 px-4">
-        {activeTab === 'dashboard' && <Dashboard />}
+        {activeTab === 'dashboard' && (
+          <Dashboard 
+            onNavigateToScan={(imgData) => {
+              setScanImageData(imgData);
+              setActiveTab('scan');
+            }} 
+          />
+        )}
         {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
-        {activeTab === 'scan' && <Scan onNavigateToSearch={() => setActiveTab('search')} />}
+        {activeTab === 'scan' && (
+          <Scan 
+            onNavigateToSearch={() => setActiveTab('search')} 
+            initialImage={scanImageData}
+            onClearInitialImage={() => setScanImageData(null)}
+          />
+        )}
         {activeTab === 'profile' && <Profile onBack={() => setActiveTab('dashboard')} />}
         {activeTab === 'settings' && <Settings onBack={() => setActiveTab('dashboard')} />}
       </main>

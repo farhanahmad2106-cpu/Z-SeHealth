@@ -1,8 +1,68 @@
+import { useState, useRef, useEffect } from 'react';
 import { useUserStats } from '../context/UserStatsContext';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Camera } from 'lucide-react';
 
-export default function Dashboard() {
+interface DashboardProps {
+  onNavigateToScan?: (imageData: string) => void;
+}
+
+export default function Dashboard({ onNavigateToScan }: DashboardProps) {
   const { stats, loadingStats } = useUserStats();
+  
+  const [isCameraActive, setIsCameraActive] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+
+  const startCamera = async () => {
+    setIsCameraActive(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: { facingMode: 'environment' } 
+      });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
+    } catch (err) {
+      console.error("Error accessing camera: ", err);
+      alert("Could not access camera. Please check permissions.");
+      setIsCameraActive(false);
+    }
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+
+      if (context) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        const imageDataUrl = canvas.toDataURL('image/png');
+        stopCamera();
+        if (onNavigateToScan) {
+          onNavigateToScan(imageDataUrl);
+        }
+      }
+    }
+  };
+
+  const stopCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(track => track.stop());
+    }
+    setIsCameraActive(false);
+  };
+  
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
+  }, []);
   
   // Set goals
   const caloriesGoal = 2000;
@@ -29,6 +89,71 @@ export default function Dashboard() {
         <p className="text-base text-gray-400 mt-2">
           Track your nutritional limits and keep your health score optimal.
         </p>
+      </div>
+
+      {/* Quick Scan Section */}
+      <div className="mb-10 bg-slate-800/60 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-xl overflow-hidden relative">
+        <canvas ref={canvasRef} className="hidden" />
+        {isCameraActive ? (
+          <div className="relative w-full h-[350px] sm:h-[450px] flex items-center justify-center bg-black rounded-3xl overflow-hidden">
+            <video 
+              ref={videoRef} 
+              autoPlay 
+              playsInline 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Overlay for brackets and logo */}
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+              <div className="relative w-64 h-64 sm:w-80 sm:h-80 opacity-90">
+                {/* Top-left bracket */}
+                <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-white rounded-tl-3xl drop-shadow-md"></div>
+                {/* Top-right bracket */}
+                <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-white rounded-tr-3xl drop-shadow-md"></div>
+                {/* Bottom-left bracket */}
+                <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-white rounded-bl-3xl drop-shadow-md"></div>
+                {/* Bottom-right bracket */}
+                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-white rounded-br-3xl drop-shadow-md"></div>
+                
+                {/* Center Logo Area mimicking Open Food Facts Scanner */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center drop-shadow-2xl">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-white/70 bg-black/30 backdrop-blur-sm flex items-center justify-center p-3">
+                    <img src="/logo.png" alt="Scan Target" className="w-full h-full object-contain opacity-100 drop-shadow-md animate-pulse" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Camera Controls */}
+            <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-4 z-10 px-4">
+              <button 
+                onClick={capturePhoto} 
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-xl transition transform hover:scale-105"
+              >
+                📸 Capture & Analyze
+              </button>
+              <button 
+                onClick={stopCamera} 
+                className="px-6 py-3 bg-slate-800/80 hover:bg-slate-700 text-white rounded-2xl font-bold shadow-xl transition backdrop-blur-md border border-slate-700"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="p-8 sm:p-10 flex flex-col items-center justify-center text-center min-h-[220px]">
+            <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center text-emerald-400 mb-4 ring-8 ring-emerald-500/10">
+              <Camera className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Quick Scan</h3>
+            <p className="text-gray-400 text-sm mb-6 max-w-sm">Scan a label directly from your dashboard to instantly analyze ingredients and health score.</p>
+            <button 
+              onClick={startCamera}
+              className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-lg shadow-emerald-900/30 transition transform hover:-translate-y-1"
+            >
+              Start Camera
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Grid Layout for Cards - Changed to grid-cols-1 sm:grid-cols-2 for responsiveness and removed 3rd card */}
