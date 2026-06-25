@@ -185,8 +185,8 @@ function App() {
         {activeTab === 'dashboard' && <Dashboard />}
         {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
         {activeTab === 'scan' && <Scan />}
-        {activeTab === 'profile' && <Profile />}
-        {activeTab === 'settings' && <Settings />}
+        {activeTab === 'profile' && <Profile onBack={() => setActiveTab('dashboard')} />}
+        {activeTab === 'settings' && <Settings onBack={() => setActiveTab('dashboard')} />}
       </main>
     </div>
   );

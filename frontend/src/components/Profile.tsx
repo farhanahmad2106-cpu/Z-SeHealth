@@ -1,9 +1,13 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfile } from '../context/UserProfileContext';
-import { User, Mail, Calendar, Activity, Shield, Edit2 } from 'lucide-react';
+import { User, Mail, Calendar, Activity, Shield, Edit2, ArrowLeft } from 'lucide-react';
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+  onBack?: () => void;
+}
+
+const Profile: React.FC<ProfileProps> = ({ onBack }) => {
   const { currentUser } = useAuth();
   const { healthProfile, updateHealthProfile } = useUserProfile();
   
@@ -26,6 +30,11 @@ const Profile: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {onBack && (
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <ArrowLeft className="w-5 h-5" /> Back to Dashboard
+        </button>
+      )}
       <h2 className="text-3xl font-outfit font-bold text-white mb-8 flex items-center gap-3">
         <User className="w-8 h-8 text-emerald-500" />
         Personal Details

@@ -1,9 +1,13 @@
 import React from 'react';
-import { Settings as SettingsIcon, Bell, Shield, Moon, Sun, Smartphone, Globe, Lock, User } from 'lucide-react';
+import { Settings as SettingsIcon, Bell, Shield, Moon, Sun, Smartphone, Globe, Lock, User, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfile } from '../context/UserProfileContext';
 
-const Settings: React.FC = () => {
+interface SettingsProps {
+  onBack?: () => void;
+}
+
+const Settings: React.FC<SettingsProps> = ({ onBack }) => {
   const { currentUser } = useAuth();
   const { settings, updateSettings } = useUserProfile();
   
@@ -26,6 +30,11 @@ const Settings: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {onBack && (
+        <button onClick={onBack} className="mb-6 flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+          <ArrowLeft className="w-5 h-5" /> Back to Dashboard
+        </button>
+      )}
       <h2 className="text-3xl font-outfit font-bold text-white mb-8 flex items-center gap-3">
         <SettingsIcon className="w-8 h-8 text-emerald-500" />
         Settings
