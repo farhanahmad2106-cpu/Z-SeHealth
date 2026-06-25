@@ -36,7 +36,7 @@ export function useUserStats() {
 }
 
 export function UserStatsProvider({ children }: { children: React.ReactNode }) {
-  const { currentUser } = useAuth();
+  const { currentUser, setShowLoginModal } = useAuth();
   const [stats, setStats] = useState<UserStats>(defaultStats);
   const [streak, setStreak] = useState(0);
   const [loadingStats, setLoadingStats] = useState(false);
@@ -77,6 +77,7 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const logMeal = async (foodItem: any) => {
     if (!currentUser) {
       alert("Please log in to log a meal.");
+      setShowLoginModal(true);
       return;
     }
     

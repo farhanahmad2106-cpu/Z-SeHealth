@@ -30,7 +30,15 @@ function App() {
             </h1>
             <div className="md:hidden flex items-center gap-2">
               {currentUser ? (
-                <button onClick={logout} className="p-2 text-gray-400 hover:text-white" title="Sign Out">
+                <button 
+                  onClick={() => {
+                    if (window.confirm("Are you sure you want to log out?")) {
+                      logout();
+                    }
+                  }} 
+                  className="p-2 text-gray-400 hover:text-white" 
+                  title="Sign Out"
+                >
                   <LogOut className="w-5 h-5" />
                 </button>
               ) : (
@@ -85,7 +93,11 @@ function App() {
                   </span>
                 </div>
                 <button 
-                  onClick={logout}
+                  onClick={() => {
+                    if (window.confirm("Are you sure you want to log out?")) {
+                      logout();
+                    }
+                  }}
                   className="p-2 text-gray-400 hover:text-white transition-colors"
                   title="Sign Out"
                 >
