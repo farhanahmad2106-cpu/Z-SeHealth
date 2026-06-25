@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Settings as SettingsIcon, Bell, Shield, Moon, Sun, Smartphone, Globe, Lock, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfile } from '../context/UserProfileContext';

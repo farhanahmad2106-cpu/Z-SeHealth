@@ -5,7 +5,7 @@ import { User, Mail, Calendar, Activity, Shield, Edit2 } from 'lucide-react';
 
 const Profile: React.FC = () => {
   const { currentUser } = useAuth();
-  const { healthProfile, preferences, updateHealthProfile, updatePreferences } = useUserProfile();
+  const { healthProfile, updateHealthProfile } = useUserProfile();
   
   const [isEditingHealth, setIsEditingHealth] = React.useState(false);
   const [localHealth, setLocalHealth] = React.useState(healthProfile);

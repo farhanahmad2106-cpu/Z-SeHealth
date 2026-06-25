@@ -12,7 +12,7 @@ interface UserStats {
 interface UserStatsContextType {
   stats: UserStats;
   streak: number;
-  logMeal: (foodItem: any) => Promise<void>;
+  logMeal: (foodItem: any) => Promise<boolean>;
   loadingStats: boolean;
   requestNotificationPermission: () => void;
 }

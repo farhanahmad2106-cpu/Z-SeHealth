@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LogOut, User, Flame, Settings, UserCircle } from 'lucide-react';
+import { LogOut, User, Flame, Settings as SettingsIcon, UserCircle } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Search from './components/Search';
 import Scan from './components/Scan';
@@ -53,15 +53,15 @@ function App() {
                       </div>
                       <button 
                         className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
-                        onClick={() => { setIsProfileDropdownOpen(false); alert("Personal Details coming soon!"); }}
+                        onClick={() => { setIsProfileDropdownOpen(false); setActiveTab('profile'); }}
                       >
                         <UserCircle className="w-4 h-4" /> Personal Details
                       </button>
                       <button 
                         className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
-                        onClick={() => { setIsProfileDropdownOpen(false); alert("Settings coming soon!"); }}
+                        onClick={() => { setIsProfileDropdownOpen(false); setActiveTab('settings'); }}
                       >
-                        <Settings className="w-4 h-4" /> Settings
+                        <SettingsIcon className="w-4 h-4" /> Settings
                       </button>
                       <div className="h-px bg-slate-700 my-1"></div>
                       <button 
@@ -150,7 +150,7 @@ function App() {
                         className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
                         onClick={() => { setIsProfileDropdownOpen(false); setActiveTab('settings'); }}
                       >
-                        <Settings className="w-4 h-4" /> Settings
+                        <SettingsIcon className="w-4 h-4" /> Settings
                       </button>
                       <div className="h-px bg-slate-700 my-1"></div>
                       <button 
