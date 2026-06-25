@@ -173,7 +173,18 @@ async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
     try:
         response = client.models.generate_content(model=MODEL_NAME, contents=prompt)
         ai_data = clean_json_response(response.text)
-        ai_data["_id"] = f"ai-{base64.b64encode(food_query.encode()).decode()[:8]}"
+        
+        # Insert the newly generated data into the database
+        ai_data_to_insert = ai_data.copy()
+        ai_data_to_insert["source"] = "ai_fallback"
+        
+        try:
+            insert_result = await foods_collection.insert_one(ai_data_to_insert)
+            ai_data["_id"] = str(insert_result.inserted_id)
+        except Exception as insert_e:
+            print(f"Failed to save AI fallback to database: {insert_e}")
+            ai_data["_id"] = f"ai-{base64.b64encode(food_query.encode()).decode()[:8]}"
+            
         return ai_data
     except Exception as e:
         print(f"AI Fallback error: {e}")
