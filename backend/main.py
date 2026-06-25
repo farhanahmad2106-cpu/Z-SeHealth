@@ -165,15 +165,26 @@ async def get_foods(search: str = ""):
 
     if len(results) == 0 and search:
         fallback = await get_ai_fallback_food(search)
-        if fallback: return [fallback]
+        if fallback: 
+            if "error" in fallback:
+                return fallback
+            return [fallback]
     return results
 
 async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
-    prompt = f"Analyze nutritional properties of: {food_query}. Return ONLY a raw JSON object with: name, brand, safety_score, status, ingredients (name, safety, description), warnings. No markdown."
+    prompt = (
+        f"Determine if '{food_query}' is a food item, beverage, or ingredient. "
+        "If it is NOT related to food, return EXACTLY this JSON: {\"error\": \"Please enter only food items or related products.\"} "
+        "If it IS a food item, analyze its nutritional properties and return ONLY a raw JSON object with: "
+        "name, brand, safety_score, status, ingredients (name, safety, description), warnings. No markdown."
+    )
     try:
         response = client.models.generate_content(model=MODEL_NAME, contents=prompt)
         ai_data = clean_json_response(response.text)
         
+        if "error" in ai_data:
+            return ai_data
+            
         # Insert the newly generated data into the database
         ai_data_to_insert = ai_data.copy()
         ai_data_to_insert["source"] = "ai_fallback"

@@ -36,6 +36,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   const [searchQuery, setSearchQuery] = useState('');           // Main search input
   const [foods, setFoods] = useState<FoodItem[]>([]);           // Data from Backend
   const [loading, setLoading] = useState(false);                 // Loading spinner toggle
+  const [searchError, setSearchError] = useState<string | null>(null); // Error for non-food search
   const [visibleCount, setVisibleCount] = useState(18);          // Pagination: items to show
 
   const [activeModal, setActiveModal] = useState<'main' | 'translator' | null>(null); // Modal routing
@@ -93,11 +94,17 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setSearchError(null);
     setVisibleCount(18); // Reset pagination on new search
     try {
       const response = await fetch(`${API_BASE}/api/foods?search=${encodeURIComponent(searchQuery)}`);
       const data = await response.json();
-      setFoods(data);
+      if (data.error) {
+        setSearchError(data.error);
+        setFoods([]);
+      } else {
+        setFoods(data);
+      }
     } catch (err) { console.error(err); } finally { setLoading(false); }
   };
 
@@ -181,6 +188,12 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
           />
           <SearchIcon className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 w-6 h-6" />
         </form>
+
+        {searchError && (
+          <div className="mb-8 p-4 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-rose-400 font-bold text-center">
+            {searchError}
+          </div>
+        )}
 
         {/* Recently Clicked Items */}
         {recentItems.length > 0 && !loading && (
