@@ -171,6 +171,52 @@ async def get_foods(search: str = ""):
             return [fallback]
     return results
 
+async def try_ollama_fallback_food(prompt: str) -> Optional[dict]:
+    print("Attempting AI fallback using local Ollama model...")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            tags_resp = await http_client.get("http://localhost:11434/api/tags")
+            if tags_resp.status_code == 200:
+                installed_models = [m.get("name") for m in tags_resp.json().get("models", [])]
+            else: return None
+            if not installed_models: return None
+            selected_model = next((m for m in installed_models if any(kw in m for kw in ["llama3", "mistral", "gemma", "qwen"])), installed_models[0])
+            payload = {"model": selected_model, "messages": [{"role": "user", "content": prompt}], "stream": False, "options": {"temperature": 0.1}}
+            resp = await http_client.post("http://localhost:11434/api/chat", json=payload)
+            if resp.status_code == 200:
+                return clean_json_response(resp.json().get("message", {}).get("content", ""))
+    except Exception as e:
+        print(f"Ollama fallback food failed: {e}")
+    return None
+
+async def try_nvidia_fallback_food(prompt: str) -> Optional[dict]:
+    nvidia_key = os.getenv("NVIDIA_API_KEY")
+    if not nvidia_key: return None
+    print("Attempting AI fallback using NVIDIA API...")
+    try:
+        async with httpx.AsyncClient(timeout=30.0) as http_client:
+            headers = {"Authorization": f"Bearer {nvidia_key}", "Content-Type": "application/json"}
+            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
+            resp = await http_client.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload)
+            if resp.status_code == 200:
+                content = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
+                return clean_json_response(content)
+    except Exception as e:
+        print(f"NVIDIA fallback food failed: {e}")
+    return None
+
+async def try_gemini_fallback_food(prompt: str) -> Optional[dict]:
+    print("Attempting AI fallback using Gemini API...")
+    try:
+        loop = asyncio.get_event_loop()
+        def call_gemini():
+            return client.models.generate_content(model=MODEL_NAME, contents=prompt)
+        response = await loop.run_in_executor(None, call_gemini)
+        return clean_json_response(response.text)
+    except Exception as e:
+        print(f"Gemini fallback food failed: {e}")
+    return None
+
 async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
     prompt = (
         f"Determine if '{food_query}' is a food item, beverage, or ingredient. "
@@ -178,28 +224,37 @@ async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
         "If it IS a food item, analyze its nutritional properties and return ONLY a raw JSON object with: "
         "name, brand, safety_score, status, ingredients (name, safety, description), warnings. No markdown."
     )
+    
+    ai_data = None
+    errors = []
+    
     try:
-        response = client.models.generate_content(model=MODEL_NAME, contents=prompt)
-        ai_data = clean_json_response(response.text)
-        
-        if "error" in ai_data:
-            return ai_data
-            
-        # Insert the newly generated data into the database
-        ai_data_to_insert = ai_data.copy()
-        ai_data_to_insert["source"] = "ai_fallback"
-        
-        try:
-            insert_result = await foods_collection.insert_one(ai_data_to_insert)
-            ai_data["_id"] = str(insert_result.inserted_id)
-        except Exception as insert_e:
-            print(f"Failed to save AI fallback to database: {insert_e}")
-            ai_data["_id"] = f"ai-{base64.b64encode(food_query.encode()).decode()[:8]}"
-            
-        return ai_data
+        ai_data = await try_ollama_fallback_food(prompt)
+        if not ai_data: 
+            ai_data = await try_nvidia_fallback_food(prompt)
+        if not ai_data: 
+            ai_data = await try_gemini_fallback_food(prompt)
     except Exception as e:
-        print(f"AI Fallback error: {e}")
+        print(f"Error executing AI fallback chain: {e}")
+        
+    if not ai_data:
         return None
+
+    if "error" in ai_data:
+        return ai_data
+        
+    # Insert the newly generated data into the database
+    ai_data_to_insert = ai_data.copy()
+    ai_data_to_insert["source"] = "ai_fallback"
+    
+    try:
+        insert_result = await foods_collection.insert_one(ai_data_to_insert)
+        ai_data["_id"] = str(insert_result.inserted_id)
+    except Exception as insert_e:
+        print(f"Failed to save AI fallback to database: {insert_e}")
+        ai_data["_id"] = f"ai-{base64.b64encode(food_query.encode()).decode()[:8]}"
+        
+    return ai_data
 
 async def try_gemini_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
     """Attempts translation using the Gemini API."""
