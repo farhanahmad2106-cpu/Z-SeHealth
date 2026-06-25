@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { LogOut, User, Flame } from 'lucide-react';
+import { LogOut, User, Flame, Settings, UserCircle } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Search from './components/Search';
 import Scan from './components/Scan';
+import Profile from './components/Profile';
+import Settings from './components/Settings';
 import LoginModal from './components/auth/LoginModal';
 import { useAuth } from './context/AuthContext';
 import { useUserStats } from './context/UserStatsContext';
 
 function App() {
   // Simple tab-based navigation state for the MVP
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan' | 'profile' | 'settings'>('dashboard');
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   
   const { currentUser, setShowLoginModal, logout } = useAuth();
   const { streak } = useUserStats();
@@ -30,17 +33,51 @@ function App() {
             </h1>
             <div className="md:hidden flex items-center gap-2">
               {currentUser ? (
-                <button 
-                  onClick={() => {
-                    if (window.confirm("Are you sure you want to log out?")) {
-                      logout();
-                    }
-                  }} 
-                  className="p-2 text-gray-400 hover:text-white" 
-                  title="Sign Out"
-                >
-                  <LogOut className="w-5 h-5" />
-                </button>
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700 cursor-pointer hover:ring-2 hover:ring-emerald-500 transition-all"
+                  >
+                    {currentUser.photoURL ? (
+                      <img src={currentUser.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-4 h-4 text-gray-400" />
+                    )}
+                  </button>
+                  
+                  {isProfileDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-xl z-50 py-1 overflow-hidden">
+                      <div className="px-4 py-2 border-b border-slate-700 mb-1">
+                        <p className="text-xs text-gray-400 font-medium">Signed in as</p>
+                        <p className="text-sm font-bold text-white truncate">{currentUser.email}</p>
+                      </div>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
+                        onClick={() => { setIsProfileDropdownOpen(false); alert("Personal Details coming soon!"); }}
+                      >
+                        <UserCircle className="w-4 h-4" /> Personal Details
+                      </button>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
+                        onClick={() => { setIsProfileDropdownOpen(false); alert("Settings coming soon!"); }}
+                      >
+                        <Settings className="w-4 h-4" /> Settings
+                      </button>
+                      <div className="h-px bg-slate-700 my-1"></div>
+                      <button 
+                        onClick={() => {
+                          setIsProfileDropdownOpen(false);
+                          if (window.confirm("Are you sure you want to log out?")) {
+                            logout();
+                          }
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-700 hover:text-red-300 transition-colors flex items-center gap-2"
+                      >
+                        <LogOut className="w-4 h-4" /> Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
               ) : (
                 <button 
                   onClick={() => setShowLoginModal(true)}
@@ -80,29 +117,56 @@ function App() {
                   <Flame className="w-4 h-4 text-amber-500" />
                   <span className="text-sm font-bold text-amber-500">{streak} Day{streak !== 1 && 's'}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
-                    {currentUser.photoURL ? (
-                      <img src={currentUser.photoURL} alt="Profile" className="w-full h-full object-cover" />
-                    ) : (
-                      <User className="w-4 h-4 text-gray-400" />
-                    )}
-                  </div>
-                  <span className="text-sm font-medium text-gray-300 hidden lg:block">
-                    {currentUser.displayName || currentUser.email}
-                  </span>
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    className="flex items-center gap-2 hover:bg-slate-800/50 p-1.5 rounded-lg transition-colors"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center overflow-hidden border border-slate-700">
+                      {currentUser.photoURL ? (
+                        <img src={currentUser.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-4 h-4 text-gray-400" />
+                      )}
+                    </div>
+                    <span className="text-sm font-medium text-gray-300 hidden lg:block">
+                      {currentUser.displayName || currentUser.email}
+                    </span>
+                  </button>
+                  
+                  {isProfileDropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-xl shadow-xl z-50 py-1 overflow-hidden">
+                      <div className="px-4 py-2 border-b border-slate-700 mb-1">
+                        <p className="text-xs text-gray-400 font-medium">Signed in as</p>
+                        <p className="text-sm font-bold text-white truncate">{currentUser.email}</p>
+                      </div>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
+                        onClick={() => { setIsProfileDropdownOpen(false); setActiveTab('profile'); }}
+                      >
+                        <UserCircle className="w-4 h-4" /> Personal Details
+                      </button>
+                      <button 
+                        className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-slate-700 hover:text-white transition-colors flex items-center gap-2"
+                        onClick={() => { setIsProfileDropdownOpen(false); setActiveTab('settings'); }}
+                      >
+                        <Settings className="w-4 h-4" /> Settings
+                      </button>
+                      <div className="h-px bg-slate-700 my-1"></div>
+                      <button 
+                        onClick={() => {
+                          setIsProfileDropdownOpen(false);
+                          if (window.confirm("Are you sure you want to log out?")) {
+                            logout();
+                          }
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-700 hover:text-red-300 transition-colors flex items-center gap-2"
+                      >
+                        <LogOut className="w-4 h-4" /> Sign Out
+                      </button>
+                    </div>
+                  )}
                 </div>
-                <button 
-                  onClick={() => {
-                    if (window.confirm("Are you sure you want to log out?")) {
-                      logout();
-                    }
-                  }}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
-                  title="Sign Out"
-                >
-                  <LogOut className="w-5 h-5" />
-                </button>
               </div>
             ) : (
               <button 
@@ -121,6 +185,8 @@ function App() {
         {activeTab === 'dashboard' && <Dashboard />}
         {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
         {activeTab === 'scan' && <Scan />}
+        {activeTab === 'profile' && <Profile />}
+        {activeTab === 'settings' && <Settings />}
       </main>
     </div>
   );

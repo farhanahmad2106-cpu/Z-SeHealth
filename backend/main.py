@@ -549,6 +549,42 @@ async def get_user_stats(uid: str = Depends(get_current_user_id)):
         "stats": stats
     }
 
+@app.get("/api/user/profile")
+async def get_user_profile(uid: str = Depends(get_current_user_id)):
+    user = await users_collection.find_one({"uid": uid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Default values if missing
+    health_profile = user.get("health_profile", {"age": None, "gender": None, "height": None, "weight": None})
+    preferences = user.get("preferences", {"diet": "None", "allergies": []})
+    settings = user.get("settings", {"notificationsEnabled": True, "darkMode": True, "language": "English"})
+    
+    return {
+        "health_profile": health_profile,
+        "preferences": preferences,
+        "settings": settings
+    }
+
+@app.post("/api/user/profile")
+async def update_user_profile(request: dict, uid: str = Depends(get_current_user_id)):
+    user = await users_collection.find_one({"uid": uid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    updates = {}
+    if "health_profile" in request:
+        updates["health_profile"] = request["health_profile"]
+    if "preferences" in request:
+        updates["preferences"] = request["preferences"]
+    if "settings" in request:
+        updates["settings"] = request["settings"]
+        
+    if updates:
+        await users_collection.update_one({"uid": uid}, {"$set": updates})
+        
+    return {"status": "success", "message": "Profile updated"}
+
 async def try_ollama_estimate_macros(prompt: str) -> Optional[dict]:
     try:
         async with httpx.AsyncClient(timeout=30.0) as http_client:
