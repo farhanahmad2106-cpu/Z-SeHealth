@@ -93,6 +93,15 @@ async def startup_event():
     except Exception as e:
         print(f"Error during auto-seeding check: {e}")
 
+# --- HELPER: GET NVIDIA KEYS ---
+def get_nvidia_keys() -> List[str]:
+    keys = []
+    for key_name in ["NVIDIA_API_KEY", "NVIDIA_API_KEY_1", "NVIDIA_API_KEY_2", "NVIDIA_API_KEY_3", "NVIDIA_API_KEY_4", "NVIDIA_API_KEY_5"]:
+        val = os.getenv(key_name)
+        if val and val not in keys:
+            keys.append(val)
+    return keys
+
 # --- HELPER: CLEAN JSON RESPONSE ---
 def clean_json_response(text: str):
     """Removes markdown code blocks and extracts JSON safely."""
@@ -189,14 +198,14 @@ async def try_ollama_fallback_food(prompt: str) -> Optional[dict]:
         print(f"Ollama fallback food failed: {e}")
     return None
 
-async def try_nvidia_fallback_food(prompt: str) -> Optional[dict]:
-    nvidia_key = os.getenv("NVIDIA_API_KEY")
+async def try_nvidia_fallback_food(prompt: str, nvidia_key: str) -> Optional[dict]:
     if not nvidia_key: return None
     print("Attempting AI fallback using NVIDIA API...")
     try:
         async with httpx.AsyncClient(timeout=30.0) as http_client:
             headers = {"Authorization": f"Bearer {nvidia_key}", "Content-Type": "application/json"}
-            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
+            model_name = os.getenv("NVIDIA_TEXT_MODEL", "meta/llama-3.1-8b-instruct")
+            payload = {"model": model_name, "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
             resp = await http_client.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload)
             if resp.status_code == 200:
                 content = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
@@ -231,7 +240,11 @@ async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
     try:
         ai_data = await try_ollama_fallback_food(prompt)
         if not ai_data: 
-            ai_data = await try_nvidia_fallback_food(prompt)
+            nvidia_keys = get_nvidia_keys()
+            for key in nvidia_keys:
+                ai_data = await try_nvidia_fallback_food(prompt, key)
+                if ai_data:
+                    break
         if not ai_data: 
             ai_data = await try_gemini_fallback_food(prompt)
     except Exception as e:
@@ -322,11 +335,9 @@ async def try_ollama_translate(text_items: List[str], target_lang: str) -> Optio
         print(f"Ollama translation failed: {e}")
     return None
 
-async def try_nvidia_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
+async def try_nvidia_translate(text_items: List[str], target_lang: str, nvidia_key: str) -> Optional[List[str]]:
     """Attempts translation using the NVIDIA API."""
-    nvidia_key = os.getenv("NVIDIA_API_KEY")
     if not nvidia_key:
-        print("NVIDIA_API_KEY not found in environment variables.")
         return None
     
     print("Attempting translation using NVIDIA API...")
@@ -338,8 +349,9 @@ async def try_nvidia_translate(text_items: List[str], target_lang: str) -> Optio
                 "Authorization": f"Bearer {nvidia_key}",
                 "Content-Type": "application/json"
             }
+            model_name = os.getenv("NVIDIA_TEXT_MODEL", "meta/llama-3.1-8b-instruct")
             payload = {
-                "model": "meta/llama-3.1-8b-instruct",
+                "model": model_name,
                 "messages": [
                     {
                         "role": "user",
@@ -385,10 +397,12 @@ async def translate_text(request: dict):
 
     # 2. Try NVIDIA (Secondary)
     try:
-        result = await try_nvidia_translate(text_items, target_lang)
-        if result:
-            print("Successfully translated using NVIDIA API.")
-            return {"translations": result}
+        nvidia_keys = get_nvidia_keys()
+        for key in nvidia_keys:
+            result = await try_nvidia_translate(text_items, target_lang, key)
+            if result:
+                print("Successfully translated using NVIDIA API.")
+                return {"translations": result}
     except Exception as e:
         print(f"NVIDIA translation fallback failed: {e}")
         errors.append(f"NVIDIA: {str(e)}")
@@ -482,11 +496,9 @@ async def try_ollama_scan(image_data: str, prompt: str) -> Optional[dict]:
         print(f"Ollama scan failed: {e}")
     return None
 
-async def try_nvidia_scan(image_data: str, prompt: str) -> Optional[dict]:
+async def try_nvidia_scan(image_data: str, prompt: str, nvidia_key: str) -> Optional[dict]:
     """Attempts to analyze the image using NVIDIA API."""
-    nvidia_key = os.getenv("NVIDIA_API_KEY")
     if not nvidia_key:
-        print("NVIDIA_API_KEY not found in environment variables.")
         return None
     
     print("Attempting scan using NVIDIA API...")
@@ -496,8 +508,9 @@ async def try_nvidia_scan(image_data: str, prompt: str) -> Optional[dict]:
                 "Authorization": f"Bearer {nvidia_key}",
                 "Content-Type": "application/json"
             }
+            model_name = os.getenv("NVIDIA_VISION_MODEL", "meta/llama-3.2-11b-vision-instruct")
             payload = {
-                "model": "nvidia/nemotron-nano-12b-v2-vl",
+                "model": model_name,
                 "messages": [
                     {
                         "role": "user",
@@ -679,13 +692,13 @@ async def try_ollama_estimate_macros(prompt: str) -> Optional[dict]:
         print(f"Ollama macro estimation failed: {e}")
     return None
 
-async def try_nvidia_estimate_macros(prompt: str) -> Optional[dict]:
-    nvidia_key = os.getenv("NVIDIA_API_KEY")
+async def try_nvidia_estimate_macros(prompt: str, nvidia_key: str) -> Optional[dict]:
     if not nvidia_key: return None
     try:
         async with httpx.AsyncClient(timeout=30.0) as http_client:
             headers = {"Authorization": f"Bearer {nvidia_key}", "Content-Type": "application/json"}
-            payload = {"model": "meta/llama-3.1-8b-instruct", "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
+            model_name = os.getenv("NVIDIA_TEXT_MODEL", "meta/llama-3.1-8b-instruct")
+            payload = {"model": model_name, "messages": [{"role": "user", "content": prompt}], "temperature": 0.1}
             resp = await http_client.post("https://integrate.api.nvidia.com/v1/chat/completions", headers=headers, json=payload)
             if resp.status_code == 200:
                 content = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
@@ -715,7 +728,12 @@ async def log_meal(request: dict, uid: str = Depends(get_current_user_id)):
     macros = None
     try:
         macros = await try_ollama_estimate_macros(prompt)
-        if not macros: macros = await try_nvidia_estimate_macros(prompt)
+        if not macros: 
+            nvidia_keys = get_nvidia_keys()
+            for key in nvidia_keys:
+                macros = await try_nvidia_estimate_macros(prompt, key)
+                if macros:
+                    break
         if not macros: macros = await try_gemini_estimate_macros(prompt)
     except Exception as e:
         print(f"Macro estimation failed: {e}")
@@ -773,10 +791,12 @@ async def scan_ingredients(request: dict):
 
     # 2. Try NVIDIA (Secondary)
     try:
-        result = await try_nvidia_scan(image_data, prompt)
-        if result:
-            print("Successfully processed using NVIDIA API.")
-            return result
+        nvidia_keys = get_nvidia_keys()
+        for key in nvidia_keys:
+            result = await try_nvidia_scan(image_data, prompt, key)
+            if result:
+                print("Successfully processed using NVIDIA API.")
+                return result
     except Exception as e:
         print(f"NVIDIA fallback failed: {e}")
         errors.append(f"NVIDIA: {str(e)}")
