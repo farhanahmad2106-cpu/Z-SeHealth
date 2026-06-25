@@ -98,14 +98,24 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
     setVisibleCount(18); // Reset pagination on new search
     try {
       const response = await fetch(`${API_BASE}/api/foods?search=${encodeURIComponent(searchQuery)}`);
+      if (!response.ok) {
+        throw new Error(`Server returned status ${response.status}`);
+      }
       const data = await response.json();
       if (data.error) {
         setSearchError(data.error);
         setFoods([]);
+      } else if (Array.isArray(data) && data.length === 0) {
+        setSearchError("No results found. Please check your spelling or try another food item.");
+        setFoods([]);
       } else {
         setFoods(data);
       }
-    } catch (err) { console.error(err); } finally { setLoading(false); }
+    } catch (err) { 
+      console.error(err); 
+      setSearchError("Failed to connect to the server or search timed out. Please try again.");
+      setFoods([]);
+    } finally { setLoading(false); }
   };
 
   /**
