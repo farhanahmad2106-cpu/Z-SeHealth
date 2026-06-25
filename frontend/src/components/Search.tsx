@@ -45,6 +45,8 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   const [langSearchTerm, setLangSearchTerm] = useState('');      // Search term for the language list
   const [showMoreClicks, setShowMoreClicks] = useState(0);       // "Show More" language pagination
   const [translating, setTranslating] = useState(false);         // Loading state for API translation
+  const [recentItems, setRecentItems] = useState<FoodItem[]>([]); // Recently clicked items
+
   
   /**
    * CRITICAL FIX: Translated Data Store
@@ -58,7 +60,26 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   // --- API CALLS ---
 
   // Fetch initial data on mount
-  useEffect(() => { fetchInitialFoods(); }, []);
+  useEffect(() => { 
+    fetchInitialFoods(); 
+    const savedRecents = localStorage.getItem('recentSearchedFoods');
+    if (savedRecents) {
+      try {
+        setRecentItems(JSON.parse(savedRecents));
+      } catch (e) {
+        console.error("Failed to parse recent items", e);
+      }
+    }
+  }, []);
+
+  const addToRecent = (food: FoodItem) => {
+    setRecentItems(prev => {
+      const filtered = prev.filter(item => item._id !== food._id);
+      const updated = [food, ...filtered].slice(0, 15); // Keep last 15 items
+      localStorage.setItem('recentSearchedFoods', JSON.stringify(updated));
+      return updated;
+    });
+  };
 
   const fetchInitialFoods = async () => {
     setLoading(true);
@@ -150,7 +171,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
         <p className="text-gray-400 mb-8">Explore regional Indian dishes and check health flags instantly.</p>
 
         {/* Main Search Input */}
-        <form onSubmit={handleSearch} className="relative mb-12">
+        <form onSubmit={handleSearch} className="relative mb-8">
           <input
             type="text"
             placeholder="Try 'paneer', 'roti'..."
@@ -160,6 +181,37 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
           />
           <SearchIcon className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 w-6 h-6" />
         </form>
+
+        {/* Recently Clicked Items */}
+        {recentItems.length > 0 && !loading && (
+          <div className="mb-12">
+            <h2 className="text-xl font-bold mb-4 tracking-tight text-white">Recently Viewed</h2>
+            <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar snap-x">
+              {recentItems.map(item => (
+                <div 
+                  key={`recent-${item._id}`} 
+                  className="flex-shrink-0 w-64 bg-slate-900 border border-slate-800 rounded-3xl p-5 hover:border-slate-700 transition-all snap-start cursor-pointer shadow-xl flex flex-col justify-between"
+                  onClick={() => { addToRecent(item); setSelectedFoodItem(item); setActiveModal('main'); }}
+                >
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1 truncate leading-tight">{item.name.replace(/\d+$/, '').trim()}</h3>
+                    <div className="flex items-center gap-1.5 mb-4">
+                      <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Brand:</span>
+                      <p className="text-gray-300 text-[10px] font-black uppercase tracking-widest truncate">{item.brand}</p>
+                    </div>
+                  </div>
+                  <div className="self-start">
+                    <div className={`inline-flex px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-widest ${
+                      item.safety_score >= 75 ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400' : 'bg-red-500/10 border-red-500/40 text-red-400'
+                    }`}>
+                      Score: {item.safety_score}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Loading State UI */}
         {loading ? (
@@ -186,7 +238,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                     </div>
                     <div className="flex flex-col items-end gap-3">
                     <button 
-                        onClick={() => { setSelectedFoodItem(food); setActiveModal('main'); }}
+                        onClick={() => { addToRecent(food); setSelectedFoodItem(food); setActiveModal('main'); }}
                         className="p-3 bg-slate-800 hover:bg-slate-700 rounded-2xl transition-colors"
                     >
                         <SlidersHorizontal className="w-5 h-5 text-emerald-400" />
@@ -223,6 +275,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
 
                 <button 
                   onClick={async () => {
+                    addToRecent(food);
                     const success = await logMeal(food);
                     if (success && onNavigateToDashboard) {
                       onNavigateToDashboard();
