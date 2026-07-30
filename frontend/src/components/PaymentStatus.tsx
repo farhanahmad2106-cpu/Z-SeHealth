@@ -7,10 +7,12 @@ interface PaymentStatusProps {
   transactionId?: string;   // Razorpay payment ID
   subscriptionId?: string;  // Razorpay subscription ID
   upiTransactionId?: string; // UPI Ref No (if paid via UPI)
+  errorMessage?: string;     // Specific error detail
   onClose: () => void;
   onRetry?: () => void;
   onGoToDashboard?: () => void;
 }
+
 
 // ⚠️ PLACEHOLDER — fill in your contact details below
 const SUPPORT_EMAIL: string = 'support@z-sehealth.com'; // TODO: Replace with your actual support email
@@ -22,7 +24,9 @@ export default function PaymentStatus({
   transactionId,
   subscriptionId,
   upiTransactionId,
+  errorMessage,
   onClose,
+
   onRetry,
   onGoToDashboard,
 }: PaymentStatusProps) {
@@ -157,9 +161,17 @@ export default function PaymentStatus({
         </div>
 
         <h1 className="text-2xl font-bold font-outfit text-white mb-2">Payment Failed</h1>
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-gray-400 text-sm mb-4">
           Something went wrong with your payment. No amount was deducted. Please try again or contact support.
         </p>
+
+        {errorMessage && (
+          <div className="bg-rose-500/10 border border-rose-500/20 rounded-2xl p-3 mb-6 text-left">
+            <p className="text-[10px] font-black uppercase tracking-widest text-rose-400 mb-1">Error Detail</p>
+            <p className="text-xs text-rose-300 font-mono break-words">{errorMessage}</p>
+          </div>
+        )}
+
 
         {/* Transaction Details (if we have a reference) */}
         {(transactionId || subscriptionId || upiTransactionId) && (

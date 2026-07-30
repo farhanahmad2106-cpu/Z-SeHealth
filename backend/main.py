@@ -1,12 +1,16 @@
+from dotenv import load_dotenv
+import os
+
+# Load environment variables FIRST before importing sub-modules
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, Query, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
-import os
 import json
 import base64
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
-from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import asyncio
@@ -22,9 +26,6 @@ from routes.webhooks import router as webhooks_router
 from middleware.quota_check import check_scan_quota, get_user_quota_status
 from services.ai_router import route_scan_by_tier
 
-# Load environment variables
-load_dotenv()
-# Trigger reload to load updated .env keys
 
 app = FastAPI(title="Z-SeHealth API")
 

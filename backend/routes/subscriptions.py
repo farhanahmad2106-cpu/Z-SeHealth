@@ -10,15 +10,19 @@ from typing import Optional
 from datetime import datetime, timezone
 import httpx
 
-# Razorpay credentials from .env
-RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "")
-RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
+def get_razorpay_key_id() -> str:
+    return os.getenv("RAZORPAY_KEY_ID", "")
 
-RAZORPAY_PLAN_IDS = {
-    "starter": os.getenv("RAZORPAY_PLAN_ID_STARTER", ""),
-    "pro":     os.getenv("RAZORPAY_PLAN_ID_PRO", ""),
-    "elite":   os.getenv("RAZORPAY_PLAN_ID_ELITE", ""),
-}
+def get_razorpay_key_secret() -> str:
+    return os.getenv("RAZORPAY_KEY_SECRET", "")
+
+def get_razorpay_plan_ids() -> dict:
+    return {
+        "starter": os.getenv("RAZORPAY_PLAN_ID_STARTER", ""),
+        "pro":     os.getenv("RAZORPAY_PLAN_ID_PRO", ""),
+        "elite":   os.getenv("RAZORPAY_PLAN_ID_ELITE", ""),
+    }
+
 
 # Tier feature matrix (shown on PricingPage and /api/subscription/plans)
 PLANS = [
@@ -157,7 +161,15 @@ async def _get_current_user_id(authorization: str = Header(None)) -> str:
 @router.get("/plans")
 async def list_plans():
     """Returns all subscription plans with features and pricing."""
-    return {"plans": PLANS}
+    plan_ids = get_razorpay_plan_ids()
+    plans_with_dynamic_ids = []
+    for plan in PLANS:
+        p = dict(plan)
+        if p["id"] in plan_ids:
+            p["razorpay_plan_id"] = plan_ids[p["id"]]
+        plans_with_dynamic_ids.append(p)
+    return {"plans": plans_with_dynamic_ids}
+
 
 
 @router.get("/status")
@@ -202,24 +214,28 @@ async def create_subscription(request: dict, uid: str = Depends(_get_current_use
     if plan_id not in ["starter", "pro", "elite"]:
         raise HTTPException(status_code=400, detail="Invalid plan. Must be: starter, pro, or elite")
 
-    razorpay_plan_id = RAZORPAY_PLAN_IDS.get(plan_id)
+    key_id = get_razorpay_key_id()
+    key_secret = get_razorpay_key_secret()
+    plan_ids = get_razorpay_plan_ids()
+    razorpay_plan_id = plan_ids.get(plan_id)
+
     if not razorpay_plan_id:
         raise HTTPException(
             status_code=503,
-            detail="Razorpay plan not configured. Please add RAZORPAY_PLAN_ID_* to your .env and try again."
+            detail=f"Razorpay plan '{plan_id}' not configured. Please set RAZORPAY_PLAN_ID_{plan_id.upper()} in environment."
         )
 
-    if not RAZORPAY_KEY_ID or not RAZORPAY_KEY_SECRET:
+    if not key_id or not key_secret:
         raise HTTPException(
             status_code=503,
-            detail="Payment gateway not configured. Please contact support."
+            detail="Payment gateway not configured. Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET in environment."
         )
 
     try:
         async with httpx.AsyncClient(timeout=30.0) as http_client:
             resp = await http_client.post(
                 "https://api.razorpay.com/v1/subscriptions",
-                auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET),
+                auth=(key_id, key_secret),
                 json={
                     "plan_id": razorpay_plan_id,
                     "total_count": 12,  # 12-month subscription
@@ -228,7 +244,8 @@ async def create_subscription(request: dict, uid: str = Depends(_get_current_use
                 },
             )
             if resp.status_code not in (200, 201):
-                raise HTTPException(status_code=502, detail=f"Razorpay error: {resp.text}")
+                print(f"Razorpay API error ({resp.status_code}): {resp.text}")
+                raise HTTPException(status_code=502, detail=f"Razorpay API error ({resp.status_code}): {resp.text}")
 
             subscription_data = resp.json()
             subscription_id = subscription_data.get("id")
@@ -247,8 +264,9 @@ async def create_subscription(request: dict, uid: str = Depends(_get_current_use
             return {
                 "subscription_id": subscription_id,
                 "plan": plan_id,
-                "razorpay_key_id": RAZORPAY_KEY_ID,
+                "razorpay_key_id": key_id,
             }
+
 
     except HTTPException:
         raise
@@ -274,16 +292,19 @@ async def cancel_subscription(uid: str = Depends(_get_current_user_id)):
     if not sub_id:
         raise HTTPException(status_code=400, detail="No active subscription to cancel")
 
-    if not RAZORPAY_KEY_ID or not RAZORPAY_KEY_SECRET:
+    key_id = get_razorpay_key_id()
+    key_secret = get_razorpay_key_secret()
+    if not key_id or not key_secret:
         raise HTTPException(status_code=503, detail="Payment gateway not configured")
 
     try:
         async with httpx.AsyncClient(timeout=30.0) as http_client:
             resp = await http_client.post(
                 f"https://api.razorpay.com/v1/subscriptions/{sub_id}/cancel",
-                auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET),
+                auth=(key_id, key_secret),
                 json={"cancel_at_cycle_end": 1},  # Cancel at end of billing period
             )
+
 
             if resp.status_code not in (200, 201):
                 raise HTTPException(status_code=502, detail=f"Razorpay cancel error: {resp.text}")

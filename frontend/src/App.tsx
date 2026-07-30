@@ -23,7 +23,9 @@ function App() {
     planName?: string;
     transactionId?: string;
     subscriptionId?: string;
+    errorMessage?: string;
   } | null>(null);
+
 
   const { currentUser, setShowLoginModal, logout } = useAuth();
   const { streak } = useUserStats();
@@ -36,8 +38,9 @@ function App() {
     };
     const onFailure = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      setPaymentResult({ status: 'failure', planName: detail?.planName });
+      setPaymentResult({ status: 'failure', planName: detail?.planName, errorMessage: detail?.error });
     };
+
     window.addEventListener('z-payment-success', onSuccess);
     window.addEventListener('z-payment-failure', onFailure);
     return () => {
@@ -216,11 +219,13 @@ function App() {
           planName={paymentResult.planName}
           transactionId={paymentResult.transactionId}
           subscriptionId={paymentResult.subscriptionId}
+          errorMessage={paymentResult.errorMessage}
           onClose={() => setPaymentResult(null)}
           onRetry={paymentResult.status === 'failure' ? () => { setPaymentResult(null); setActiveTab('pricing'); } : undefined}
           onGoToDashboard={() => { setPaymentResult(null); setActiveTab('dashboard'); }}
         />
       )}
+
 
       {/* Render the Active Tab Page */}
       <main className="py-8 px-4">

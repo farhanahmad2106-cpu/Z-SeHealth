@@ -12,15 +12,16 @@ import hmac
 from fastapi import APIRouter, Request, HTTPException
 from datetime import datetime, timezone
 
-RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET", "")
+def get_razorpay_webhook_secret() -> str:
+    return os.getenv("RAZORPAY_WEBHOOK_SECRET", "")
 
-router = APIRouter(prefix="/api/webhooks", tags=["Webhooks"])
+def get_tier_plan_map() -> dict:
+    return {
+        os.getenv("RAZORPAY_PLAN_ID_STARTER", "__starter__"): "starter",
+        os.getenv("RAZORPAY_PLAN_ID_PRO", "__pro__"): "pro",
+        os.getenv("RAZORPAY_PLAN_ID_ELITE", "__elite__"): "elite",
+    }
 
-TIER_PLAN_MAP = {
-    os.getenv("RAZORPAY_PLAN_ID_STARTER", "__starter__"): "starter",
-    os.getenv("RAZORPAY_PLAN_ID_PRO", "__pro__"): "pro",
-    os.getenv("RAZORPAY_PLAN_ID_ELITE", "__elite__"): "elite",
-}
 
 TIER_SCAN_LIMITS = {
     "free": 20,
@@ -32,11 +33,12 @@ TIER_SCAN_LIMITS = {
 
 def _verify_razorpay_signature(body: bytes, signature: str) -> bool:
     """Verify Razorpay webhook HMAC-SHA256 signature."""
-    if not RAZORPAY_WEBHOOK_SECRET:
+    secret = get_razorpay_webhook_secret()
+    if not secret:
         print("⚠️ RAZORPAY_WEBHOOK_SECRET not set — webhook verification skipped (unsafe!)")
         return True  # Allow in dev when secret not set; ALWAYS set in production
     expected = hmac.new(
-        RAZORPAY_WEBHOOK_SECRET.encode("utf-8"),
+        secret.encode("utf-8"),
         body,
         hashlib.sha256
     ).hexdigest()
@@ -80,7 +82,9 @@ async def razorpay_webhook(request: Request):
     entity = payload.get("payload", {}).get("subscription", {}).get("entity", {})
     subscription_id = entity.get("id", "")
     plan_id = entity.get("plan_id", "")
-    tier = TIER_PLAN_MAP.get(plan_id, "free")
+    tier_map = get_tier_plan_map()
+    tier = tier_map.get(plan_id, "free")
+
 
     print(f"Razorpay Webhook received: event={event}, sub_id={subscription_id}, tier={tier}")
 

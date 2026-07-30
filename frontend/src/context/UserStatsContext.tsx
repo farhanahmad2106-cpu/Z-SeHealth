@@ -139,9 +139,10 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
 
       const data = await response.json();
       const { subscription_id, razorpay_key_id } = data;
+      const keyIdToUse = razorpay_key_id || import.meta.env.VITE_RAZORPAY_KEY_ID;
 
-      if (!razorpay_key_id) {
-        throw new Error('Razorpay is not yet configured. Please try again later.');
+      if (!keyIdToUse) {
+        throw new Error('Razorpay Key ID is missing. Please check your environment configuration.');
       }
 
       // Load Razorpay Checkout script dynamically
@@ -161,8 +162,9 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       };
 
       const options = {
-        key: razorpay_key_id,
+        key: keyIdToUse,
         subscription_id: subscription_id,
+
         name: 'Z-SeHealth',
         description: `${planNames[planId] ?? planId} Premium Subscription`,
         image: '/icon.svg',
