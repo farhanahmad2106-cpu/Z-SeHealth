@@ -288,7 +288,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
 
       {/* Top Right Corner Tick Confirmation Button (Below Navbar) */}
       {totalSelectedCount > 0 && (
-        <div className="fixed top-20 right-6 z-40 animate-in slide-in-from-top-4 fade-in duration-300">
+        <div className="fixed top-32 md:top-28 right-6 z-40 animate-in slide-in-from-top-4 fade-in duration-300">
           <button
             onClick={handleConfirmBatchLog}
             disabled={isSubmittingBatch}
