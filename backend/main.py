@@ -16,11 +16,21 @@ from firebase_admin import credentials, auth as firebase_auth
 from datetime import datetime, timezone, timedelta
 from fastapi import Header, Request
 
+# --- FREEMIUM: Import subscription and webhook routers ---
+from routes.subscriptions import router as subscriptions_router
+from routes.webhooks import router as webhooks_router
+from middleware.quota_check import check_scan_quota, get_user_quota_status
+from services.ai_router import route_scan_by_tier
+
 # Load environment variables
 load_dotenv()
 # Trigger reload to load updated .env keys
 
 app = FastAPI(title="Z-SeHealth API")
+
+# --- FREEMIUM: Register routers ---
+app.include_router(subscriptions_router)
+app.include_router(webhooks_router)
 
 # --- CORS SETUP ---
 app.add_middleware(
@@ -592,6 +602,8 @@ async def sync_user(req: TokenRequest):
             }
             await users_collection.update_one({"uid": uid}, {"$set": user_data})
         else:
+            # New user — create with full freemium schema
+            from middleware.quota_check import get_next_reset_date
             user_data = {
                 "uid": uid,
                 "email": email,
@@ -601,9 +613,49 @@ async def sync_user(req: TokenRequest):
                 "streak": 1,
                 "stats": {
                     "calories": 0, "protein": 0, "carbs": 0, "fat": 0, "last_updated": today_str
-                }
+                },
+                # --- FREEMIUM FIELDS ---
+                "tier": "free",
+                "subscription": {
+                    "plan": "free",
+                    "razorpay_subscription_id": None,
+                    "razorpay_plan_id": None,
+                    "status": "active",
+                    "start_date": today_str,
+                    "end_date": None,
+                    "auto_renew": False,
+                },
+                "usage": {
+                    "scans_used_this_month": 0,
+                    "scan_limit": 20,
+                    "reset_date": get_next_reset_date(),
+                },
             }
             await users_collection.insert_one(user_data)
+
+        # Ensure existing users also have freemium fields (migration for existing accounts)
+        if existing_user and "tier" not in existing_user:
+            from middleware.quota_check import get_next_reset_date
+            await users_collection.update_one(
+                {"uid": uid},
+                {"$set": {
+                    "tier": "free",
+                    "subscription": {
+                        "plan": "free",
+                        "razorpay_subscription_id": None,
+                        "razorpay_plan_id": None,
+                        "status": "active",
+                        "start_date": today_str,
+                        "end_date": None,
+                        "auto_renew": False,
+                    },
+                    "usage": {
+                        "scans_used_this_month": 0,
+                        "scan_limit": 20,
+                        "reset_date": get_next_reset_date(),
+                    },
+                }}
+            )
 
         return {"status": "success", "user_id": uid}
     except Exception as e:
@@ -762,67 +814,65 @@ async def log_meal(request: dict, uid: str = Depends(get_current_user_id)):
     return {"status": "success", "added_macros": macros, "new_stats": stats}
 
 @app.post("/api/scan")
-async def scan_ingredients(request: dict):
+async def scan_ingredients(request: dict, authorization: str = Header(None)):
     image_data = request.get("image")
-    if not image_data: 
+    if not image_data:
         raise HTTPException(status_code=400, detail="No image data")
-    
-    if "," in image_data: 
+
+    if "," in image_data:
         image_data = image_data.split(",")[1]
-    
+
     prompt = (
         "Analyze this image. First, determine if it clearly contains a food item, food packaging, or an ingredients list. "
         "If it DOES NOT contain any of those (e.g., it is a person, random object, dark room, etc.), you MUST return EXACTLY this JSON: "
         '{"has_ingredients": false, "error_message": "Ingredients list not Detected, Scan Again."}. '
         "If it DOES contain food/ingredients, analyze it and return ONLY a JSON object with: "
         "{name, safety_score, ingredients: [{name, safety, description}], warnings}. No markdown."
-    )    
-    errors = []
-    
-    # 1. Try Ollama (Primary)
+    )
+
+    # --- FREEMIUM: Determine user tier and enforce scan quota ---
+    tier = "free"  # Default: unauthenticated users get free-tier routing
+    uid = None
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.split(" ")[1]
+        try:
+            decoded_token = firebase_auth.verify_id_token(token)
+            uid = decoded_token.get("uid")
+            if uid:
+                user = await users_collection.find_one({"uid": uid})
+                if user:
+                    tier = user.get("tier", "free")
+                    # Enforce monthly quota for authenticated users
+                    await check_scan_quota(uid, users_collection)
+        except HTTPException:
+            raise  # Re-raise quota exceeded (429)
+        except Exception as e:
+            print(f"Scan auth check failed (non-blocking): {e}")
+            # Auth failure is non-fatal for scan — fall through as free tier
+
+    # --- FREEMIUM: Route scan to appropriate AI model by tier ---
+    try:
+        result = await route_scan_by_tier(image_data, prompt, tier)
+        if result:
+            print(f"[Scan] Successfully processed for tier={tier}")
+            return result
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"[Scan] AI router failed: {e}")
+
+    # Final fallback: try legacy Ollama path (local dev)
     try:
         result = await try_ollama_scan(image_data, prompt)
         if result:
-            print("Successfully processed using Local Ollama model.")
+            print("[Scan] Succeeded via legacy Ollama fallback.")
             return result
     except Exception as e:
-        print(f"Ollama fallback failed: {e}")
-        errors.append(f"Ollama: {str(e)}")
+        print(f"[Scan] Ollama legacy fallback failed: {e}")
 
-    # 2. Try NVIDIA (Secondary)
-    try:
-        nvidia_keys = get_nvidia_keys()
-        for key in nvidia_keys:
-            result = await try_nvidia_scan(image_data, prompt, key)
-            if result:
-                print("Successfully processed using NVIDIA API.")
-                return result
-    except Exception as e:
-        print(f"NVIDIA fallback failed: {e}")
-        errors.append(f"NVIDIA: {str(e)}")
-
-    # 3. Try Gemini (Tertiary)
-    try:
-        result = await try_gemini_scan(image_data, prompt)
-        if result:
-            print("Successfully processed using Gemini API.")
-            return result
-    except Exception as e:
-        err_msg = str(e)
-        print(f"Gemini API scan failed: {err_msg}")
-        errors.append(f"Gemini: {err_msg}")
-        
-    # If all options failed, determine error type and raise appropriate code
-    is_gemini_429 = any("429" in err or "ResourceExhausted" in err for err in errors)
-    if is_gemini_429:
-        raise HTTPException(
-            status_code=429,
-            detail="Gemini API rate limit exceeded, and local Ollama or NVIDIA fallbacks were not available/configured."
-        )
-        
     raise HTTPException(
         status_code=500,
-        detail=f"All analysis methods failed. Errors: {'; '.join(errors)}"
+        detail="All scan methods failed. Please try again later."
     )
 
 @app.get("/")

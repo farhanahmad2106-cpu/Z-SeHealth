@@ -7,15 +7,36 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-07-30
-**Work Done:**
-- Added Multiple Log Meal selection in Search tab with bottom-right floating counter bar and top-right Tick confirmation button
-- Fixed Tick button gap from navbar (`top-32 md:top-28`)
-- Centralized `API_BASE` into `frontend/src/config.ts` (removed duplicate declarations)
-- Updated backend CORS regex to allow all `*.vercel.app` domains
-- Added `logMultipleMeals()` to `UserStatsContext`
-- Created `RULES.md` and `MEMORY.md` (this file)
-- Planned full Freemium Model (saved as `freemium_model_footprint.md`)
-- All changes committed and pushed to `origin/main`
+**Work Done — Freemium Model (Phase 1–4 Implementation):**
+
+### Phase 1 — Database Layer ✅
+- Updated `/api/auth/sync` in `main.py` to create new users with full freemium schema: `tier`, `subscription`, `usage`
+- Added backward-compatible migration: existing users get freemium fields on next login if `tier` field is missing
+
+### Phase 2 — Backend Services & Routes ✅
+- Created `backend/middleware/__init__.py` + `backend/middleware/quota_check.py` (scan quota enforcement, Option-B monthly reset-on-read)
+- Created `backend/services/__init__.py` + `backend/services/sarvam_client.py` (Sarvam AI for Elite tier — key stored in .env, never called by agent)
+- Created `backend/services/ai_router.py` (tier-based AI routing: Elite→Sarvam+NVIDIA+Gemini, Pro→NVIDIA+Gemini, Starter→NVIDIA+Gemini, Free→NVIDIA+Gemini)
+- Created `backend/routes/subscriptions.py` (GET /plans, GET /status, POST /create, POST /cancel)
+- Created `backend/routes/webhooks.py` (POST /api/webhooks/razorpay with HMAC-SHA256 verification)
+- Updated `backend/main.py`: router registration, quota middleware wired into /api/scan, new scan endpoint with tier-based routing
+
+### Phase 3 — Payment Setup Docs ✅
+- Updated `backend/.env.example` with all Razorpay + Sarvam env var placeholders + full comments
+
+### Phase 4 — Frontend ✅
+- Created `frontend/src/components/PricingPage.tsx` (4-tier card UI with Razorpay checkout integration)
+- Created `frontend/src/components/UpgradeModal.tsx` (quota limit popup with upgrade options)
+- Created `frontend/src/components/UsageIndicator.tsx` (scan bar for Dashboard — compact + full variants)
+- Created `frontend/src/components/SubscriptionBadge.tsx` (tier badge for Profile + Dashboard)
+- Created `frontend/src/components/PaymentStatus.tsx` (success/failure screen with copyable UPI receipt + contact support)
+- Updated `frontend/src/context/UserStatsContext.tsx` (tier, scansUsed, scanLimit, upgradePlan, refreshSubscription, showUpgradeModal)
+- Updated `frontend/src/App.tsx` (pricing tab, PaymentStatus overlay, payment event listeners)
+- Updated `frontend/src/components/Dashboard.tsx` (UpgradeModal + UsageIndicator + SubscriptionBadge integration)
+- Updated `frontend/src/components/Profile.tsx` (SubscriptionBadge integration)
+
+**Build:** ✅ `npm run build` passed — 1793 modules, 0 TypeScript errors
+**Backend syntax:** ✅ All 6 new Python files pass `py_compile`
 
 ---
 

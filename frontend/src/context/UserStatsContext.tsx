@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { API_BASE } from '../config';
 
@@ -13,6 +13,16 @@ interface UserStats {
 interface UserStatsContextType {
   stats: UserStats;
   streak: number;
+  // --- Freemium ---
+  tier: string;
+  scansUsed: number;
+  scanLimit: number;
+  loadingUpgrade: boolean;
+  showUpgradeModal: boolean;
+  setShowUpgradeModal: (show: boolean) => void;
+  upgradePlan: (planId: string) => Promise<void>;
+  refreshSubscription: () => Promise<void>;
+  // --- Existing ---
   logMeal: (foodItem: any, options?: { silent?: boolean }) => Promise<boolean>;
   logMultipleMeals: (items: Array<{ food: any; count: number }>) => Promise<boolean>;
   loadingStats: boolean;
@@ -43,12 +53,42 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const [streak, setStreak] = useState(0);
   const [loadingStats, setLoadingStats] = useState(false);
 
+  // --- FREEMIUM STATE ---
+  const [tier, setTier] = useState<string>('free');
+  const [scansUsed, setScansUsed] = useState<number>(0);
+  const [scanLimit, setScanLimit] = useState<number>(20);
+  const [loadingUpgrade, setLoadingUpgrade] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+
   useEffect(() => {
     if (currentUser) {
       fetchStats();
+      fetchSubscriptionStatus();
     } else {
       setStats(defaultStats);
       setStreak(0);
+      setTier('free');
+      setScansUsed(0);
+      setScanLimit(20);
+    }
+  }, [currentUser]);
+
+  // --- FREEMIUM: Fetch subscription status ---
+  const fetchSubscriptionStatus = useCallback(async () => {
+    if (!currentUser) return;
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch(`${API_BASE}/api/subscription/status`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setTier(data.tier ?? 'free');
+        setScansUsed(data.scans_used ?? 0);
+        setScanLimit(data.scan_limit ?? 20);
+      }
+    } catch (error) {
+      console.error('Failed to fetch subscription status', error);
     }
   }, [currentUser]);
 
@@ -73,6 +113,87 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       setLoadingStats(false);
     }
   };
+
+  // --- FREEMIUM: Upgrade plan (create Razorpay subscription) ---
+  const upgradePlan = useCallback(async (planId: string): Promise<void> => {
+    if (!currentUser) {
+      setShowLoginModal(true);
+      return;
+    }
+    setLoadingUpgrade(true);
+    try {
+      const token = await currentUser.getIdToken();
+      const response = await fetch(`${API_BASE}/api/subscription/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ plan_id: planId }),
+      });
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.detail ?? `Failed to create subscription (${response.status})`);
+      }
+
+      const data = await response.json();
+      const { subscription_id, razorpay_key_id } = data;
+
+      if (!razorpay_key_id) {
+        throw new Error('Razorpay is not yet configured. Please try again later.');
+      }
+
+      // Load Razorpay Checkout script dynamically
+      await new Promise<void>((resolve, reject) => {
+        if ((window as any).Razorpay) { resolve(); return; }
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error('Failed to load Razorpay SDK'));
+        document.body.appendChild(script);
+      });
+
+      const planNames: Record<string, string> = {
+        starter: 'Z-Starter',
+        pro: 'Z-Pro',
+        elite: 'Z-Elite',
+      };
+
+      const options = {
+        key: razorpay_key_id,
+        subscription_id: subscription_id,
+        name: 'Z-SeHealth',
+        description: `${planNames[planId] ?? planId} Premium Subscription`,
+        image: '/icon.svg',
+        theme: { color: '#10b981' }, // emerald-500
+        handler: async (response: any) => {
+          // Webhook is the source of truth — just refresh subscription status
+          await fetchSubscriptionStatus();
+          // PaymentStatus shown by App.tsx via a state event (post-message pattern)
+          window.dispatchEvent(new CustomEvent('z-payment-success', {
+            detail: {
+              planName: planNames[planId],
+              transactionId: response.razorpay_payment_id,
+              subscriptionId: response.razorpay_subscription_id,
+            }
+          }));
+        },
+        modal: {
+          ondismiss: () => setLoadingUpgrade(false),
+        },
+      };
+
+      new (window as any).Razorpay(options).open();
+    } catch (error: any) {
+      console.error('Upgrade plan failed:', error);
+      window.dispatchEvent(new CustomEvent('z-payment-failure', {
+        detail: { planName: planId, error: error.message }
+      }));
+    } finally {
+      setLoadingUpgrade(false);
+    }
+  }, [currentUser, fetchSubscriptionStatus]);
 
   const logMeal = async (foodItem: any, options?: { silent?: boolean }): Promise<boolean> => {
     if (!currentUser) {
@@ -190,6 +311,16 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const value = {
     stats,
     streak,
+    // --- Freemium ---
+    tier,
+    scansUsed,
+    scanLimit,
+    loadingUpgrade,
+    showUpgradeModal,
+    setShowUpgradeModal,
+    upgradePlan,
+    refreshSubscription: fetchSubscriptionStatus,
+    // --- Existing ---
     logMeal,
     logMultipleMeals,
     loadingStats,

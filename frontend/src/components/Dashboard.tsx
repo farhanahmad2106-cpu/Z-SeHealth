@@ -1,13 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { useUserStats } from '../context/UserStatsContext';
 import { Loader2, Camera } from 'lucide-react';
+import UsageIndicator from './UsageIndicator';
+import SubscriptionBadge from './SubscriptionBadge';
+import UpgradeModal from './UpgradeModal';
 
 interface DashboardProps {
   onNavigateToScan?: (imageData: string) => void;
+  onGoToPricing?: () => void;
 }
 
-export default function Dashboard({ onNavigateToScan }: DashboardProps) {
-  const { stats, loadingStats } = useUserStats();
+export default function Dashboard({ onNavigateToScan, onGoToPricing }: DashboardProps) {
+  const { stats, loadingStats, showUpgradeModal, setShowUpgradeModal } = useUserStats();
   
   const [isCameraActive, setIsCameraActive] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -81,14 +85,30 @@ export default function Dashboard({ onNavigateToScan }: DashboardProps) {
 
   return (
     <div className="max-w-6xl mx-auto p-5 sm:p-8 lg:p-12 bg-gradient-to-br from-slate-900 via-[#162032] to-slate-950 rounded-3xl sm:rounded-[3rem] shadow-2xl border border-slate-800/50 mt-4 mb-12">
+      {/* Upgrade Modal Overlay */}
+      {showUpgradeModal && (
+        <UpgradeModal
+          onClose={() => setShowUpgradeModal(false)}
+          onGoToPricing={() => { setShowUpgradeModal(false); onGoToPricing?.(); }}
+        />
+      )}
+
       {/* Welcome Heading */}
-      <div className="mb-10 text-left">
-        <h2 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
-          Your day, in nutrients.
-        </h2>
-        <p className="text-base text-gray-400 mt-2">
-          Track your nutritional limits and keep your health score optimal.
-        </p>
+      <div className="mb-6 text-left flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-4xl font-extrabold tracking-tight text-white drop-shadow-sm">
+            Your day, in nutrients.
+          </h2>
+          <p className="text-base text-gray-400 mt-2">
+            Track your nutritional limits and keep your health score optimal.
+          </p>
+        </div>
+        <SubscriptionBadge variant="full" onUpgradeClick={onGoToPricing} />
+      </div>
+
+      {/* Usage Indicator */}
+      <div className="mb-8">
+        <UsageIndicator onUpgradeClick={() => setShowUpgradeModal(true)} />
       </div>
 
       {/* Quick Scan Section */}

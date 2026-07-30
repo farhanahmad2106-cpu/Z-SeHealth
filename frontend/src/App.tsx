@@ -1,22 +1,50 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LogOut, User, Flame, Settings as SettingsIcon, UserCircle } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import Search from './components/Search';
 import Scan from './components/Scan';
 import Profile from './components/Profile';
 import Settings from './components/Settings';
+import PricingPage from './components/PricingPage';
+import PaymentStatus from './components/PaymentStatus';
 import LoginModal from './components/auth/LoginModal';
 import { useAuth } from './context/AuthContext';
 import { useUserStats } from './context/UserStatsContext';
 
 function App() {
   // Simple tab-based navigation state for the MVP
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan' | 'profile' | 'settings'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'search' | 'scan' | 'profile' | 'settings' | 'pricing'>('dashboard');
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [scanImageData, setScanImageData] = useState<string | null>(null);
-  
+
+  // --- Freemium: Payment result state ---
+  const [paymentResult, setPaymentResult] = useState<{
+    status: 'success' | 'failure';
+    planName?: string;
+    transactionId?: string;
+    subscriptionId?: string;
+  } | null>(null);
+
   const { currentUser, setShowLoginModal, logout } = useAuth();
   const { streak } = useUserStats();
+
+  // --- Freemium: Listen for Razorpay payment events ---
+  useEffect(() => {
+    const onSuccess = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setPaymentResult({ status: 'success', ...detail });
+    };
+    const onFailure = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      setPaymentResult({ status: 'failure', planName: detail?.planName });
+    };
+    window.addEventListener('z-payment-success', onSuccess);
+    window.addEventListener('z-payment-failure', onFailure);
+    return () => {
+      window.removeEventListener('z-payment-success', onSuccess);
+      window.removeEventListener('z-payment-failure', onFailure);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen font-manrope text-white bg-slate-950">
@@ -181,26 +209,41 @@ function App() {
         </div>
       </header>
 
+      {/* ---- Freemium: PaymentStatus Overlay ---- */}
+      {paymentResult && (
+        <PaymentStatus
+          status={paymentResult.status}
+          planName={paymentResult.planName}
+          transactionId={paymentResult.transactionId}
+          subscriptionId={paymentResult.subscriptionId}
+          onClose={() => setPaymentResult(null)}
+          onRetry={paymentResult.status === 'failure' ? () => { setPaymentResult(null); setActiveTab('pricing'); } : undefined}
+          onGoToDashboard={() => { setPaymentResult(null); setActiveTab('dashboard'); }}
+        />
+      )}
+
       {/* Render the Active Tab Page */}
       <main className="py-8 px-4">
         {activeTab === 'dashboard' && (
-          <Dashboard 
+          <Dashboard
             onNavigateToScan={(imgData) => {
               setScanImageData(imgData);
               setActiveTab('scan');
-            }} 
+            }}
+            onGoToPricing={() => setActiveTab('pricing')}
           />
         )}
         {activeTab === 'search' && <Search onNavigateToDashboard={() => setActiveTab('dashboard')} />}
         {activeTab === 'scan' && (
-          <Scan 
-            onNavigateToSearch={() => setActiveTab('search')} 
+          <Scan
+            onNavigateToSearch={() => setActiveTab('search')}
             initialImage={scanImageData}
             onClearInitialImage={() => setScanImageData(null)}
           />
         )}
-        {activeTab === 'profile' && <Profile onBack={() => setActiveTab('dashboard')} />}
+        {activeTab === 'profile' && <Profile onBack={() => setActiveTab('dashboard')} onGoToPricing={() => setActiveTab('pricing')} />}
         {activeTab === 'settings' && <Settings onBack={() => setActiveTab('dashboard')} />}
+        {activeTab === 'pricing' && <PricingPage onClose={() => setActiveTab('dashboard')} />}
       </main>
     </div>
   );

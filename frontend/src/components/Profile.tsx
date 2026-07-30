@@ -2,12 +2,14 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useUserProfile } from '../context/UserProfileContext';
 import { User, Mail, Calendar, Activity, Shield, Edit2, ArrowLeft } from 'lucide-react';
+import SubscriptionBadge from './SubscriptionBadge';
 
 interface ProfileProps {
   onBack?: () => void;
+  onGoToPricing?: () => void;
 }
 
-const Profile: React.FC<ProfileProps> = ({ onBack }) => {
+const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
   const { currentUser } = useAuth();
   const { healthProfile, updateHealthProfile } = useUserProfile();
   
@@ -35,10 +37,13 @@ const Profile: React.FC<ProfileProps> = ({ onBack }) => {
           <ArrowLeft className="w-5 h-5" /> Back to Dashboard
         </button>
       )}
-      <h2 className="text-3xl font-outfit font-bold text-white mb-8 flex items-center gap-3">
-        <User className="w-8 h-8 text-emerald-500" />
-        Personal Details
-      </h2>
+      <div className="mb-8 flex items-center justify-between gap-4">
+        <h2 className="text-3xl font-outfit font-bold text-white flex items-center gap-3">
+          <User className="w-8 h-8 text-emerald-500" />
+          Personal Details
+        </h2>
+        <SubscriptionBadge variant="full" onUpgradeClick={onGoToPricing} />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
