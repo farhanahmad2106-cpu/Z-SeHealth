@@ -13,7 +13,8 @@ interface UserStats {
 interface UserStatsContextType {
   stats: UserStats;
   streak: number;
-  logMeal: (foodItem: any) => Promise<boolean>;
+  logMeal: (foodItem: any, options?: { silent?: boolean }) => Promise<boolean>;
+  logMultipleMeals: (items: Array<{ food: any; count: number }>) => Promise<boolean>;
   loadingStats: boolean;
   requestNotificationPermission: () => void;
 }
@@ -73,14 +74,13 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const logMeal = async (foodItem: any): Promise<boolean> => {
+  const logMeal = async (foodItem: any, options?: { silent?: boolean }): Promise<boolean> => {
     if (!currentUser) {
       alert("Please log in to log a meal.");
       setShowLoginModal(true);
       return false;
     }
     
-    // Optimistic UI could be added here
     try {
       const token = await currentUser.getIdToken();
       const response = await fetch(`${API_BASE}/api/user/log_meal`, {
@@ -94,17 +94,44 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const data = await response.json();
         setStats(data.new_stats);
-        alert(`Successfully logged ${foodItem.name}. Estimated macros added!`);
+        if (!options?.silent) {
+          alert(`Successfully logged ${foodItem.name}. Estimated macros added!`);
+        }
         return true;
       } else {
-        alert("Failed to log meal. Please try again.");
+        if (!options?.silent) {
+          alert("Failed to log meal. Please try again.");
+        }
         return false;
       }
     } catch (error) {
       console.error("Failed to log meal", error);
-      alert("Failed to log meal due to a network error.");
+      if (!options?.silent) {
+        alert("Failed to log meal due to a network error.");
+      }
       return false;
     }
+  };
+
+  const logMultipleMeals = async (items: Array<{ food: any; count: number }>): Promise<boolean> => {
+    if (!currentUser) {
+      alert("Please log in to log meals.");
+      setShowLoginModal(true);
+      return false;
+    }
+
+    if (!items || items.length === 0) return false;
+
+    let overallSuccess = true;
+    for (const item of items) {
+      for (let i = 0; i < item.count; i++) {
+        const success = await logMeal(item.food, { silent: true });
+        if (!success) {
+          overallSuccess = false;
+        }
+      }
+    }
+    return overallSuccess;
   };
 
   const scheduleDailyNotification = () => {
@@ -164,6 +191,7 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
     stats,
     streak,
     logMeal,
+    logMultipleMeals,
     loadingStats,
     requestNotificationPermission
   };

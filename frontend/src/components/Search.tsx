@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search as SearchIcon, SlidersHorizontal, Plus, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
+import { Search as SearchIcon, SlidersHorizontal, Plus, Minus, Check, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
 import { useUserStats } from '../context/UserStatsContext';
 import { API_BASE } from '../config';
 
@@ -47,7 +47,12 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   const [translating, setTranslating] = useState(false);         // Loading state for API translation
   const [recentItems, setRecentItems] = useState<FoodItem[]>([]); // Recently clicked items
 
-  
+  // --- MULTI-MEAL LOG SELECTION STATE ---
+  const [selectedMealsMap, setSelectedMealsMap] = useState<Record<string, { food: FoodItem; count: number }>>({});
+  const [lastSelectedFoodId, setLastSelectedFoodId] = useState<string | null>(null);
+  const [isSubmittingBatch, setIsSubmittingBatch] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
   /**
    * CRITICAL FIX: Translated Data Store
    * We store translations in a Record where the Key is the Food ID.
@@ -55,7 +60,98 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
    */
   const [translatedData, setTranslatedData] = useState<Record<string, string[]>>({});
   
-  const { logMeal } = useUserStats();
+  const { logMultipleMeals } = useUserStats();
+
+  // --- MULTI-MEAL SELECTION HELPERS ---
+  const addMealToSelection = (food: FoodItem) => {
+    addToRecent(food);
+    setSelectedMealsMap(prev => {
+      const existing = prev[food._id];
+      const count = existing ? existing.count + 1 : 1;
+      return {
+        ...prev,
+        [food._id]: { food, count }
+      };
+    });
+    setLastSelectedFoodId(food._id);
+  };
+
+  const removeMealFromSelection = (foodId: string) => {
+    setSelectedMealsMap(prev => {
+      const existing = prev[foodId];
+      if (!existing) return prev;
+      if (existing.count <= 1) {
+        const copy = { ...prev };
+        delete copy[foodId];
+        return copy;
+      } else {
+        return {
+          ...prev,
+          [foodId]: { ...existing, count: existing.count - 1 }
+        };
+      }
+    });
+  };
+
+  const clearAllSelectedMeals = () => {
+    setSelectedMealsMap({});
+    setLastSelectedFoodId(null);
+  };
+
+  const totalSelectedCount = useMemo(() => {
+    return Object.values(selectedMealsMap).reduce((sum, item) => sum + item.count, 0);
+  }, [selectedMealsMap]);
+
+  const handleDecrementLastOrSelected = () => {
+    if (lastSelectedFoodId && selectedMealsMap[lastSelectedFoodId]) {
+      removeMealFromSelection(lastSelectedFoodId);
+      return;
+    }
+    const keys = Object.keys(selectedMealsMap);
+    if (keys.length > 0) {
+      removeMealFromSelection(keys[keys.length - 1]);
+    }
+  };
+
+  const handleIncrementLastOrSelected = () => {
+    if (lastSelectedFoodId && selectedMealsMap[lastSelectedFoodId]) {
+      addMealToSelection(selectedMealsMap[lastSelectedFoodId].food);
+      return;
+    }
+    const keys = Object.keys(selectedMealsMap);
+    if (keys.length > 0) {
+      addMealToSelection(selectedMealsMap[keys[keys.length - 1]].food);
+    }
+  };
+
+  const handleConfirmBatchLog = async () => {
+    const items = Object.values(selectedMealsMap);
+    if (items.length === 0) return;
+
+    setIsSubmittingBatch(true);
+    try {
+      const countLogged = totalSelectedCount;
+      const success = await logMultipleMeals(items);
+      if (success) {
+        setToastMessage(`Successfully logged ${countLogged} meal${countLogged > 1 ? 's' : ''}!`);
+        clearAllSelectedMeals();
+        if (onNavigateToDashboard) {
+          setTimeout(() => {
+            onNavigateToDashboard();
+          }, 1200);
+        } else {
+          setTimeout(() => setToastMessage(null), 4000);
+        }
+      } else {
+        setToastMessage("Failed to log meals. Please check your network or login status.");
+        setTimeout(() => setToastMessage(null), 4000);
+      }
+    } catch (err) {
+      console.error("Batch log error:", err);
+    } finally {
+      setIsSubmittingBatch(false);
+    }
+  };
 
   // --- API CALLS ---
 
@@ -180,7 +276,88 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-6 font-outfit pb-32">
+    <div className="min-h-screen bg-slate-950 text-white p-6 font-outfit pb-36 relative">
+      
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-emerald-500 text-slate-950 font-extrabold px-6 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-top-6 duration-300">
+          <Check className="w-5 h-5 stroke-[3]" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Top Right Corner Tick Confirmation Button (Below Navbar) */}
+      {totalSelectedCount > 0 && (
+        <div className="fixed top-20 right-6 z-40 animate-in slide-in-from-top-4 fade-in duration-300">
+          <button
+            onClick={handleConfirmBatchLog}
+            disabled={isSubmittingBatch}
+            title="Confirm & Log Selected Meals"
+            className="relative flex items-center gap-2.5 px-5 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 font-black rounded-full shadow-2xl shadow-emerald-500/30 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-emerald-300/40 disabled:opacity-50"
+          >
+            {isSubmittingBatch ? (
+              <Loader2 className="w-5 h-5 animate-spin text-slate-950" />
+            ) : (
+              <>
+                <div className="bg-slate-950/20 p-1.5 rounded-full">
+                  <Check className="w-5 h-5 stroke-[3] text-slate-950" />
+                </div>
+                <span className="text-sm font-black uppercase tracking-wide">
+                  Log {totalSelectedCount} Meal{totalSelectedCount > 1 ? 's' : ''}
+                </span>
+              </>
+            )}
+            <span className="absolute -top-1.5 -right-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-slate-950 text-emerald-400 text-[11px] font-black border-2 border-emerald-400 shadow-md">
+              {totalSelectedCount}
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* Bottom Right Floating Counter Bar */}
+      {totalSelectedCount > 0 && (
+        <div className="fixed bottom-6 right-6 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+          <div className="flex items-center gap-3 bg-slate-900/95 backdrop-blur-2xl border border-emerald-500/50 p-2.5 px-4 rounded-full shadow-2xl shadow-emerald-950/80">
+            {/* Minus Button */}
+            <button
+              onClick={handleDecrementLastOrSelected}
+              className="p-2.5 bg-slate-800 hover:bg-slate-700 active:scale-90 text-emerald-400 rounded-full transition-all border border-slate-700"
+              title="Decrease Meal Count"
+            >
+              <Minus className="w-4 h-4 stroke-[3]" />
+            </button>
+
+            {/* Counter Display */}
+            <div className="flex items-center gap-1.5 px-2">
+              <span className="text-emerald-400 text-xl font-black tracking-tight">{totalSelectedCount}</span>
+              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">
+                {totalSelectedCount === 1 ? 'Meal' : 'Meals'}
+              </span>
+            </div>
+
+            {/* Plus Button */}
+            <button
+              onClick={handleIncrementLastOrSelected}
+              className="p-2.5 bg-emerald-500 hover:bg-emerald-400 active:scale-90 text-slate-950 rounded-full transition-all shadow-md shadow-emerald-500/20"
+              title="Increase Meal Count"
+            >
+              <Plus className="w-4 h-4 stroke-[3]" />
+            </button>
+
+            {/* Divider & Clear */}
+            <div className="h-6 w-[1px] bg-slate-800 mx-1" />
+            
+            <button
+              onClick={clearAllSelectedMeals}
+              className="p-2 hover:bg-rose-500/20 text-gray-400 hover:text-rose-400 rounded-full transition-colors"
+              title="Clear Selection"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <h1 className="text-4xl font-bold mb-2 tracking-tight">Search any food.</h1>
@@ -209,28 +386,40 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
           <div className="mb-12">
             <h2 className="text-xl font-bold mb-4 tracking-tight text-white">Recently Viewed</h2>
             <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar snap-x">
-              {recentItems.map(item => (
-                <div 
-                  key={`recent-${item._id}`} 
-                  className="flex-shrink-0 w-64 bg-slate-900 border border-slate-800 rounded-3xl p-5 hover:border-slate-700 transition-all snap-start cursor-pointer shadow-xl flex flex-col justify-between"
-                  onClick={() => { addToRecent(item); setSelectedFoodItem(item); setActiveModal('main'); }}
-                >
-                  <div>
-                    <h3 className="text-lg font-bold text-white mb-1 truncate leading-tight">{item.name.replace(/\d+$/, '').trim()}</h3>
-                    <div className="flex items-center gap-1.5 mb-4">
-                      <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Brand:</span>
-                      <p className="text-gray-300 text-[10px] font-black uppercase tracking-widest truncate">{item.brand}</p>
+              {recentItems.map(item => {
+                const selectedCount = selectedMealsMap[item._id]?.count || 0;
+                return (
+                  <div 
+                    key={`recent-${item._id}`} 
+                    className={`flex-shrink-0 w-64 bg-slate-900 border rounded-3xl p-5 hover:border-slate-700 transition-all snap-start cursor-pointer shadow-xl flex flex-col justify-between ${
+                      selectedCount > 0 ? 'border-emerald-500/80 bg-slate-900/90 shadow-emerald-500/10' : 'border-slate-800'
+                    }`}
+                    onClick={() => { addToRecent(item); setSelectedFoodItem(item); setActiveModal('main'); }}
+                  >
+                    <div>
+                      <div className="flex justify-between items-start mb-1">
+                        <h3 className="text-lg font-bold text-white truncate leading-tight flex-1">{item.name.replace(/\d+$/, '').trim()}</h3>
+                        {selectedCount > 0 && (
+                          <span className="text-[10px] font-black text-emerald-400 bg-emerald-500/20 px-2 py-0.5 rounded-full border border-emerald-500/30 ml-2">
+                            {selectedCount}x
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-1.5 mb-4">
+                        <span className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Brand:</span>
+                        <p className="text-gray-300 text-[10px] font-black uppercase tracking-widest truncate">{item.brand}</p>
+                      </div>
+                    </div>
+                    <div className="self-start">
+                      <div className={`inline-flex px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-widest ${
+                        item.safety_score >= 75 ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400' : 'bg-red-500/10 border-red-500/40 text-red-400'
+                      }`}>
+                        Score: {item.safety_score}
+                      </div>
                     </div>
                   </div>
-                  <div className="self-start">
-                    <div className={`inline-flex px-3 py-1 rounded-full border text-[10px] font-black uppercase tracking-widest ${
-                      item.safety_score >= 75 ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400' : 'bg-red-500/10 border-red-500/40 text-red-400'
-                    }`}>
-                      Score: {item.safety_score}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
@@ -244,15 +433,31 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
         ) : (
             /* Food Grid */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {foods.slice(0, visibleCount).map((food) => (
-                <div key={food._id} className="bg-slate-900 border border-slate-800 rounded-4xl p-7 flex flex-col h-full shadow-xl hover:border-slate-700 transition-all">
+            {foods.slice(0, visibleCount).map((food) => {
+              const selectedCount = selectedMealsMap[food._id]?.count || 0;
+              return (
+                <div 
+                  key={food._id} 
+                  className={`bg-slate-900 border rounded-4xl p-7 flex flex-col h-full shadow-xl transition-all duration-300 ${
+                    selectedCount > 0 
+                      ? 'border-emerald-500/80 ring-1 ring-emerald-500/50 shadow-emerald-950/40' 
+                      : 'border-slate-800 hover:border-slate-700'
+                  }`}
+                >
                 
                 {/* Food Header (Name, Brand, Score) */}
                 <div className="flex justify-between items-start mb-6">
                     <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-2 leading-tight">
-                        {food.name.replace(/\d+$/, '').trim()} {/* Clean numeric suffixes if any */}
-                    </h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-2xl font-bold text-white leading-tight">
+                          {food.name.replace(/\d+$/, '').trim()}
+                      </h3>
+                      {selectedCount > 0 && (
+                        <span className="px-2.5 py-0.5 bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 text-[10px] font-black rounded-full uppercase tracking-wider animate-in fade-in">
+                          {selectedCount}x Selected
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center gap-1.5">
                         <span className="text-gray-500 text-[11px] font-black uppercase tracking-[0.15em]">Brand:</span>
                         <p className="text-gray-200 text-[11px] font-black uppercase tracking-[0.15em]">{food.brand}</p>
@@ -295,20 +500,39 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                     </div>
                 </div>
 
-                <button 
-                  onClick={async () => {
-                    addToRecent(food);
-                    const success = await logMeal(food);
-                    if (success && onNavigateToDashboard) {
-                      onNavigateToDashboard();
-                    }
-                  }}
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-950/20"
-                >
+                {/* Multi-Select Action Controls */}
+                {selectedCount > 0 ? (
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => removeMealFromSelection(food._id)}
+                      className="p-4 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-rose-400 font-bold rounded-2xl flex items-center justify-center transition-all active:scale-95 border border-slate-700"
+                      title="Decrease Quantity"
+                    >
+                      <Minus className="w-5 h-5 stroke-[2.5]" />
+                    </button>
+                    <div className="grow py-3.5 bg-emerald-500/15 border border-emerald-500/40 rounded-2xl flex items-center justify-center gap-2 text-emerald-400 font-black text-sm shadow-inner">
+                      <Check className="w-4 h-4 stroke-[3]" />
+                      <span>Selected ({selectedCount})</span>
+                    </div>
+                    <button 
+                      onClick={() => addMealToSelection(food)}
+                      className="p-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center transition-all active:scale-95 shadow-md shadow-emerald-950/30"
+                      title="Add Another Portion"
+                    >
+                      <Plus className="w-5 h-5 stroke-[2.5]" />
+                    </button>
+                  </div>
+                ) : (
+                  <button 
+                    onClick={() => addMealToSelection(food)}
+                    className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-950/20"
+                  >
                     <Plus className="w-5 h-5" /> Log Meal
-                </button>
+                  </button>
+                )}
                 </div>
-            ))}
+              );
+            })}
             </div>
         )}
 
