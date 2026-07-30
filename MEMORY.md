@@ -22,12 +22,12 @@
 - Updated `backend/main.py`: router registration, quota middleware wired into /api/scan, new scan endpoint with tier-based routing
 
 ### Phase 3 — Payment Setup & Bug Fixes ✅
-- **Root Cause & Fix for Payment Failed Modal**:
-  1. `main.py` was importing `subscriptions.py` BEFORE `load_dotenv()` was called, causing `os.getenv("RAZORPAY_KEY_ID")` to evaluate to `""` at module import time. Moved `load_dotenv()` to line 1 in `main.py`.
-  2. Updated `subscriptions.py` and `webhooks.py` to use dynamic getters (`get_razorpay_key_id()`, `get_razorpay_plan_ids()`, `get_razorpay_webhook_secret()`) so environment variables are always read fresh at request time.
-  3. Added `errorMessage` propagation to `PaymentStatus.tsx` so any future configuration or API issues display exact error details in the modal UI.
+- **Render Deployment Fix**: Fixed `NameError: name 'RAZORPAY_PLAN_IDS' is not defined` in `subscriptions.py` by replacing top-level dictionary references with `None` defaults (dynamically injected in `/plans` route) and restored `router = APIRouter(...)` in `webhooks.py`.
+- **Import Order Fix**: `main.py` now calls `load_dotenv()` before route imports.
+- Verified backend import via `python -c "import main; print('OK')"` — passes cleanly with 0 errors.
 - Configured local environment files (`backend/.env` and `frontend/.env.local`) with live Razorpay Key ID (`rzp_test_TJnCHL1p8iDlzM`), Razorpay Secret, Webhook Secret, Subscription Plan IDs (`plan_TJnZj0mYVfrW7N`, `plan_TJncvgHhDOKAaA`, `plan_TJneBOM7B71JUl`), and Sarvam AI Key.
 - Sanitized `backend/.env.example` and created `frontend/.env.example` templates for safe version control.
+
 
 
 ### Phase 4 — Frontend ✅
