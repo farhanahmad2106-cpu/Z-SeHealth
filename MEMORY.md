@@ -21,9 +21,14 @@
 - Created `backend/routes/webhooks.py` (POST /api/webhooks/razorpay with HMAC-SHA256 verification)
 - Updated `backend/main.py`: router registration, quota middleware wired into /api/scan, new scan endpoint with tier-based routing
 
-### Phase 3 — Payment Setup & Configuration ✅
+### Phase 3 — Payment Setup & Bug Fixes ✅
+- **Root Cause & Fix for Payment Failed Modal**:
+  1. `main.py` was importing `subscriptions.py` BEFORE `load_dotenv()` was called, causing `os.getenv("RAZORPAY_KEY_ID")` to evaluate to `""` at module import time. Moved `load_dotenv()` to line 1 in `main.py`.
+  2. Updated `subscriptions.py` and `webhooks.py` to use dynamic getters (`get_razorpay_key_id()`, `get_razorpay_plan_ids()`, `get_razorpay_webhook_secret()`) so environment variables are always read fresh at request time.
+  3. Added `errorMessage` propagation to `PaymentStatus.tsx` so any future configuration or API issues display exact error details in the modal UI.
 - Configured local environment files (`backend/.env` and `frontend/.env.local`) with live Razorpay Key ID (`rzp_test_TJnCHL1p8iDlzM`), Razorpay Secret, Webhook Secret, Subscription Plan IDs (`plan_TJnZj0mYVfrW7N`, `plan_TJncvgHhDOKAaA`, `plan_TJneBOM7B71JUl`), and Sarvam AI Key.
 - Sanitized `backend/.env.example` and created `frontend/.env.example` templates for safe version control.
+
 
 ### Phase 4 — Frontend ✅
 - Created `frontend/src/components/PricingPage.tsx` (4-tier card UI with Razorpay checkout integration)
