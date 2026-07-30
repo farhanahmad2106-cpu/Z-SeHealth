@@ -11,17 +11,18 @@ from datetime import datetime, timezone
 import httpx
 
 def get_razorpay_key_id() -> str:
-    return os.getenv("RAZORPAY_KEY_ID", "")
+    return os.getenv("RAZORPAY_KEY_ID", "").strip().strip('"').strip("'")
 
 def get_razorpay_key_secret() -> str:
-    return os.getenv("RAZORPAY_KEY_SECRET", "")
+    return os.getenv("RAZORPAY_KEY_SECRET", "").strip().strip('"').strip("'")
 
 def get_razorpay_plan_ids() -> dict:
     return {
-        "starter": os.getenv("RAZORPAY_PLAN_ID_STARTER", ""),
-        "pro":     os.getenv("RAZORPAY_PLAN_ID_PRO", ""),
-        "elite":   os.getenv("RAZORPAY_PLAN_ID_ELITE", ""),
+        "starter": os.getenv("RAZORPAY_PLAN_ID_STARTER", "").strip().strip('"').strip("'"),
+        "pro":     os.getenv("RAZORPAY_PLAN_ID_PRO", "").strip().strip('"').strip("'"),
+        "elite":   os.getenv("RAZORPAY_PLAN_ID_ELITE", "").strip().strip('"').strip("'"),
     }
+
 
 
 # Tier feature matrix (shown on PricingPage and /api/subscription/plans)
