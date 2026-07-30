@@ -76,7 +76,7 @@ PLANS = [
             "email_support": True,
             "priority_support": False,
         },
-        "razorpay_plan_id": RAZORPAY_PLAN_IDS["starter"],
+        "razorpay_plan_id": None,
     },
     {
         "id": "pro",
@@ -102,7 +102,7 @@ PLANS = [
             "email_support": True,
             "priority_support": False,
         },
-        "razorpay_plan_id": RAZORPAY_PLAN_IDS["pro"],
+        "razorpay_plan_id": None,
     },
     {
         "id": "elite",
@@ -128,8 +128,9 @@ PLANS = [
             "email_support": True,
             "priority_support": True,
         },
-        "razorpay_plan_id": RAZORPAY_PLAN_IDS["elite"],
+        "razorpay_plan_id": None,
     },
+
 ]
 
 TIER_LIMITS = {p["id"]: p["scan_limit"] for p in PLANS}

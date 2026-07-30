@@ -23,6 +23,9 @@ def get_tier_plan_map() -> dict:
     }
 
 
+router = APIRouter(prefix="/api/webhooks", tags=["Webhooks"])
+
+
 TIER_SCAN_LIMITS = {
     "free": 20,
     "starter": 80,
