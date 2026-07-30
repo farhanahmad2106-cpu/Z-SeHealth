@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search as SearchIcon, SlidersHorizontal, Plus, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
 import { useUserStats } from '../context/UserStatsContext';
+import { API_BASE } from '../config';
 
 /** * INTERFACES
  * Define the structure of our data to ensure Type Safety across the app.
@@ -28,8 +29,6 @@ const ALL_INDIAN_LANGUAGES = [
   'Kumaoni', 'Angika', 'Mundari', 'Khasi', 'Garo', 'Mizo', 'Kokborok', 'Lepcha', 'Sikkimese', 'Bhutia',
   'Mina', 'Bhil', 'Gondi', 'Korku', 'Varli', 'Dravidian', 'Badaga', 'Irula', 'Paniya', 'Kurumba'
 ];
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export default function Search({ onNavigateToDashboard }: { onNavigateToDashboard?: () => void }) {
   // --- STATE MANAGEMENT ---

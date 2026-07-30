@@ -1,8 +1,7 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import { API_BASE } from '../config';
 
 const ALL_INDIAN_LANGUAGES = [
   'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia', 'Punjabi', 

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
+import { API_BASE } from '../config';
 
 export interface HealthProfile {
   age: number | string;
@@ -50,8 +51,6 @@ export function UserProfileProvider({ children }: { children: React.ReactNode })
   const [preferences, setPreferences] = useState<Preferences>(defaultPreferences);
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [loadingProfile, setLoadingProfile] = useState(false);
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     if (currentUser) {

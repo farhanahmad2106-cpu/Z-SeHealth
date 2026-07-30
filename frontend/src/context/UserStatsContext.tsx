@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from './AuthContext';
+import { API_BASE } from '../config';
 
 interface UserStats {
   calories: number;
@@ -40,8 +41,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const [stats, setStats] = useState<UserStats>(defaultStats);
   const [streak, setStreak] = useState(0);
   const [loadingStats, setLoadingStats] = useState(false);
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
   useEffect(() => {
     if (currentUser) {
