@@ -21,19 +21,20 @@
 - Created `backend/routes/webhooks.py` (POST /api/webhooks/razorpay with HMAC-SHA256 verification)
 - Updated `backend/main.py`: router registration, quota middleware wired into /api/scan, new scan endpoint with tier-based routing
 
-### Phase 3 — Payment Setup Docs ✅
-- Updated `backend/.env.example` with all Razorpay + Sarvam env var placeholders + full comments
+### Phase 3 — Payment Setup & Configuration ✅
+- Configured local environment files (`backend/.env` and `frontend/.env.local`) with live Razorpay Key ID (`rzp_test_TJnCHL1p8iDlzM`), Razorpay Secret, Webhook Secret, Subscription Plan IDs (`plan_TJnZj0mYVfrW7N`, `plan_TJncvgHhDOKAaA`, `plan_TJneBOM7B71JUl`), and Sarvam AI Key.
+- Sanitized `backend/.env.example` and created `frontend/.env.example` templates for safe version control.
 
 ### Phase 4 — Frontend ✅
 - Created `frontend/src/components/PricingPage.tsx` (4-tier card UI with Razorpay checkout integration)
-- Created `frontend/src/components/UpgradeModal.tsx` (quota limit popup with upgrade options)
-- Created `frontend/src/components/UsageIndicator.tsx` (scan bar for Dashboard — compact + full variants)
-- Created `frontend/src/components/SubscriptionBadge.tsx` (tier badge for Profile + Dashboard)
-- Created `frontend/src/components/PaymentStatus.tsx` (success/failure screen with copyable UPI receipt + contact support)
-- Updated `frontend/src/context/UserStatsContext.tsx` (tier, scansUsed, scanLimit, upgradePlan, refreshSubscription, showUpgradeModal)
-- Updated `frontend/src/App.tsx` (pricing tab, PaymentStatus overlay, payment event listeners)
-- Updated `frontend/src/components/Dashboard.tsx` (UpgradeModal + UsageIndicator + SubscriptionBadge integration)
-- Updated `frontend/src/components/Profile.tsx` (SubscriptionBadge integration)
+- Created `UpgradeModal.tsx` (quota limit popup with upgrade options)
+- Created `UsageIndicator.tsx` (scan bar for Dashboard — compact + full variants)
+- Created `SubscriptionBadge.tsx` (tier badge for Profile + Dashboard)
+- Created `PaymentStatus.tsx` (success/failure screen with copyable UPI receipt + contact support)
+- Updated `UserStatsContext.tsx` (tier, scansUsed, scanLimit, upgradePlan, refreshSubscription, showUpgradeModal)
+- Updated `App.tsx` (pricing tab, PaymentStatus overlay, payment event listeners)
+- Updated `Dashboard.tsx` (UpgradeModal + UsageIndicator + SubscriptionBadge integration)
+- Updated `Profile.tsx` (SubscriptionBadge integration)
 
 **Build:** ✅ `npm run build` passed — 1793 modules, 0 TypeScript errors
 **Backend syntax:** ✅ All 6 new Python files pass `py_compile`
