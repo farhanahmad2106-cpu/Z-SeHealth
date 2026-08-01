@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { 
   UserCircle, 
   Settings as SettingsIcon, 
@@ -24,7 +24,6 @@ interface ProfileDropdownProps {
 
 export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   isOpen,
-  onClose,
   currentUser,
   tier = 'free',
   streak = 0,
@@ -32,26 +31,6 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   onLogout,
   onOpenHelp,
 }) => {
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent | TouchEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOutsideClick);
-      document.addEventListener('touchstart', handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-      document.removeEventListener('touchstart', handleOutsideClick);
-    };
-  }, [isOpen, onClose]);
-
   if (!isOpen) return null;
 
   const formattedTier = tier.toUpperCase();
@@ -69,111 +48,98 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   };
 
   return (
-    <>
-      {/* Universal click/tap outside backdrop */}
-      <div 
-        className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[1px]" 
-        onClick={onClose} 
-        onTouchStart={onClose}
-      />
-
-      <div
-        ref={dropdownRef}
-        className="absolute right-0 mt-2 w-64 bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
-      >
-        {/* User Account Header */}
-        <div className="px-4 py-3 border-b border-slate-800 bg-slate-800/40">
-          <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Account</p>
-          <p className="text-sm font-bold text-white truncate">{currentUser.displayName || 'Health Enthusiast'}</p>
-          <p className="text-xs text-gray-400 truncate">{currentUser.email}</p>
-          <div className="mt-2 flex items-center justify-between">
-            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${getTierBadgeStyle()}`}>
-              {formattedTier} TIER
-            </span>
-            <span className="text-xs text-amber-400 font-bold flex items-center gap-1">
-              <Flame className="w-3.5 h-3.5 fill-amber-400/20" /> {streak}d streak
-            </span>
-          </div>
-        </div>
-
-        {/* Core Options */}
-        <div className="py-1 border-b border-slate-800">
-          <button
-            onClick={() => { onClose(); onNavigate('dashboard'); }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <LayoutDashboard className="w-4 h-4 text-emerald-400" />
-              <span className="font-medium">Dashboard Overview</span>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
-          </button>
-
-          <button
-            onClick={() => { onClose(); onNavigate('profile'); }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <UserCircle className="w-4 h-4 text-blue-400" />
-              <span className="font-medium">Personal Details</span>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
-          </button>
-
-          <button
-            onClick={() => { onClose(); onNavigate('pricing'); }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <Crown className="w-4 h-4 text-amber-400" />
-              <span className="font-medium">Membership & Plan</span>
-            </div>
-            <span className="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30">
-              Upgrade
-            </span>
-          </button>
-        </div>
-
-        {/* Preferences & Help Options */}
-        <div className="py-1 border-b border-slate-800">
-          <button
-            onClick={() => { onClose(); onNavigate('settings'); }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <SettingsIcon className="w-4 h-4 text-purple-400" />
-              <span className="font-medium">App Settings</span>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
-          </button>
-
-          <button
-            onClick={() => { onClose(); onOpenHelp(); }}
-            className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group"
-          >
-            <div className="flex items-center gap-2.5">
-              <HelpCircle className="w-4 h-4 text-cyan-400" />
-              <span className="font-medium">Help & Support</span>
-            </div>
-            <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
-          </button>
-        </div>
-
-        {/* Sign Out Option */}
-        <div className="pt-1">
-          <button
-            onClick={() => {
-              onClose();
-              onLogout();
-            }}
-            className="w-full text-left px-4 py-2.5 text-sm text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors flex items-center gap-2.5 font-medium"
-          >
-            <LogOut className="w-4 h-4 text-rose-400" />
-            <span>Sign Out</span>
-          </button>
+    <div
+      className="absolute right-0 mt-2 w-64 bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl z-50 py-2 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200"
+    >
+      {/* User Account Header */}
+      <div className="px-4 py-3 border-b border-slate-800 bg-slate-800/40">
+        <p className="text-[10px] font-black uppercase tracking-wider text-gray-400">Account</p>
+        <p className="text-sm font-bold text-white truncate">{currentUser.displayName || 'Health Enthusiast'}</p>
+        <p className="text-xs text-gray-400 truncate">{currentUser.email}</p>
+        <div className="mt-2 flex items-center justify-between">
+          <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${getTierBadgeStyle()}`}>
+            {formattedTier} TIER
+          </span>
+          <span className="text-xs text-amber-400 font-bold flex items-center gap-1">
+            <Flame className="w-3.5 h-3.5 fill-amber-400/20" /> {streak}d streak
+          </span>
         </div>
       </div>
-    </>
+
+      {/* Core Options */}
+      <div className="py-1 border-b border-slate-800">
+        <button
+          onClick={() => onNavigate('dashboard')}
+          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <LayoutDashboard className="w-4 h-4 text-emerald-400" />
+            <span className="font-medium">Dashboard Overview</span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
+        </button>
+
+        <button
+          onClick={() => onNavigate('profile')}
+          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <UserCircle className="w-4 h-4 text-blue-400" />
+            <span className="font-medium">Personal Details</span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
+        </button>
+
+        <button
+          onClick={() => onNavigate('pricing')}
+          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <Crown className="w-4 h-4 text-amber-400" />
+            <span className="font-medium">Membership & Plan</span>
+          </div>
+          <span className="text-[10px] font-bold bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded border border-emerald-500/30">
+            Upgrade
+          </span>
+        </button>
+      </div>
+
+      {/* Preferences & Help Options */}
+      <div className="py-1 border-b border-slate-800">
+        <button
+          onClick={() => onNavigate('settings')}
+          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <SettingsIcon className="w-4 h-4 text-purple-400" />
+            <span className="font-medium">App Settings</span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
+        </button>
+
+        <button
+          onClick={() => onOpenHelp()}
+          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center justify-between group cursor-pointer"
+        >
+          <div className="flex items-center gap-2.5">
+            <HelpCircle className="w-4 h-4 text-cyan-400" />
+            <span className="font-medium">Help & Support</span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover:text-gray-300 group-hover:translate-x-0.5 transition-all" />
+        </button>
+      </div>
+
+      {/* Sign Out Option */}
+      <div className="pt-1">
+        <button
+          onClick={onLogout}
+          className="w-full text-left px-4 py-2.5 text-sm text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors flex items-center gap-2.5 font-medium cursor-pointer"
+        >
+          <LogOut className="w-4 h-4 text-rose-400" />
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

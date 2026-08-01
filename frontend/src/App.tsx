@@ -113,19 +113,19 @@ function App() {
 
           <nav className="flex space-x-4 sm:space-x-6 text-sm font-semibold w-full md:w-auto justify-center md:justify-start pt-1 pb-1 md:pt-0 md:pb-0">
             <button 
-              onClick={() => { setActiveTab('dashboard'); setIsProfileDropdownOpen(false); }} 
+              onClick={() => setActiveTab('dashboard')} 
               className={`pb-1 transition-all whitespace-nowrap ${activeTab === 'dashboard' ? 'text-emerald-400 border-b-2 border-emerald-500' : 'text-gray-400 hover:text-white'}`}
             >
               Dashboard
             </button>
             <button 
-              onClick={() => { setActiveTab('search'); setIsProfileDropdownOpen(false); }} 
+              onClick={() => setActiveTab('search')} 
               className={`pb-1 transition-all whitespace-nowrap ${activeTab === 'search' ? 'text-emerald-400 border-b-2 border-emerald-500' : 'text-gray-400 hover:text-white'}`}
             >
               Search
             </button>
             <button 
-              onClick={() => { setActiveTab('scan'); setIsProfileDropdownOpen(false); }} 
+              onClick={() => setActiveTab('scan')} 
               className={`pb-1 transition-all whitespace-nowrap ${activeTab === 'scan' ? 'text-emerald-400 border-b-2 border-emerald-500' : 'text-gray-400 hover:text-white'}`}
             >
               Scan
