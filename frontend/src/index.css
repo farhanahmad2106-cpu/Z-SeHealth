@@ -50,7 +50,7 @@ code {
    ==========================================
    Applied when data-theme="light" is on #app-root / <html>.
    Uses CSS specificity to flip all hardcoded Tailwind dark classes
-   to a premium light palette without touching any component file.
+   to a premium light palette with rich text contrast and dark button borders.
    ==========================================*/
 
 /* --- Page Background --- */
@@ -65,6 +65,7 @@ code {
 /* --- Card Surfaces --- */
 [data-theme="light"] .bg-slate-900 {
   background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 /* --- Nested Surfaces / Inputs --- */
@@ -88,37 +89,99 @@ code {
   background-color: rgba(203, 213, 225, 0.6) !important;
 }
 
-/* --- Text Colors --- */
+/* --- Darker, High-Contrast Text Colors for Light Mode --- */
 [data-theme="light"] .text-white {
   color: #0f172a !important;
 }
 
-[data-theme="light"] .text-gray-100 { color: #1e293b !important; }
-[data-theme="light"] .text-gray-200 { color: #334155 !important; }
-[data-theme="light"] .text-gray-300 { color: #334155 !important; }
-[data-theme="light"] .text-gray-400 { color: #475569 !important; }
-[data-theme="light"] .text-gray-500 { color: #64748b !important; }
-[data-theme="light"] .text-gray-600 { color: #64748b !important; }
-[data-theme="light"] .text-slate-400 { color: #64748b !important; }
+[data-theme="light"] .text-gray-100 { color: #0f172a !important; }
+[data-theme="light"] .text-gray-200 { color: #1e293b !important; }
+[data-theme="light"] .text-gray-300 { color: #1e293b !important; }
+[data-theme="light"] .text-gray-400 { color: #334155 !important; }
+[data-theme="light"] .text-gray-500 { color: #334155 !important; }
+[data-theme="light"] .text-gray-600 { color: #1e293b !important; }
+[data-theme="light"] .text-slate-400 { color: #334155 !important; }
+[data-theme="light"] .text-slate-500 { color: #334155 !important; }
+[data-theme="light"] .text-slate-600 { color: #1e293b !important; }
 
 /* --- Borders --- */
-[data-theme="light"] .border-slate-800 { border-color: #e2e8f0 !important; }
-[data-theme="light"] .border-slate-800\/50 { border-color: rgba(226,232,240,0.7) !important; }
-[data-theme="light"] .border-slate-700 { border-color: #cbd5e1 !important; }
-[data-theme="light"] .border-slate-700\/50 { border-color: rgba(203,213,225,0.6) !important; }
-[data-theme="light"] .border-slate-700\/60 { border-color: rgba(203,213,225,0.7) !important; }
-[data-theme="light"] .border-slate-600 { border-color: #94a3b8 !important; }
+[data-theme="light"] .border-slate-800 { border-color: #cbd5e1 !important; }
+[data-theme="light"] .border-slate-800\/50 { border-color: rgba(203, 213, 225, 0.8) !important; }
+[data-theme="light"] .border-slate-700 { border-color: #94a3b8 !important; }
+[data-theme="light"] .border-slate-700\/50 { border-color: rgba(148, 163, 184, 0.8) !important; }
+[data-theme="light"] .border-slate-700\/60 { border-color: rgba(148, 163, 184, 0.8) !important; }
+[data-theme="light"] .border-slate-600 { border-color: #64748b !important; }
 
 /* --- Hover States --- */
-[data-theme="light"] .hover\:bg-slate-800:hover { background-color: #e2e8f0 !important; }
-[data-theme="light"] .hover\:bg-slate-700:hover { background-color: #cbd5e1 !important; }
-[data-theme="light"] .hover\:bg-slate-800\/50:hover { background-color: rgba(226,232,240,0.8) !important; }
+[data-theme="light"] .hover\:bg-slate-800:hover { background-color: #cbd5e1 !important; }
+[data-theme="light"] .hover\:bg-slate-700:hover { background-color: #94a3b8 !important; }
+[data-theme="light"] .hover\:bg-slate-800\/50:hover { background-color: rgba(203, 213, 225, 0.9) !important; }
 [data-theme="light"] .hover\:text-white:hover { color: #0f172a !important; }
+
+/* --- BUTTON BORDERS & CONTRAST IN LIGHT MODE --- */
+[data-theme="light"] button {
+  border: 1.5px solid #94a3b8;
+}
+
+/* Secondary / Slate Buttons */
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-700,
+[data-theme="light"] button.bg-slate-800,
+[data-theme="light"] button.bg-slate-700 {
+  border: 1.5px solid #64748b !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] button.bg-slate-800:hover,
+[data-theme="light"] button.bg-slate-700:hover {
+  border-color: #334155 !important;
+  background-color: #cbd5e1 !important;
+}
+
+/* Primary Emerald Buttons */
+[data-theme="light"] .bg-emerald-600,
+[data-theme="light"] .bg-emerald-500,
+[data-theme="light"] button.bg-emerald-600,
+[data-theme="light"] button.bg-emerald-500 {
+  border: 1.5px solid #047857 !important;
+  color: #ffffff !important;
+}
+
+/* Red / Danger Buttons */
+[data-theme="light"] .bg-red-600\/10,
+[data-theme="light"] button.bg-red-600\/10 {
+  border: 1.5px solid #f87171 !important;
+  color: #dc2626 !important;
+  background-color: #fef2f2 !important;
+}
+
+[data-theme="light"] button.bg-red-600 {
+  border: 1.5px solid #b91c1c !important;
+  color: #ffffff !important;
+}
+
+/* Navigation / Sidebar Tabs in Settings */
+[data-theme="light"] .col-span-1 button {
+  border: 1.5px solid #cbd5e1 !important;
+  color: #1e293b !important;
+  background-color: #ffffff !important;
+}
+
+[data-theme="light"] .col-span-1 button:hover {
+  background-color: #e2e8f0 !important;
+  border-color: #64748b !important;
+}
+
+[data-theme="light"] .col-span-1 button.bg-emerald-500\/10 {
+  border: 1.5px solid #10b981 !important;
+  color: #047857 !important;
+  background-color: rgba(16, 185, 129, 0.12) !important;
+}
 
 /* --- Header / Navbar --- */
 [data-theme="light"] header {
   background: linear-gradient(to right, #ffffff, #f8fafc, #f1f5f9) !important;
-  border-color: #e2e8f0 !important;
+  border-bottom: 1.5px solid #cbd5e1 !important;
   box-shadow: 0 1px 12px rgba(0,0,0,0.06) !important;
 }
 
@@ -126,23 +189,25 @@ code {
 [data-theme="light"] input:not([type="checkbox"]):not([type="radio"]) {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border: 1.5px solid #94a3b8 !important;
 }
 
 [data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):focus {
   border-color: #10b981 !important;
-  box-shadow: 0 0 0 2px rgba(16,185,129,0.15) !important;
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important;
 }
 
 [data-theme="light"] input:disabled {
   background-color: #f1f5f9 !important;
-  color: #94a3b8 !important;
+  color: #1e293b !important;
+  opacity: 0.9 !important;
+  border: 1.5px solid #94a3b8 !important;
 }
 
 [data-theme="light"] textarea {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border: 1.5px solid #94a3b8 !important;
 }
 
 /* --- Modals / Overlays --- */
@@ -169,8 +234,8 @@ code {
 
 /* Text inside the dark hero card → keep white */
 [data-theme="light"] .bg-gradient-to-br .text-white { color: #ffffff !important; }
-[data-theme="light"] .bg-gradient-to-br .text-gray-400 { color: #94a3b8 !important; }
-[data-theme="light"] .bg-gradient-to-br .text-gray-300 { color: #cbd5e1 !important; }
+[data-theme="light"] .bg-gradient-to-br .text-gray-400 { color: #cbd5e1 !important; }
+[data-theme="light"] .bg-gradient-to-br .text-gray-300 { color: #e2e8f0 !important; }
 [data-theme="light"] .bg-gradient-to-br .text-gray-500 { color: #94a3b8 !important; }
 [data-theme="light"] .bg-gradient-to-br .bg-slate-800\/60 { background-color: rgba(30,41,59,0.7) !important; }
 [data-theme="light"] .bg-gradient-to-br .bg-slate-800\/50 { background-color: rgba(30,41,59,0.6) !important; }
@@ -196,34 +261,34 @@ code {
 /* Free card */
 [data-theme="light"] .from-slate-800.to-slate-900 {
   background: linear-gradient(to bottom, #e2e8f0, #f8fafc) !important;
-  border-color: #cbd5e1 !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 /* Starter card */
 [data-theme="light"] .from-amber-950\/60.to-slate-900 {
   background: linear-gradient(to bottom, rgba(254,243,199,0.7), #fffbeb) !important;
-  border-color: rgba(217,119,6,0.3) !important;
+  border: 1.5px solid rgba(217,119,6,0.4) !important;
 }
 
 /* Pro card */
 [data-theme="light"] .from-violet-950\/60.to-slate-900 {
   background: linear-gradient(to bottom, rgba(237,233,254,0.7), #f5f3ff) !important;
-  border-color: rgba(124,58,237,0.3) !important;
+  border: 1.5px solid rgba(124,58,237,0.4) !important;
 }
 
 /* Elite card */
 [data-theme="light"] .from-emerald-950\/60.to-slate-900 {
   background: linear-gradient(to bottom, rgba(209,250,229,0.7), #f0fdf4) !important;
-  border-color: rgba(16,185,129,0.3) !important;
+  border: 1.5px solid rgba(16,185,129,0.4) !important;
 }
 
 /* Text inside pricing cards */
 [data-theme="light"] .bg-gradient-to-b .text-white { color: #0f172a !important; }
-[data-theme="light"] .bg-gradient-to-b .text-gray-300 { color: #475569 !important; }
-[data-theme="light"] .bg-gradient-to-b .text-gray-400 { color: #64748b !important; }
-[data-theme="light"] .bg-gradient-to-b .text-gray-500 { color: #94a3b8 !important; }
-[data-theme="light"] .bg-gradient-to-b .text-gray-600 { color: #475569 !important; }
-[data-theme="light"] .bg-gradient-to-b .text-slate-400 { color: #64748b !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-300 { color: #1e293b !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-400 { color: #334155 !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-500 { color: #334155 !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-600 { color: #1e293b !important; }
+[data-theme="light"] .bg-gradient-to-b .text-slate-400 { color: #334155 !important; }
 [data-theme="light"] .bg-gradient-to-b .bg-slate-800\/50 { background-color: rgba(226,232,240,0.6) !important; }
 [data-theme="light"] .bg-gradient-to-b .bg-slate-800 { background-color: #e2e8f0 !important; }
 [data-theme="light"] .bg-gradient-to-b .border-slate-700 { border-color: #cbd5e1 !important; }
@@ -231,8 +296,8 @@ code {
 /* Free CTA button — needs visible border + contrast */
 [data-theme="light"] .bg-slate-700.text-slate-300 {
   background-color: #e2e8f0 !important;
-  color: #64748b !important;
-  border: 1.5px solid #94a3b8 !important;
+  color: #1e293b !important;
+  border: 1.5px solid #64748b !important;
 }
 
 /* ==========================================
@@ -240,8 +305,8 @@ code {
    bg-emerald-950/30 was teal-dark with white text → fix to mint-light with deep green text
    ==========================================*/
 [data-theme="light"] .bg-emerald-950\/30 {
-  background-color: rgba(209, 250, 229, 0.65) !important;
-  border-color: rgba(16, 185, 129, 0.35) !important;
+  background-color: rgba(209, 250, 229, 0.75) !important;
+  border: 1.5px solid rgba(16, 185, 129, 0.4) !important;
 }
 
 [data-theme="light"] .bg-emerald-950\/30 .text-white {
@@ -258,25 +323,27 @@ code {
 /* Theme Light/Dark pill container */
 [data-theme="light"] .bg-slate-800.rounded-xl {
   background-color: #e2e8f0 !important;
-  border-color: #cbd5e1 !important;
+  border: 1.5px solid #94a3b8 !important;
 }
 
 /* Active button inside the pill */
 [data-theme="light"] .bg-slate-700.text-white.shadow-sm {
   background-color: #ffffff !important;
   color: #0f172a !important;
+  border: 1.5px solid #64748b !important;
   box-shadow: 0 1px 4px rgba(0,0,0,0.14) !important;
 }
 
 /* Notification toggle track */
 [data-theme="light"] .bg-slate-700.peer-focus\:outline-none {
   background-color: #cbd5e1 !important;
+  border: 1.5px solid #94a3b8 !important;
 }
 
 /* Password reset / secondary buttons */
 [data-theme="light"] .bg-slate-800.border-slate-700 {
   background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
+  border: 1.5px solid #64748b !important;
   color: #0f172a !important;
 }
 
@@ -284,8 +351,8 @@ code {
    PROFILE PAGE — Subscription badge dark pill fix
    ==========================================*/
 [data-theme="light"] .border-slate-700.rounded-full {
-  border-color: #cbd5e1 !important;
-  background-color: #f8fafc !important;
+  border: 1.5px solid #64748b !important;
+  background-color: #ffffff !important;
   color: #0f172a !important;
 }
 
@@ -294,35 +361,38 @@ code {
 [data-theme="light"] .bg-slate-800:is(button) {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;
-  border-color: #94a3b8 !important;
+  border: 1.5px solid #64748b !important;
 }
 
 /* ==========================================
    ACCENT & BRAND COLORS (preserved)
    ==========================================*/
 [data-theme="light"] .bg-amber-500\/10 { background-color: rgba(245,158,11,0.1) !important; }
-[data-theme="light"] .border-amber-500\/20 { border-color: rgba(245,158,11,0.25) !important; }
+[data-theme="light"] .border-amber-500\/20 { border-color: rgba(245,158,11,0.3) !important; }
 
 [data-theme="light"] .bg-emerald-500\/10 { background-color: rgba(16,185,129,0.1) !important; }
-[data-theme="light"] .border-emerald-500\/20 { border-color: rgba(16,185,129,0.25) !important; }
-[data-theme="light"] .border-emerald-500\/30 { border-color: rgba(16,185,129,0.35) !important; }
+[data-theme="light"] .border-emerald-500\/20 { border-color: rgba(16,185,129,0.3) !important; }
+[data-theme="light"] .border-emerald-500\/30 { border-color: rgba(16,185,129,0.4) !important; }
 
 /* ==========================================
    DANGER ZONE (red-tinted)
    ==========================================*/
-[data-theme="light"] .bg-red-950\/20 { background-color: rgba(254,242,242,1) !important; }
+[data-theme="light"] .bg-red-950\/20 {
+  background-color: rgba(254,242,242,1) !important;
+  border: 1.5px solid rgba(248,113,113,0.5) !important;
+}
 [data-theme="light"] .border-red-900\/30 { border-color: rgba(252,165,165,0.6) !important; }
 [data-theme="light"] .bg-red-600\/10 { background-color: rgba(254,242,242,1) !important; }
-[data-theme="light"] .border-red-600\/20 { border-color: rgba(248,113,113,0.4) !important; }
+[data-theme="light"] .border-red-600\/20 { border-color: rgba(248,113,113,0.5) !important; }
 
 /* ==========================================
    SCAN PAGE — Error card + button fixes
    ==========================================*/
 
-/* "Detection Failed" rose error card — bg-rose-950/40 stays dark-reddish → make it soft pink */
+/* "Detection Failed" rose error card */
 [data-theme="light"] .bg-rose-950\/40 {
-  background-color: rgba(255, 228, 230, 0.85) !important;
-  border-color: rgba(251, 113, 133, 0.4) !important;
+  background-color: rgba(255, 228, 230, 0.9) !important;
+  border: 1.5px solid rgba(251, 113, 133, 0.5) !important;
 }
 
 /* Text inside the error card */
@@ -330,7 +400,7 @@ code {
   color: #6b2737 !important;
 }
 
-/* Scan page wrapping div — "text-white" body override must be undone locally */
+/* Scan page wrapping div */
 [data-theme="light"] .font-manrope.text-white {
   color: #0f172a !important;
 }
@@ -338,27 +408,26 @@ code {
 /* Scan page heading + description */
 [data-theme="light"] h2.font-outfit { color: #0f172a !important; }
 
-/* Clear Photo button in Scan — bg-slate-800, needs visible border contrast */
+/* Clear Photo button in Scan */
 [data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-xl {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;
-  border: 1.5px solid #94a3b8 !important;
+  border: 1.5px solid #64748b !important;
 }
 
 /* Use Camera button in Scan empty state */
 [data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-2xl {
   background-color: #e2e8f0 !important;
   color: #0f172a !important;
-  border-color: #94a3b8 !important;
+  border: 1.5px solid #64748b !important;
 }
 
 /* ==========================================
    SEARCH PAGE — Ingredient list dark box fix
-   The ingredient box uses bg-slate-950/50 which is very dark.
    ==========================================*/
 [data-theme="light"] .bg-slate-950\/50 {
-  background-color: rgba(241, 245, 249, 0.9) !important;
-  border-color: #e2e8f0 !important;
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 /* Ingredient text inside the box */
@@ -367,42 +436,42 @@ code {
 }
 
 [data-theme="light"] .bg-slate-950\/50 .text-gray-500 {
-  color: #64748b !important;
+  color: #334155 !important;
 }
 
 [data-theme="light"] .bg-slate-950\/50 .border-slate-800\/50 {
-  border-color: rgba(226, 232, 240, 0.7) !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
 }
 
 /* bg-slate-950/20 used in multiselect tick button area */
 [data-theme="light"] .bg-slate-950\/20 {
-  background-color: rgba(226, 232, 240, 0.7) !important;
+  background-color: rgba(226, 232, 240, 0.8) !important;
 }
 
 /* ==========================================
    PROFILE DROPDOWN — Convert from dark to light
-   Uses bg-slate-900/95, bg-slate-800/40, border-slate-800
    ==========================================*/
 [data-theme="light"] .bg-slate-900\/95 {
-  background-color: rgba(255, 255, 255, 0.98) !important;
-  border-color: #e2e8f0 !important;
+  background-color: rgba(255, 255, 255, 0.99) !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 /* Header section of the dropdown */
 [data-theme="light"] .bg-slate-800\/40 {
-  background-color: rgba(241, 245, 249, 0.85) !important;
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  border-bottom: 1.5px solid #cbd5e1 !important;
 }
 
 /* Dropdown text items */
 [data-theme="light"] .bg-slate-900\/95 .text-white { color: #0f172a !important; }
-[data-theme="light"] .bg-slate-900\/95 .text-gray-400 { color: #475569 !important; }
-[data-theme="light"] .bg-slate-900\/95 .text-gray-300 { color: #334155 !important; }
-[data-theme="light"] .bg-slate-900\/95 .text-gray-500 { color: #64748b !important; }
-[data-theme="light"] .bg-slate-900\/95 .border-slate-800 { border-color: #e2e8f0 !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-400 { color: #1e293b !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-300 { color: #1e293b !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-500 { color: #334155 !important; }
+[data-theme="light"] .bg-slate-900\/95 .border-slate-800 { border-color: #cbd5e1 !important; }
 
 /* Dropdown hover rows */
 [data-theme="light"] .bg-slate-900\/95 .hover\:bg-slate-800:hover {
-  background-color: #f1f5f9 !important;
+  background-color: #e2e8f0 !important;
 }
 
 [data-theme="light"] .bg-slate-900\/95 .hover\:text-white:hover {
@@ -411,24 +480,22 @@ code {
 
 /* Chevron icons in dropdown */
 [data-theme="light"] .bg-slate-900\/95 .text-gray-500 {
-  color: #94a3b8 !important;
+  color: #64748b !important;
 }
 
-/* FREE TIER badge in dropdown (bg-slate-800 text-gray-300) */
+/* FREE TIER badge in dropdown */
 [data-theme="light"] .bg-slate-900\/95 .bg-slate-800.text-gray-300 {
   background-color: #e2e8f0 !important;
-  color: #475569 !important;
-  border-color: #cbd5e1 !important;
+  color: #1e293b !important;
+  border: 1.5px solid #64748b !important;
 }
 
 /* Upgrade badge inside dropdown */
 [data-theme="light"] .bg-emerald-500\/20.text-emerald-300 {
-  background-color: rgba(16, 185, 129, 0.12) !important;
-  color: #065f46 !important;
-  border-color: rgba(16, 185, 129, 0.3) !important;
+  background-color: rgba(16, 185, 129, 0.15) !important;
+  color: #047857 !important;
+  border: 1.5px solid rgba(16, 185, 129, 0.4) !important;
 }
-
-
 
 /* ==========================================
    SCROLLBARS
@@ -441,7 +508,7 @@ code {
 /* ==========================================
    NAV LINKS
    ==========================================*/
-[data-theme="light"] nav .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] nav .text-gray-400 { color: #334155 !important; }
 [data-theme="light"] nav .hover\:text-white:hover { color: #0f172a !important; }
 
 /* Code blocks */
