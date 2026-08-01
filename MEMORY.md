@@ -11,8 +11,8 @@
 
 ### Account Dropdown ("A/c Tab") & Profile Button Fixes ✅
 - **Account Dropdown Persistence**: Updated `ProfileDropdown.tsx` so clicking options inside the dropdown menu (Dashboard Overview, Personal Details, Membership & Plan, App Settings, Help & Support) navigates to the respective views without hiding the Account Tab. The Account Tab now toggles exclusively when clicking the Account tab profile button.
+- **Edit Health Profile Button Fix**: Cleaned up duplicated component markup in `Profile.tsx` (reduced file length from 569 lines to 442 clean lines), fixing state binding so clicking "Edit Health Profile" instantly toggles the Age, Gender, Height, and Weight input fields.
 - **Profile Photo Edit Button**: Created `EditPhotoModal` in `Profile.tsx` supporting preset avatar selection, local file upload, or custom image URL input. Synchronized with Firebase `updateProfile` and backend sync.
-- **Edit Health Profile Button**: Connected Age, Gender, Height, and Weight inputs with loading state, context sync, and toast feedback.
 - **Dietary Preferences "Configure" Button**: Created `DietaryPreferencesModal` in `Profile.tsx` allowing selection of primary diet types (Vegetarian, Vegan, Keto, Halal, etc.), allergy toggle tags, and custom allergy inputs.
 - **Settings Page Buttons**:
   - Connected Display Name save button to Firebase & backend sync.

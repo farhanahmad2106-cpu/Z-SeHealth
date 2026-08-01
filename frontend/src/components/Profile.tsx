@@ -393,7 +393,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
             <button 
               onClick={() => setIsPhotoModalOpen(false)}
-              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-slate-800"
+              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -422,7 +422,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
                   <button
                     key={idx}
                     onClick={() => { setSelectedPhoto(url); setPhotoUrlInput(url); }}
-                    className={`w-10 h-10 rounded-full border-2 overflow-hidden transition-all ${selectedPhoto === url ? 'border-emerald-500 scale-110' : 'border-slate-700 opacity-70 hover:opacity-100'}`}
+                    className={`w-10 h-10 rounded-full border-2 overflow-hidden transition-all cursor-pointer ${selectedPhoto === url ? 'border-emerald-500 scale-110' : 'border-slate-700 opacity-70 hover:opacity-100'}`}
                   >
                     <img src={url} alt={`Preset ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
@@ -465,7 +465,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
               </button>
               <button 
                 onClick={() => setIsPhotoModalOpen(false)}
-                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold"
+                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold cursor-pointer"
               >
                 Cancel
               </button>
@@ -480,7 +480,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button 
               onClick={() => setIsDietModalOpen(false)}
-              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-slate-800"
+              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -498,7 +498,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
                   <button
                     key={diet}
                     onClick={() => setSelectedDiet(diet)}
-                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border ${selectedDiet === diet ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500' : 'bg-slate-800/80 text-gray-400 border-slate-700 hover:text-white'}`}
+                    className={`py-2 px-3 rounded-xl text-xs font-bold transition-all border cursor-pointer ${selectedDiet === diet ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500' : 'bg-slate-800/80 text-gray-400 border-slate-700 hover:text-white'}`}
                   >
                     {diet}
                   </button>
@@ -516,7 +516,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
                     <button
                       key={allergy}
                       onClick={() => toggleAllergy(allergy)}
-                      className={`py-1.5 px-3 rounded-full text-xs font-bold transition-all border ${isSelected ? 'bg-rose-500/20 text-rose-300 border-rose-500' : 'bg-slate-800/80 text-gray-400 border-slate-700 hover:text-white'}`}
+                      className={`py-1.5 px-3 rounded-full text-xs font-bold transition-all border cursor-pointer ${isSelected ? 'bg-rose-500/20 text-rose-300 border-rose-500' : 'bg-slate-800/80 text-gray-400 border-slate-700 hover:text-white'}`}
                     >
                       {isSelected ? `✓ ${allergy}` : `+ ${allergy}`}
                     </button>
@@ -553,7 +553,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
               </button>
               <button 
                 onClick={() => setIsDietModalOpen(false)}
-                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold"
+                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold cursor-pointer"
               >
                 Cancel
               </button>
