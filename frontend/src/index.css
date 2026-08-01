@@ -316,6 +316,121 @@ code {
 [data-theme="light"] .border-red-600\/20 { border-color: rgba(248,113,113,0.4) !important; }
 
 /* ==========================================
+   SCAN PAGE — Error card + button fixes
+   ==========================================*/
+
+/* "Detection Failed" rose error card — bg-rose-950/40 stays dark-reddish → make it soft pink */
+[data-theme="light"] .bg-rose-950\/40 {
+  background-color: rgba(255, 228, 230, 0.85) !important;
+  border-color: rgba(251, 113, 133, 0.4) !important;
+}
+
+/* Text inside the error card */
+[data-theme="light"] .bg-rose-950\/40 .text-gray-300 {
+  color: #6b2737 !important;
+}
+
+/* Scan page wrapping div — "text-white" body override must be undone locally */
+[data-theme="light"] .font-manrope.text-white {
+  color: #0f172a !important;
+}
+
+/* Scan page heading + description */
+[data-theme="light"] h2.font-outfit { color: #0f172a !important; }
+
+/* Clear Photo button in Scan — bg-slate-800, needs visible border contrast */
+[data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-xl {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border: 1.5px solid #94a3b8 !important;
+}
+
+/* Use Camera button in Scan empty state */
+[data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-2xl {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+/* ==========================================
+   SEARCH PAGE — Ingredient list dark box fix
+   The ingredient box uses bg-slate-950/50 which is very dark.
+   ==========================================*/
+[data-theme="light"] .bg-slate-950\/50 {
+  background-color: rgba(241, 245, 249, 0.9) !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Ingredient text inside the box */
+[data-theme="light"] .bg-slate-950\/50 .text-slate-200 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-slate-950\/50 .text-gray-500 {
+  color: #64748b !important;
+}
+
+[data-theme="light"] .bg-slate-950\/50 .border-slate-800\/50 {
+  border-color: rgba(226, 232, 240, 0.7) !important;
+}
+
+/* bg-slate-950/20 used in multiselect tick button area */
+[data-theme="light"] .bg-slate-950\/20 {
+  background-color: rgba(226, 232, 240, 0.7) !important;
+}
+
+/* ==========================================
+   PROFILE DROPDOWN — Convert from dark to light
+   Uses bg-slate-900/95, bg-slate-800/40, border-slate-800
+   ==========================================*/
+[data-theme="light"] .bg-slate-900\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Header section of the dropdown */
+[data-theme="light"] .bg-slate-800\/40 {
+  background-color: rgba(241, 245, 249, 0.85) !important;
+}
+
+/* Dropdown text items */
+[data-theme="light"] .bg-slate-900\/95 .text-white { color: #0f172a !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-300 { color: #334155 !important; }
+[data-theme="light"] .bg-slate-900\/95 .text-gray-500 { color: #64748b !important; }
+[data-theme="light"] .bg-slate-900\/95 .border-slate-800 { border-color: #e2e8f0 !important; }
+
+/* Dropdown hover rows */
+[data-theme="light"] .bg-slate-900\/95 .hover\:bg-slate-800:hover {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-slate-900\/95 .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+/* Chevron icons in dropdown */
+[data-theme="light"] .bg-slate-900\/95 .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+/* FREE TIER badge in dropdown (bg-slate-800 text-gray-300) */
+[data-theme="light"] .bg-slate-900\/95 .bg-slate-800.text-gray-300 {
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Upgrade badge inside dropdown */
+[data-theme="light"] .bg-emerald-500\/20.text-emerald-300 {
+  background-color: rgba(16, 185, 129, 0.12) !important;
+  color: #065f46 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+
+
+/* ==========================================
    SCROLLBARS
    ==========================================*/
 [data-theme="light"] ::-webkit-scrollbar { width: 6px; }
