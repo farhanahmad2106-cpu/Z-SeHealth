@@ -106,20 +106,20 @@ button:active {
 [data-theme="light"] .text-gray-100 { color: #0f172a !important; }
 [data-theme="light"] .text-gray-200 { color: #1e293b !important; }
 [data-theme="light"] .text-gray-300 { color: #1e293b !important; }
-[data-theme="light"] .text-gray-400 { color: #334155 !important; }
-[data-theme="light"] .text-gray-500 { color: #334155 !important; }
+[data-theme="light"] .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] .text-gray-500 { color: #475569 !important; }
 [data-theme="light"] .text-gray-600 { color: #1e293b !important; }
-[data-theme="light"] .text-slate-400 { color: #334155 !important; }
-[data-theme="light"] .text-slate-500 { color: #334155 !important; }
+[data-theme="light"] .text-slate-400 { color: #475569 !important; }
+[data-theme="light"] .text-slate-500 { color: #475569 !important; }
 [data-theme="light"] .text-slate-600 { color: #1e293b !important; }
 
 /* --- Borders --- */
 [data-theme="light"] .border-slate-800 { border-color: #cbd5e1 !important; }
 [data-theme="light"] .border-slate-800\/50 { border-color: rgba(203, 213, 225, 0.8) !important; }
-[data-theme="light"] .border-slate-700 { border-color: #94a3b8 !important; }
-[data-theme="light"] .border-slate-700\/50 { border-color: rgba(148, 163, 184, 0.8) !important; }
-[data-theme="light"] .border-slate-700\/60 { border-color: rgba(148, 163, 184, 0.8) !important; }
-[data-theme="light"] .border-slate-600 { border-color: #64748b !important; }
+[data-theme="light"] .border-slate-700 { border-color: #cbd5e1 !important; }
+[data-theme="light"] .border-slate-700\/50 { border-color: rgba(203, 213, 225, 0.8) !important; }
+[data-theme="light"] .border-slate-700\/60 { border-color: rgba(203, 213, 225, 0.8) !important; }
+[data-theme="light"] .border-slate-600 { border-color: #94a3b8 !important; }
 
 /* --- Interactive Hover States --- */
 [data-theme="light"] .hover\:bg-slate-800:hover { 
@@ -173,13 +173,29 @@ button:active {
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15) !important;
 }
 
-
-
 /* Badge tags like SubscriptionBadge ("FREE", "1 Day", etc.) */
 [data-theme="light"] .bg-slate-600 {
   border: none !important;
-  background-color: #475569 !important;
-  color: #ffffff !important;
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* CIRCLED SUBSCRIPTION BADGE — DARK TEXT IN LIGHT MODE */
+[data-theme="light"] #subscription-badge {
+  background-color: #f1f5f9 !important;
+  border: 1.5px solid #94a3b8 !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] #subscription-badge span,
+[data-theme="light"] #subscription-badge svg {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] #subscription-badge:hover {
+  border-color: #10b981 !important;
+  background-color: #ecfdf5 !important;
 }
 
 /* Theme toggle inner buttons */
@@ -294,22 +310,38 @@ button:active {
 }
 
 /* ==========================================
-   DASHBOARD HERO CARD — Keep it dark (intentional dark panel)
+   DASHBOARD HERO CONTAINER — LIGHT COLOUR IN LIGHT MODE
    ==========================================*/
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br {
-  background: linear-gradient(to bottom right, #1e293b, #162032, #0f172a) !important;
+  background: linear-gradient(to bottom right, #ffffff, #f8fafc, #f1f5f9) !important;
+  border: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03) !important;
 }
 
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-white { color: #ffffff !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-400 { color: #cbd5e1 !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-300 { color: #e2e8f0 !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-500 { color: #94a3b8 !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/60 { background-color: rgba(30,41,59,0.7) !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/50 { background-color: rgba(30,41,59,0.6) !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700\/50 { border-color: rgba(51,65,85,0.6) !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700 { border-color: #334155 !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-800 { border-color: #1e293b !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-900 { background-color: #1e293b !important; }
+/* Text inside Dashboard Container in Light Mode */
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-white { color: #0f172a !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-300 { color: #334155 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-500 { color: #475569 !important; }
+
+/* Dashboard Cards (Usage Indicator, Quick Scan, Daily Calories, Macronutrients) */
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/60,
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/50,
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-900 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-700 {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700\/50,
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700,
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-800 {
+  border-color: #cbd5e1 !important;
+}
 
 /* Ensure hover overlays on Profile cards don't turn cards dark */
 [data-theme="light"] .group-hover\:opacity-100 {

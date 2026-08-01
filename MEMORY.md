@@ -7,12 +7,13 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Light Mode Border Clean-up & Profile Hover Fix:**
+**Work Done — Button Hover Feedback & Light Mode Polish:**
 
-### Adjustments & GitHub Push ✅
-- **Removed Unwanted Borders**: Removed aggressive default button borders from non-actionable UI elements—including header navigation links (`Dashboard`, `Search`, `Scan`), user profile avatar button, `(X)` close buttons, "Back to Dashboard" button, pricing badges ("CURRENT"), account dropdown items, and theme toggle buttons. Clean borders remain exclusively on actionable CTA buttons and inputs.
-- **Fixed Dark Profile Card Hover**: Replaced generic `.bg-gradient-to-br` hover overlays in `Profile.tsx` with subtle light opacity overlays (`bg-emerald-500/5` & `bg-blue-500/5`). Hovering over the user name card or Health Profile Overview card now keeps the clean white background intact instead of turning pitch dark.
-- **Build & Push**: Verified build (3.14s, 0 errors). Committed (`5fd1400`) and pushed to `origin/main`.
+### Hover Enhancements & GitHub Push ✅
+- **Interactive Button Hover States**: Added smooth micro-animations (`hover:scale-[1.02]`, `active:scale-95`), shadow elevations, and hand cursors (`cursor-pointer`) across all clickable buttons.
+- **Scan Page & Subscription Badge Polish**: Updated `SubscriptionBadge` with `hover:scale-105 hover:border-emerald-400 hover:shadow-md`. Updated `Manual Search for Food Items`, `Use Camera`, `Browse Files`, `Clear Photo`, and `Analyze Ingredients` buttons with bright emerald/mint hover highlights in both Light and Dark modes.
+- **Header Nav Hovering**: Unselected header navigation links (`Dashboard`, `Search`, `Scan`) now have smooth emerald text color highlights (`hover:text-emerald-500 hover:scale-105`) and active tab indicators.
+- **Build & Push**: Verified build (0 warnings, 0 errors). Committed (`20a86b9`) and pushed directly to `origin/main`.
 
 
 
