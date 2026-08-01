@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { User, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { User, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase';
 
 interface AuthContextType {
@@ -7,6 +7,7 @@ interface AuthContextType {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
+  updateUserProfile: (data: { displayName?: string; photoURL?: string }) => Promise<void>;
   showLoginModal: boolean;
   setShowLoginModal: (show: boolean) => void;
 }
@@ -70,11 +71,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateUserProfile = async (data: { displayName?: string; photoURL?: string }) => {
+    if (!auth.currentUser) return;
+    try {
+      await updateProfile(auth.currentUser, data);
+      // Force refresh user state in app
+      setCurrentUser({ ...auth.currentUser } as User);
+      
+      const token = await auth.currentUser.getIdToken();
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      await fetch(`${API_BASE}/api/auth/sync`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+      });
+    } catch (error) {
+      console.error("Failed to update user profile:", error);
+      throw error;
+    }
+  };
+
   const value = {
     currentUser,
     loading,
     signInWithGoogle,
     logout,
+    updateUserProfile,
     showLoginModal,
     setShowLoginModal
   };

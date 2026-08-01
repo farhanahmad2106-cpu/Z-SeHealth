@@ -1,11 +1,28 @@
 # Z-SeHealth — MEMORY.md
 > **⚠️ MUST BE UPDATED after every session or feature change.**
 > This file is the living memory of the project — its current state, what's done, what's in progress, and what's next.
-> **Last Updated:** 2026-07-30 (Session: Multi-meal selection + Rules/Memory docs)
+> **Last Updated:** 2026-08-01 (Session: Profile Dropdown options & Tap/Click-outside dismiss)
 
 ---
 
 ## 🗓️ Last Session Summary
+**Date:** 2026-08-01
+**Work Done — Account / Profile Dropdown Tab Enhancements:**
+
+### Account Dropdown ("A/c Tab") & Profile Button Fixes ✅
+- **Profile Photo Edit Button**: Created `EditPhotoModal` in `Profile.tsx` supporting preset avatar selection, local file upload, or custom image URL input. Synchronized with Firebase `updateProfile` and backend sync.
+- **Edit Health Profile Button**: Connected Age, Gender, Height, and Weight inputs with loading state, context sync, and toast feedback.
+- **Dietary Preferences "Configure" Button**: Created `DietaryPreferencesModal` in `Profile.tsx` allowing selection of primary diet types (Vegetarian, Vegan, Keto, Halal, etc.), allergy toggle tags, and custom allergy inputs.
+- **Settings Page Buttons**:
+  - Connected Display Name save button to Firebase & backend sync.
+  - Connected "Change Password" button to Firebase `sendPasswordResetEmail`.
+  - Added interactive sidebar navigation tabs (`Account`, `Notifications`, `Privacy`, `Devices`).
+  - Added interactive Language selection modal.
+  - Added Delete Account confirmation modal.
+
+---
+
+## 🗓️ Previous Session Summary
 **Date:** 2026-07-30
 **Work Done — Freemium Model (Phase 1–4 Implementation):**
 

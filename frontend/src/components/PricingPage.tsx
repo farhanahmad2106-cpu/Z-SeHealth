@@ -119,14 +119,14 @@ interface PricingPageProps {
 }
 
 export default function PricingPage({ onClose }: PricingPageProps) {
-  const { currentUser } = useAuth();
+  const { currentUser, setShowLoginModal } = useAuth();
   const { tier: currentTier, upgradePlan, loadingUpgrade } = useUserStats();
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
 
   const handleUpgrade = async (planId: string) => {
     if (planId === 'free' || planId === currentTier) return;
     if (!currentUser) {
-      // Trigger login modal via context if needed
+      setShowLoginModal(true);
       return;
     }
     setLoadingPlanId(planId);

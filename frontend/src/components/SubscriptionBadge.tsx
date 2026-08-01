@@ -47,7 +47,7 @@ const TIER_CONFIG: Record<string, {
 export default function SubscriptionBadge({ variant = 'full', onUpgradeClick }: SubscriptionBadgeProps) {
   const { tier } = useUserStats();
   const config = TIER_CONFIG[tier] ?? TIER_CONFIG['free'];
-  const isClickable = tier === 'free' && !!onUpgradeClick;
+  const isClickable = !!onUpgradeClick;
 
   const badge = (
     <div
