@@ -1,36 +1,32 @@
 /* ==========================================
    TAILWIND v4 ENGINE IMPORT
-   ==========================================
-   WHY: Tailwind v4 uses a single, modern import statement. 
-   We explicitly tell it to scan your HTML and TSX files using source() 
-   so it generates classes like "grid" and "bg-white".
-*/
+   ==========================================*/
 @import "tailwindcss";
 @source "../index.html";
 @source "./**/*.{js,ts,jsx,tsx}";
 
 /* ==========================================
-   1. GLOBAL CSS VARIABLES (THEMING)
-   ========================================== */
+   1. GLOBAL CSS VARIABLES
+   ==========================================*/
 :root {
-  /* Typography Fonts */
-  --sans: 'Manrope', system-ui, -apple-system, sans-serif; 
-  --heading: 'Outfit', system-ui, -apple-system, sans-serif; 
-  --mono: ui-monospace, Consolas, monospace; 
-
-  /* Shadow Elevation */
-  --shadow: rgba(0, 0, 0, 0.05) 0 4px 6px -2px, rgba(0, 0, 0, 0.1) 0 10px 15px -3px; 
+  --sans: 'Manrope', system-ui, -apple-system, sans-serif;
+  --heading: 'Outfit', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+  --shadow: rgba(0, 0, 0, 0.05) 0 4px 6px -2px, rgba(0, 0, 0, 0.1) 0 10px 15px -3px;
 }
 
 /* ==========================================
-   2. GLOBAL BASE RESET RULES
-   ========================================== */
+   2. GLOBAL BASE RESET
+   ==========================================*/
+* {
+  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
 body {
   margin: 0;
   font-family: var(--sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4 {
@@ -45,35 +41,33 @@ code {
   border-radius: 4px;
 }
 
-/* ==========================================
-   RESPONSIVE FONT SCALING
-   ========================================== */
 @media (max-width: 1024px) {
-  :root {
-    font-size: 16px;
-  }
+  :root { font-size: 16px; }
 }
 
 /* ==========================================
-   3. LIGHT MODE THEME OVERRIDES
+   3. LIGHT MODE OVERRIDES
    ==========================================
-   Applied via [data-theme="light"] on the #app-root div.
-   Uses CSS specificity to override hardcoded Tailwind classes.
-   Premium light palette: white cards, slate-50 backgrounds, readable dark text.
-   ========================================== */
+   Applied when data-theme="light" is on #app-root / <html>.
+   Uses CSS specificity to flip all hardcoded Tailwind dark classes
+   to a premium light palette without touching any component file.
+   ==========================================*/
 
 /* --- Page Background --- */
-[data-theme="light"] .bg-slate-950,
 [data-theme="light"] .min-h-screen {
   background-color: #f1f5f9 !important;
 }
 
-/* --- Card / Surface --- */
+[data-theme="light"] .bg-slate-950 {
+  background-color: #f1f5f9 !important;
+}
+
+/* --- Card Surfaces --- */
 [data-theme="light"] .bg-slate-900 {
   background-color: #ffffff !important;
 }
 
-/* --- Nested Surface / Input Backgrounds --- */
+/* --- Nested Surfaces / Inputs --- */
 [data-theme="light"] .bg-slate-800 {
   background-color: #e2e8f0 !important;
 }
@@ -99,69 +93,37 @@ code {
   color: #0f172a !important;
 }
 
-[data-theme="light"] .text-gray-100 {
-  color: #1e293b !important;
-}
-
-[data-theme="light"] .text-gray-200 {
-  color: #334155 !important;
-}
-
-[data-theme="light"] .text-gray-300 {
-  color: #334155 !important;
-}
-
-[data-theme="light"] .text-gray-400 {
-  color: #475569 !important;
-}
-
-[data-theme="light"] .text-gray-500 {
-  color: #64748b !important;
-}
+[data-theme="light"] .text-gray-100 { color: #1e293b !important; }
+[data-theme="light"] .text-gray-200 { color: #334155 !important; }
+[data-theme="light"] .text-gray-300 { color: #334155 !important; }
+[data-theme="light"] .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] .text-gray-500 { color: #64748b !important; }
+[data-theme="light"] .text-gray-600 { color: #64748b !important; }
+[data-theme="light"] .text-slate-400 { color: #64748b !important; }
 
 /* --- Borders --- */
-[data-theme="light"] .border-slate-800 {
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .border-slate-700 {
-  border-color: #cbd5e1 !important;
-}
-
-[data-theme="light"] .border-slate-700\/50 {
-  border-color: rgba(203, 213, 225, 0.6) !important;
-}
-
-[data-theme="light"] .border-slate-600 {
-  border-color: #94a3b8 !important;
-}
+[data-theme="light"] .border-slate-800 { border-color: #e2e8f0 !important; }
+[data-theme="light"] .border-slate-800\/50 { border-color: rgba(226,232,240,0.7) !important; }
+[data-theme="light"] .border-slate-700 { border-color: #cbd5e1 !important; }
+[data-theme="light"] .border-slate-700\/50 { border-color: rgba(203,213,225,0.6) !important; }
+[data-theme="light"] .border-slate-700\/60 { border-color: rgba(203,213,225,0.7) !important; }
+[data-theme="light"] .border-slate-600 { border-color: #94a3b8 !important; }
 
 /* --- Hover States --- */
-[data-theme="light"] .hover\:bg-slate-800:hover {
-  background-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .hover\:bg-slate-700:hover {
-  background-color: #cbd5e1 !important;
-}
-
-[data-theme="light"] .hover\:bg-slate-800\/50:hover {
-  background-color: rgba(226, 232, 240, 0.8) !important;
-}
+[data-theme="light"] .hover\:bg-slate-800:hover { background-color: #e2e8f0 !important; }
+[data-theme="light"] .hover\:bg-slate-700:hover { background-color: #cbd5e1 !important; }
+[data-theme="light"] .hover\:bg-slate-800\/50:hover { background-color: rgba(226,232,240,0.8) !important; }
+[data-theme="light"] .hover\:text-white:hover { color: #0f172a !important; }
 
 /* --- Header / Navbar --- */
 [data-theme="light"] header {
   background: linear-gradient(to right, #ffffff, #f8fafc, #f1f5f9) !important;
   border-color: #e2e8f0 !important;
-  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06) !important;
-}
-
-[data-theme="light"] .bg-gradient-to-r {
-  background: linear-gradient(to right, #f8fafc, #f1f5f9, #ffffff) !important;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.06) !important;
 }
 
 /* --- Input Fields --- */
-[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]) {
   background-color: #ffffff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
@@ -169,7 +131,7 @@ code {
 
 [data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):focus {
   border-color: #10b981 !important;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15) !important;
+  box-shadow: 0 0 0 2px rgba(16,185,129,0.15) !important;
 }
 
 [data-theme="light"] input:disabled {
@@ -177,7 +139,6 @@ code {
   color: #94a3b8 !important;
 }
 
-/* --- Textarea --- */
 [data-theme="light"] textarea {
   background-color: #ffffff !important;
   color: #0f172a !important;
@@ -185,102 +146,191 @@ code {
 }
 
 /* --- Modals / Overlays --- */
-[data-theme="light"] .bg-black\/90 {
-  background-color: rgba(15, 23, 42, 0.55) !important;
-}
+[data-theme="light"] .bg-black\/90 { background-color: rgba(15,23,42,0.55) !important; }
+[data-theme="light"] .bg-black\/80 { background-color: rgba(15,23,42,0.45) !important; }
+[data-theme="light"] .bg-black\/70 { background-color: rgba(15,23,42,0.4) !important; }
 
-[data-theme="light"] .bg-black\/80 {
-  background-color: rgba(15, 23, 42, 0.45) !important;
-}
-
-[data-theme="light"] .bg-black\/70 {
-  background-color: rgba(15, 23, 42, 0.4) !important;
-}
-
-/* --- Dropdown / ProfileDropdown --- */
+/* --- Shadows --- */
 [data-theme="light"] .shadow-2xl {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12) !important;
 }
-
 [data-theme="light"] .shadow-xl {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05) !important;
 }
 
-/* --- Danger Zone (stays slightly red-tinted in light mode) --- */
-[data-theme="light"] .bg-red-950\/20 {
-  background-color: rgba(254, 242, 242, 0.9) !important;
+/* ==========================================
+   DASHBOARD HERO CARD — Keep it dark (intentional dark panel)
+   The hero div uses bg-gradient-to-br from-slate-900 via-[#162032] to-slate-950.
+   We preserve darkness so white text inside stays readable.
+   ==========================================*/
+[data-theme="light"] .bg-gradient-to-br {
+  background: linear-gradient(to bottom right, #1e293b, #162032, #0f172a) !important;
 }
 
-[data-theme="light"] .border-red-900\/30 {
-  border-color: rgba(252, 165, 165, 0.5) !important;
+/* Text inside the dark hero card → keep white */
+[data-theme="light"] .bg-gradient-to-br .text-white { color: #ffffff !important; }
+[data-theme="light"] .bg-gradient-to-br .text-gray-400 { color: #94a3b8 !important; }
+[data-theme="light"] .bg-gradient-to-br .text-gray-300 { color: #cbd5e1 !important; }
+[data-theme="light"] .bg-gradient-to-br .text-gray-500 { color: #94a3b8 !important; }
+[data-theme="light"] .bg-gradient-to-br .bg-slate-800\/60 { background-color: rgba(30,41,59,0.7) !important; }
+[data-theme="light"] .bg-gradient-to-br .bg-slate-800\/50 { background-color: rgba(30,41,59,0.6) !important; }
+[data-theme="light"] .bg-gradient-to-br .border-slate-700\/50 { border-color: rgba(51,65,85,0.6) !important; }
+[data-theme="light"] .bg-gradient-to-br .border-slate-700 { border-color: #334155 !important; }
+[data-theme="light"] .bg-gradient-to-br .border-slate-800 { border-color: #1e293b !important; }
+[data-theme="light"] .bg-gradient-to-br .bg-slate-900 { background-color: #1e293b !important; }
+[data-theme="light"] .bg-gradient-to-br input {
+  background-color: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
 }
 
-/* --- Amber / Streak Badge (keep warm amber feel) --- */
-[data-theme="light"] .bg-amber-500\/10 {
-  background-color: rgba(245, 158, 11, 0.12) !important;
+/* ==========================================
+   PRICING PAGE — Colored tier cards + visible CTA buttons
+   ==========================================*/
+
+/* Pricing plan card gradients — light-themed tints */
+[data-theme="light"] .bg-gradient-to-b {
+  background: transparent !important;
 }
 
-[data-theme="light"] .border-amber-500\/20 {
-  border-color: rgba(245, 158, 11, 0.25) !important;
+/* Free card */
+[data-theme="light"] .from-slate-800.to-slate-900 {
+  background: linear-gradient(to bottom, #e2e8f0, #f8fafc) !important;
+  border-color: #cbd5e1 !important;
 }
 
-/* --- Emerald Accents (keep brand accent intact) --- */
-[data-theme="light"] .bg-emerald-500\/10 {
-  background-color: rgba(16, 185, 129, 0.1) !important;
+/* Starter card */
+[data-theme="light"] .from-amber-950\/60.to-slate-900 {
+  background: linear-gradient(to bottom, rgba(254,243,199,0.7), #fffbeb) !important;
+  border-color: rgba(217,119,6,0.3) !important;
 }
 
-[data-theme="light"] .border-emerald-500\/20 {
-  border-color: rgba(16, 185, 129, 0.25) !important;
+/* Pro card */
+[data-theme="light"] .from-violet-950\/60.to-slate-900 {
+  background: linear-gradient(to bottom, rgba(237,233,254,0.7), #f5f3ff) !important;
+  border-color: rgba(124,58,237,0.3) !important;
 }
 
-[data-theme="light"] .border-emerald-500\/30 {
+/* Elite card */
+[data-theme="light"] .from-emerald-950\/60.to-slate-900 {
+  background: linear-gradient(to bottom, rgba(209,250,229,0.7), #f0fdf4) !important;
+  border-color: rgba(16,185,129,0.3) !important;
+}
+
+/* Text inside pricing cards */
+[data-theme="light"] .bg-gradient-to-b .text-white { color: #0f172a !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-300 { color: #475569 !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-400 { color: #64748b !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-500 { color: #94a3b8 !important; }
+[data-theme="light"] .bg-gradient-to-b .text-gray-600 { color: #475569 !important; }
+[data-theme="light"] .bg-gradient-to-b .text-slate-400 { color: #64748b !important; }
+[data-theme="light"] .bg-gradient-to-b .bg-slate-800\/50 { background-color: rgba(226,232,240,0.6) !important; }
+[data-theme="light"] .bg-gradient-to-b .bg-slate-800 { background-color: #e2e8f0 !important; }
+[data-theme="light"] .bg-gradient-to-b .border-slate-700 { border-color: #cbd5e1 !important; }
+
+/* Free CTA button — needs visible border + contrast */
+[data-theme="light"] .bg-slate-700.text-slate-300 {
+  background-color: #e2e8f0 !important;
+  color: #64748b !important;
+  border: 1.5px solid #94a3b8 !important;
+}
+
+/* ==========================================
+   HELP MODAL — "Need Personal Support?" section fix
+   bg-emerald-950/30 was teal-dark with white text → fix to mint-light with deep green text
+   ==========================================*/
+[data-theme="light"] .bg-emerald-950\/30 {
+  background-color: rgba(209, 250, 229, 0.65) !important;
   border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
-/* --- Scrollbars in Light Mode --- */
-[data-theme="light"] ::-webkit-scrollbar {
-  width: 6px;
+[data-theme="light"] .bg-emerald-950\/30 .text-white {
+  color: #064e3b !important;
 }
 
-[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+[data-theme="light"] .text-emerald-300 { color: #047857 !important; }
+[data-theme="light"] .text-emerald-200 { color: #065f46 !important; }
+
+/* ==========================================
+   SETTINGS — Theme toggle + toggle track fixes
+   ==========================================*/
+
+/* Theme Light/Dark pill container */
+[data-theme="light"] .bg-slate-800.rounded-xl {
+  background-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
 }
 
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
+/* Active button inside the pill */
+[data-theme="light"] .bg-slate-700.text-white.shadow-sm {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.14) !important;
 }
 
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* Notification toggle track */
+[data-theme="light"] .bg-slate-700.peer-focus\:outline-none {
+  background-color: #cbd5e1 !important;
 }
 
-/* --- Nav links in light mode --- */
-[data-theme="light"] nav .text-gray-400 {
-  color: #475569 !important;
-}
-
-[data-theme="light"] nav .hover\:text-white:hover {
+/* Password reset / secondary buttons */
+[data-theme="light"] .bg-slate-800.border-slate-700 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
   color: #0f172a !important;
 }
 
-/* --- Pricing Page tier cards --- */
-[data-theme="light"] .from-slate-950 {
-  --tw-gradient-from: #f8fafc !important;
+/* ==========================================
+   PROFILE PAGE — Subscription badge dark pill fix
+   ==========================================*/
+[data-theme="light"] .border-slate-700.rounded-full {
+  border-color: #cbd5e1 !important;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
 }
 
-[data-theme="light"] .to-slate-900 {
-  --tw-gradient-to: #f1f5f9 !important;
+/* Edit Health Profile / photo buttons */
+[data-theme="light"] button.bg-slate-800,
+[data-theme="light"] .bg-slate-800:is(button) {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
 }
 
-/* --- Code blocks --- */
+/* ==========================================
+   ACCENT & BRAND COLORS (preserved)
+   ==========================================*/
+[data-theme="light"] .bg-amber-500\/10 { background-color: rgba(245,158,11,0.1) !important; }
+[data-theme="light"] .border-amber-500\/20 { border-color: rgba(245,158,11,0.25) !important; }
+
+[data-theme="light"] .bg-emerald-500\/10 { background-color: rgba(16,185,129,0.1) !important; }
+[data-theme="light"] .border-emerald-500\/20 { border-color: rgba(16,185,129,0.25) !important; }
+[data-theme="light"] .border-emerald-500\/30 { border-color: rgba(16,185,129,0.35) !important; }
+
+/* ==========================================
+   DANGER ZONE (red-tinted)
+   ==========================================*/
+[data-theme="light"] .bg-red-950\/20 { background-color: rgba(254,242,242,1) !important; }
+[data-theme="light"] .border-red-900\/30 { border-color: rgba(252,165,165,0.6) !important; }
+[data-theme="light"] .bg-red-600\/10 { background-color: rgba(254,242,242,1) !important; }
+[data-theme="light"] .border-red-600\/20 { border-color: rgba(248,113,113,0.4) !important; }
+
+/* ==========================================
+   SCROLLBARS
+   ==========================================*/
+[data-theme="light"] ::-webkit-scrollbar { width: 6px; }
+[data-theme="light"] ::-webkit-scrollbar-track { background: #f1f5f9; }
+[data-theme="light"] ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ==========================================
+   NAV LINKS
+   ==========================================*/
+[data-theme="light"] nav .text-gray-400 { color: #475569 !important; }
+[data-theme="light"] nav .hover\:text-white:hover { color: #0f172a !important; }
+
+/* Code blocks */
 [data-theme="light"] code {
   background: #f1f5f9;
   color: #0f172a;
-}
-
-/* --- Smooth transition for all background and color changes --- */
-[data-theme="light"] *,
-[data-theme="dark"] * {
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }

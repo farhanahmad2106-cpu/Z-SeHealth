@@ -7,7 +7,16 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Account / Profile Dropdown Tab Enhancements:**
+**Work Done — Full Light Mode Theme Support:**
+
+### Light Mode Implementation ✅
+- **`index.css`**: Replaced old CSS variables with a complete `[data-theme="light"]` override system. 60+ Tailwind class overrides flip the entire dark palette (bg-slate-950 → #f1f5f9, bg-slate-900 → #fff, text-white → #0f172a, etc.) across all pages with zero component rewrites.
+- **`App.tsx`**: Imported `useUserProfile`, added `useEffect` watching `settings.darkMode` that reactively applies `data-theme="dark"` or `data-theme="light"` on both `document.documentElement` and `#app-root` div. The root div now has `id="app-root"` and `data-theme` attribute set dynamically.
+- **Settings toggle already working**: `handleSetDarkMode` in `Settings.tsx` already called `updateSettings({ darkMode: isDark })` — only the DOM wiring was missing.
+- **Persistence**: Theme preference is saved to MongoDB as `settings.darkMode`. Survives page refresh — restored via `UserProfileContext.fetchProfile` on login.
+- **Build**: ✅ Passed — 1795 modules, 0 TypeScript errors, CSS bundle grew by ~3.5 KB for light mode overrides.
+- **Commit**: `095fe59` pushed to `origin/main`.
+
 
 ### Account Dropdown ("A/c Tab") & Profile Button Fixes ✅
 - **Account Dropdown Persistence**: Updated `ProfileDropdown.tsx` so clicking options inside the dropdown menu (Dashboard Overview, Personal Details, Membership & Plan, App Settings, Help & Support) navigates to the respective views without hiding the Account Tab. The Account Tab now toggles exclusively when clicking the Account tab profile button.
