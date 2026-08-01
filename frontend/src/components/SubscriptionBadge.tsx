@@ -51,7 +51,7 @@ export default function SubscriptionBadge({ variant = 'full', onUpgradeClick }: 
 
   const badge = (
     <div
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border ${config.bg} ${config.border} ${config.text} ${isClickable ? 'cursor-pointer hover:brightness-110 transition-all active:scale-95' : ''}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border ${config.bg} ${config.border} ${config.text} ${isClickable ? 'cursor-pointer hover:scale-105 hover:border-emerald-400 hover:shadow-md transition-all active:scale-95' : ''}`}
       onClick={isClickable ? onUpgradeClick : undefined}
       id="subscription-badge"
       title={isClickable ? 'Upgrade your plan' : `Current plan: ${config.label}`}

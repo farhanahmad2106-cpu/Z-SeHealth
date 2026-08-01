@@ -16,10 +16,10 @@
 }
 
 /* ==========================================
-   2. GLOBAL BASE RESET
+   2. GLOBAL BASE RESET & INTERACTIVE HOVER STATES
    ==========================================*/
 * {
-  transition: background-color 0.22s ease, border-color 0.22s ease, color 0.18s ease, box-shadow 0.18s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 body {
@@ -39,6 +39,14 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   border-radius: 4px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.97);
 }
 
 @media (max-width: 1024px) {
@@ -69,15 +77,17 @@ code {
 
 /* --- Nested Surfaces / Inputs --- */
 [data-theme="light"] .bg-slate-800 {
-  background-color: #e2e8f0 !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 [data-theme="light"] .bg-slate-800\/60 {
-  background-color: rgba(226, 232, 240, 0.9) !important;
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 [data-theme="light"] .bg-slate-800\/50 {
-  background-color: rgba(226, 232, 240, 0.7) !important;
+  background-color: rgba(241, 245, 249, 0.9) !important;
 }
 
 [data-theme="light"] .bg-slate-700 {
@@ -111,41 +121,68 @@ code {
 [data-theme="light"] .border-slate-700\/60 { border-color: rgba(148, 163, 184, 0.8) !important; }
 [data-theme="light"] .border-slate-600 { border-color: #64748b !important; }
 
-/* --- Hover States --- */
-[data-theme="light"] .hover\:bg-slate-800:hover { background-color: #cbd5e1 !important; }
-[data-theme="light"] .hover\:bg-slate-700:hover { background-color: #94a3b8 !important; }
-[data-theme="light"] .hover\:bg-slate-800\/50:hover { background-color: rgba(203, 213, 225, 0.9) !important; }
-[data-theme="light"] .hover\:text-white:hover { color: #0f172a !important; }
+/* --- Interactive Hover States --- */
+[data-theme="light"] .hover\:bg-slate-800:hover { 
+  background-color: #f1f5f9 !important; 
+  border-color: #10b981 !important;
+}
 
-/* ==========================================
-   BUTTON & NAVIGATION BORDER CLEANUP
-   ==========================================*/
+[data-theme="light"] .hover\:bg-slate-700:hover { 
+  background-color: #e2e8f0 !important; 
+  border-color: #64748b !important;
+}
 
-/* REMOVE generic button borders from non-actionable elements */
+[data-theme="light"] .hover\:bg-slate-800\/50:hover { 
+  background-color: #f1f5f9 !important; 
+}
+
+[data-theme="light"] .hover\:text-white:hover { color: #047857 !important; }
+
+/* Header nav links in Light Mode */
 [data-theme="light"] nav button {
   border: none !important;
+  color: #475569 !important;
+}
+
+[data-theme="light"] nav button:hover {
+  color: #059669 !important;
+  transform: translateY(-1px);
 }
 
 [data-theme="light"] nav button.border-b-2 {
   border-bottom: 2.5px solid #10b981 !important;
-  color: #059669 !important;
+  color: #047857 !important;
+  font-weight: 800 !important;
 }
 
 [data-theme="light"] header button {
   border: none !important;
 }
 
-[data-theme="light"] .bg-slate-900\/95 button {
-  border: none !important;
+/* "Manual Search for Food Items" button in Scan */
+[data-theme="light"] .bg-slate-800\/80 {
+  background-color: #ffffff !important;
+  border: 1.5px solid #10b981 !important;
+  color: #047857 !important;
 }
 
+[data-theme="light"] .bg-slate-800\/80:hover {
+  background-color: #ecfdf5 !important;
+  border-color: #059669 !important;
+  color: #065f46 !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15) !important;
+}
+
+
+
+/* Badge tags like SubscriptionBadge ("FREE", "1 Day", etc.) */
 [data-theme="light"] .bg-slate-600 {
   border: none !important;
   background-color: #475569 !important;
   color: #ffffff !important;
 }
 
-/* Theme toggle inner buttons (Light / Dark) */
+/* Theme toggle inner buttons */
 [data-theme="light"] .bg-slate-800.rounded-xl button {
   border: none !important;
 }
@@ -154,46 +191,42 @@ code {
   border: none !important;
   background-color: #ffffff !important;
   color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
 }
 
-/* Back to Dashboard link button */
+/* Back to Dashboard button */
 [data-theme="light"] button:has(.lucide-arrow-left) {
   border: none !important;
   background: transparent !important;
   color: #475569 !important;
 }
+
 [data-theme="light"] button:has(.lucide-arrow-left):hover {
-  color: #0f172a !important;
+  color: #047857 !important;
 }
 
-/* Modal Close buttons (X) */
+/* Modal close buttons */
 [data-theme="light"] button:has(.lucide-x) {
   border: none !important;
   background: transparent !important;
 }
 
-/* Explicit Action Buttons ONLY (Action CTAs & Secondary Action Buttons) */
-[data-theme="light"] button.bg-slate-800,
-[data-theme="light"] button.bg-slate-700 {
-  border: 1.5px solid #64748b !important;
-  color: #0f172a !important;
+[data-theme="light"] button:has(.lucide-x):hover {
+  background-color: #e2e8f0 !important;
 }
 
+/* Action CTAs */
 [data-theme="light"] button.bg-emerald-600,
 [data-theme="light"] button.bg-emerald-500 {
   border: 1.5px solid #047857 !important;
   color: #ffffff !important;
 }
 
-[data-theme="light"] button.bg-red-600\/10 {
-  border: 1.5px solid #f87171 !important;
-  color: #dc2626 !important;
-  background-color: #fef2f2 !important;
-}
-
-[data-theme="light"] button.bg-red-600 {
-  border: 1.5px solid #b91c1c !important;
-  color: #ffffff !important;
+[data-theme="light"] button.bg-emerald-600:hover,
+[data-theme="light"] button.bg-emerald-500:hover {
+  background-color: #059669 !important;
+  border-color: #065f46 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3) !important;
 }
 
 /* Settings Sidebar Nav Buttons */
@@ -204,8 +237,9 @@ code {
 }
 
 [data-theme="light"] .col-span-1 button:hover {
-  background-color: #e2e8f0 !important;
-  border-color: #64748b !important;
+  background-color: #f1f5f9 !important;
+  border-color: #10b981 !important;
+  color: #047857 !important;
 }
 
 [data-theme="light"] .col-span-1 button.bg-emerald-500\/10 {
@@ -237,7 +271,7 @@ code {
   background-color: #f1f5f9 !important;
   color: #1e293b !important;
   opacity: 0.9 !important;
-  border: 1.5px solid #94a3b8 !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
 [data-theme="light"] textarea {
@@ -261,13 +295,11 @@ code {
 
 /* ==========================================
    DASHBOARD HERO CARD — Keep it dark (intentional dark panel)
-   Targeting ONLY the main dashboard container!
    ==========================================*/
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br {
   background: linear-gradient(to bottom right, #1e293b, #162032, #0f172a) !important;
 }
 
-/* Text inside the dark hero card → keep white */
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-white { color: #ffffff !important; }
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-400 { color: #cbd5e1 !important; }
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-300 { color: #e2e8f0 !important; }
@@ -278,25 +310,15 @@ code {
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700 { border-color: #334155 !important; }
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-800 { border-color: #1e293b !important; }
 [data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-900 { background-color: #1e293b !important; }
-[data-theme="light"] .max-w-6xl.bg-gradient-to-br input {
-  background-color: #1e293b !important;
-  color: #f1f5f9 !important;
-  border-color: #334155 !important;
-}
 
-/* Ensure hover overlay divs on Profile cards don't darken card backgrounds */
+/* Ensure hover overlays on Profile cards don't turn cards dark */
 [data-theme="light"] .group-hover\:opacity-100 {
-  background-color: rgba(16, 185, 129, 0.05) !important;
+  background-color: rgba(16, 185, 129, 0.04) !important;
 }
 
 /* ==========================================
    PRICING PAGE — Colored tier cards + visible CTA buttons
    ==========================================*/
-
-/* Pricing plan card gradients — light-themed tints */
-[data-theme="light"] .bg-gradient-to-b {
-  background: transparent !important;
-}
 
 /* Free card */
 [data-theme="light"] .from-slate-800.to-slate-900 {
@@ -329,9 +351,6 @@ code {
 [data-theme="light"] .bg-gradient-to-b .text-gray-500 { color: #334155 !important; }
 [data-theme="light"] .bg-gradient-to-b .text-gray-600 { color: #1e293b !important; }
 [data-theme="light"] .bg-gradient-to-b .text-slate-400 { color: #334155 !important; }
-[data-theme="light"] .bg-gradient-to-b .bg-slate-800\/50 { background-color: rgba(226,232,240,0.6) !important; }
-[data-theme="light"] .bg-gradient-to-b .bg-slate-800 { background-color: #e2e8f0 !important; }
-[data-theme="light"] .bg-gradient-to-b .border-slate-700 { border-color: #cbd5e1 !important; }
 
 /* Free CTA button */
 [data-theme="light"] .bg-slate-700.text-slate-300 {
@@ -341,7 +360,7 @@ code {
 }
 
 /* ==========================================
-   HELP MODAL — "Need Personal Support?" section fix
+   HELP MODAL
    ==========================================*/
 [data-theme="light"] .bg-emerald-950\/30 {
   background-color: rgba(209, 250, 229, 0.75) !important;
@@ -358,20 +377,16 @@ code {
 /* ==========================================
    SETTINGS — Theme toggle + toggle track fixes
    ==========================================*/
-
-/* Theme Light/Dark pill container */
 [data-theme="light"] .bg-slate-800.rounded-xl {
   background-color: #e2e8f0 !important;
-  border: 1.5px solid #94a3b8 !important;
+  border: 1.5px solid #cbd5e1 !important;
 }
 
-/* Notification toggle track */
 [data-theme="light"] .bg-slate-700.peer-focus\:outline-none {
   background-color: #cbd5e1 !important;
   border: 1.5px solid #94a3b8 !important;
 }
 
-/* Password reset / secondary buttons */
 [data-theme="light"] .bg-slate-800.border-slate-700 {
   background-color: #ffffff !important;
   border: 1.5px solid #64748b !important;
@@ -379,7 +394,7 @@ code {
 }
 
 /* ==========================================
-   PROFILE PAGE — Subscription badge dark pill fix
+   PROFILE PAGE — Subscription badge pill
    ==========================================*/
 [data-theme="light"] .border-slate-700.rounded-full {
   border: 1.5px solid #64748b !important;
@@ -407,7 +422,7 @@ code {
 [data-theme="light"] .border-red-900\/30 { border-color: rgba(252,165,165,0.6) !important; }
 
 /* ==========================================
-   SCAN PAGE — Error card + button fixes
+   SCAN PAGE — Error card
    ==========================================*/
 [data-theme="light"] .bg-rose-950\/40 {
   background-color: rgba(255, 228, 230, 0.9) !important;
@@ -425,7 +440,7 @@ code {
 [data-theme="light"] h2.font-outfit { color: #0f172a !important; }
 
 /* ==========================================
-   SEARCH PAGE — Ingredient list dark box fix
+   SEARCH PAGE — Ingredient list
    ==========================================*/
 [data-theme="light"] .bg-slate-950\/50 {
   background-color: rgba(241, 245, 249, 0.95) !important;
@@ -449,7 +464,7 @@ code {
 }
 
 /* ==========================================
-   PROFILE DROPDOWN — Convert from dark to light
+   PROFILE DROPDOWN
    ==========================================*/
 [data-theme="light"] .bg-slate-900\/95 {
   background-color: rgba(255, 255, 255, 0.99) !important;
@@ -468,11 +483,11 @@ code {
 [data-theme="light"] .bg-slate-900\/95 .border-slate-800 { border-color: #cbd5e1 !important; }
 
 [data-theme="light"] .bg-slate-900\/95 .hover\:bg-slate-800:hover {
-  background-color: #e2e8f0 !important;
+  background-color: #f1f5f9 !important;
 }
 
 [data-theme="light"] .bg-slate-900\/95 .hover\:text-white:hover {
-  color: #0f172a !important;
+  color: #047857 !important;
 }
 
 [data-theme="light"] .bg-slate-900\/95 .text-gray-500 {
@@ -498,12 +513,6 @@ code {
 [data-theme="light"] ::-webkit-scrollbar-track { background: #f1f5f9; }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 [data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-/* ==========================================
-   NAV LINKS
-   ==========================================*/
-[data-theme="light"] nav .text-gray-400 { color: #334155 !important; }
-[data-theme="light"] nav .hover\:text-white:hover { color: #0f172a !important; }
 
 /* Code blocks */
 [data-theme="light"] code {

@@ -7,12 +7,12 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Full Light Mode Polish (Text Contrast & Dark Button Borders):**
+**Work Done — Light Mode Border Clean-up & Profile Hover Fix:**
 
-### Light Mode Adjustments & Pushed to GitHub ✅
-- **Darker High-Contrast Text**: Flipped all faint gray text classes (`text-gray-400`, `text-gray-500`, `text-gray-600`, `text-slate-400`, `text-slate-500`) in light mode to deep slate shades (`#334155` / `#1e293b`). Small labels, subheadings, input descriptions, disabled email inputs, and hints now stand out clearly with sharp legibility.
-- **Crisp Dark Borders on Buttons**: Added prominent dark/slate `1.5px solid` borders (`#64748b` / `#94a3b8` / `#cbd5e1`) to all buttons in light mode—including sidebar navigation pills (Account, Notifications, Privacy, Devices), secondary buttons (Send Password Reset Email), primary buttons (Save, Clear Photo), theme/language buttons, and cards.
-- **Build & Deployment**: Verified Vite build (0 TypeScript/CSS errors). Committed (`6deeda3`) and pushed directly to `origin/main`.
+### Adjustments & GitHub Push ✅
+- **Removed Unwanted Borders**: Removed aggressive default button borders from non-actionable UI elements—including header navigation links (`Dashboard`, `Search`, `Scan`), user profile avatar button, `(X)` close buttons, "Back to Dashboard" button, pricing badges ("CURRENT"), account dropdown items, and theme toggle buttons. Clean borders remain exclusively on actionable CTA buttons and inputs.
+- **Fixed Dark Profile Card Hover**: Replaced generic `.bg-gradient-to-br` hover overlays in `Profile.tsx` with subtle light opacity overlays (`bg-emerald-500/5` & `bg-blue-500/5`). Hovering over the user name card or Health Profile Overview card now keeps the clean white background intact instead of turning pitch dark.
+- **Build & Push**: Verified build (3.14s, 0 errors). Committed (`5fd1400`) and pushed to `origin/main`.
 
 
 

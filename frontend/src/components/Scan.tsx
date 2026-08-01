@@ -230,7 +230,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
         {onNavigateToSearch && (
           <button 
             onClick={onNavigateToSearch}
-            className="px-6 py-2.5 bg-slate-800/80 hover:bg-slate-700 text-emerald-400 rounded-xl font-bold text-sm transition-colors border border-emerald-500/30 inline-flex items-center gap-2"
+            className="px-6 py-2.5 bg-slate-800/80 hover:bg-emerald-500/20 text-emerald-400 hover:text-emerald-300 rounded-xl font-bold text-sm transition-all border border-emerald-500/30 hover:border-emerald-500 inline-flex items-center gap-2 cursor-pointer shadow-sm hover:scale-[1.02] active:scale-95"
           >
             <MiniSearch className="w-4 h-4" />
             Manual Search for Food Items
@@ -238,7 +238,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
         )}
       </div>
 
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col items-center justify-center min-h-\[400px\] relative overflow-hidden">
+      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col items-center justify-center min-h-[400px] relative overflow-hidden">
         
         {/* Hidden inputs and canvases */}
         <input 
@@ -262,13 +262,13 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
             <div className="flex gap-4">
               <button 
                 onClick={capturePhoto} 
-                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 rounded-xl font-bold text-sm transition"
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 rounded-xl font-bold text-sm transition-all active:scale-95 cursor-pointer shadow-md text-white"
               >
                 📸 Capture Photo
               </button>
               <button 
                 onClick={stopCamera} 
-                className="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 rounded-xl font-bold text-sm transition"
+                className="px-6 py-2.5 bg-rose-600 hover:bg-rose-500 rounded-xl font-bold text-sm transition-all active:scale-95 cursor-pointer text-white"
               >
                 Cancel
               </button>
@@ -293,7 +293,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
                   setLangSearchTerm('');
                   setShowMoreClicks(0);
                 }} 
-                className="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-semibold"
+                className="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-semibold cursor-pointer transition-all active:scale-95 border border-slate-700"
               >
                 Clear Photo
               </button>
@@ -302,7 +302,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
               <button 
                 disabled={loading}
                 onClick={analyzeImage}
-                className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-800 rounded-xl text-xs font-bold transition flex items-center gap-2"
+                className="px-6 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-800 text-white rounded-xl text-xs font-bold transition-all active:scale-95 flex items-center gap-2 cursor-pointer shadow-md"
               >
                 {loading ? (
                   <>
@@ -326,14 +326,14 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
             <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={startCamera}
-                className="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-bold flex items-center gap-2 border border-slate-700 transition"
+                className="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl text-sm font-bold flex items-center gap-2 border border-slate-700 transition-all cursor-pointer hover:border-emerald-500/50 hover:scale-[1.02] active:scale-95"
               >
                 📷 Use Camera
               </button>
               
               <button 
                 onClick={triggerFileInput}
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 rounded-2xl text-sm font-bold flex items-center gap-2 transition"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-sm font-bold flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-emerald-950/30 hover:scale-[1.02] active:scale-95"
               >
                 Browse Files
               </button>
