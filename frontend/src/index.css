@@ -1,6 +1,4 @@
 /* ==========================================
-   TAILWIND DIRECTIVES
-  /* ==========================================
    TAILWIND v4 ENGINE IMPORT
    ==========================================
    WHY: Tailwind v4 uses a single, modern import statement. 
@@ -15,100 +13,274 @@
    1. GLOBAL CSS VARIABLES (THEMING)
    ========================================== */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  /* Colors */
-  --text: #6b6375;             /* WHICHI: Default body paragraph text (a soft slate color) */
-  --text-h: #08060d;           /* WHICH: Main headings, card titles, and bold titles (almost pure black) */
-  --bg: #F9F9F6;               /* WHICH: Main webpage background (your cozy, earthy cream color) */
-  --border: #e5e4e7;           /* WHICH: Borders around your card containers */
-  --code-bg: #f4f3ec;          /* WHICH: Background behind code blocks or small tags */
-  --accent: #8A9A5B;           /* WHICH: Your signature Sage Green color for branding and highlight buttons */
-  
-  /* Shadow Elevation */
-  --shadow: rgba(0, 0, 0, 0.05) 0 4px 6px -2px, rgba(0, 0, 0, 0.1) 0 10px 15px -3px; 
-  /* WHY: Gives your dashboard cards a soft, clean modern shadow to make them "float" off the screen. */
-
   /* Typography Fonts */
   --sans: 'Manrope', system-ui, -apple-system, sans-serif; 
-  /* WHICH: Font style for standard text, numbers, and paragraphs (clean and highly readable) */
-  
   --heading: 'Outfit', system-ui, -apple-system, sans-serif; 
-  /* WHICH: Font style for headers, titles, and big highlights (gives it a modern tech product look) */
-  
   --mono: ui-monospace, Consolas, monospace; 
-  /* WHICH: Font style for raw code, status text, and numbers that need to line up perfectly */
-}
 
-/* ==========================================
-   DARK MODE CONFIGURATION
-   ==========================================
-   WHERE: Activates automatically when a user's system/browser is set to Dark Mode.
-   WHICH: Overrides specific color variables defined in :root above.
-   WHY: Instead of redesigning the layout, we just swap the color values. 
-        --bg changes to a dark graphite charcoal color (#16171d) and text color swaps to a bright, readable gray.
-*/
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;       /* WHICH: Lighter gray text so it stands out against dark backgrounds */
-    --text-h: #f3f4f6;     /* WHICH: Crisp, bright near-white headers */
-    --bg: #16171d;         /* WHICH: Deep dark-charcoal background */
-    --border: #2e303a;     /* WHICH: Darker, subtle borders */
-    --code-bg: #1f2028;    /* WHICH: Slightly lighter container blocks for code elements */
-    --accent: #8A9A5B;     /* WHICH: Keeps Sage Green as the accent color even in dark mode */
-  }
+  /* Shadow Elevation */
+  --shadow: rgba(0, 0, 0, 0.05) 0 4px 6px -2px, rgba(0, 0, 0, 0.1) 0 10px 15px -3px; 
 }
 
 /* ==========================================
    2. GLOBAL BASE RESET RULES
-   ==========================================
-   WHERE: Applied globally to the HTML <body> tag (the outermost box wrapping your entire web page).
-   WHY: Different browsers (Chrome, Edge, Safari) have inconsistent default styling. 
-        This block resets margins and enforces our variables cleanly across all browsers.
-*/
+   ========================================== */
 body {
-  margin: 0;                          /* WHY: Erases default browser margin gaps around the screen edges */
-  background-color: var(--bg);        /* WHICH: Links background to your --bg theme variable */
-  color: var(--text);                 /* WHICH: Links global text color to your --text theme variable */
-  font-family: var(--sans);           /* WHICH: Applies the modern 'Manrope' body font */
-  -webkit-font-smoothing: antialiased; /* WHY: Makes text rendering look extra smooth and crisp on MacOS/iOS */
-  -moz-osx-font-smoothing: grayscale;  /* WHY: Makes text rendering look extra smooth and crisp on Firefox/Linux */
+  margin: 0;
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* ==========================================
-   3. BASE ELEMENT TYPOGRAPHY RULES
-   ==========================================
-   WHERE: Applied to specific HTML element tags globally across your site.
-   WHY: Ensures consistent typography styling without having to write long utility classes on every single element.
-*/
-
-/* Titles and Headers */
 h1, h2, h3, h4 {
-  font-family: var(--heading);        /* WHICH: Forces all title elements to render in the 'Outfit' font family */
-  color: var(--text-h);               /* WHICH: Makes sure titles are prominent and use the dark title color */
+  font-family: var(--heading);
 }
 
-/* Inline Code block styling */
 code {
-  font-family: var(--mono);           /* WHICH: Enforces a monospace block font */
-  font-size: 15px;                    /* WHICH: Sizes text slightly smaller than standard text for code reading */
-  line-height: 135%;                  /* WHY: Prevents characters from vertically crashing into each other */
-  padding: 4px 8px;                   /* WHY: Adds breathing room around the background of the text */
-  background: var(--code-bg);         /* WHICH: Gives it a subtle highlight block background */
-  border-radius: 4px;                 /* WHY: Rounds the corners of the background block for a clean look */
-  color: var(--text-h);               /* WHICH: Ensures readability by keeping code characters bold and dark */
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 /* ==========================================
    RESPONSIVE FONT SCALING
-   ==========================================
-   WHERE: Applies when viewing the application on smaller screens (Max width of 1024px, like Tablets/Laptops).
-   WHICH: The global scale baseline (font-size).
-   WHY: On mobile and tablet screens, desktop-sized text is too large. 
-        By scaling the base size down to 16px, all text utilizing relative sizing automatically adjusts to look proportioned on smaller devices.
-*/
+   ========================================== */
 @media (max-width: 1024px) {
   :root {
     font-size: 16px;
   }
+}
+
+/* ==========================================
+   3. LIGHT MODE THEME OVERRIDES
+   ==========================================
+   Applied via [data-theme="light"] on the #app-root div.
+   Uses CSS specificity to override hardcoded Tailwind classes.
+   Premium light palette: white cards, slate-50 backgrounds, readable dark text.
+   ========================================== */
+
+/* --- Page Background --- */
+[data-theme="light"] .bg-slate-950,
+[data-theme="light"] .min-h-screen {
+  background-color: #f1f5f9 !important;
+}
+
+/* --- Card / Surface --- */
+[data-theme="light"] .bg-slate-900 {
+  background-color: #ffffff !important;
+}
+
+/* --- Nested Surface / Input Backgrounds --- */
+[data-theme="light"] .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .bg-slate-800\/60 {
+  background-color: rgba(226, 232, 240, 0.9) !important;
+}
+
+[data-theme="light"] .bg-slate-800\/50 {
+  background-color: rgba(226, 232, 240, 0.7) !important;
+}
+
+[data-theme="light"] .bg-slate-700 {
+  background-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .bg-slate-700\/50 {
+  background-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+/* --- Text Colors --- */
+[data-theme="light"] .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-gray-100 {
+  color: #1e293b !important;
+}
+
+[data-theme="light"] .text-gray-200 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .text-gray-300 {
+  color: #334155 !important;
+}
+
+[data-theme="light"] .text-gray-400 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-gray-500 {
+  color: #64748b !important;
+}
+
+/* --- Borders --- */
+[data-theme="light"] .border-slate-800 {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .border-slate-700\/50 {
+  border-color: rgba(203, 213, 225, 0.6) !important;
+}
+
+[data-theme="light"] .border-slate-600 {
+  border-color: #94a3b8 !important;
+}
+
+/* --- Hover States --- */
+[data-theme="light"] .hover\:bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .hover\:bg-slate-700:hover {
+  background-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] .hover\:bg-slate-800\/50:hover {
+  background-color: rgba(226, 232, 240, 0.8) !important;
+}
+
+/* --- Header / Navbar --- */
+[data-theme="light"] header {
+  background: linear-gradient(to right, #ffffff, #f8fafc, #f1f5f9) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .bg-gradient-to-r {
+  background: linear-gradient(to right, #f8fafc, #f1f5f9, #ffffff) !important;
+}
+
+/* --- Input Fields --- */
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]) {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="light"] input:not([type="checkbox"]):not([type="radio"]):focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15) !important;
+}
+
+[data-theme="light"] input:disabled {
+  background-color: #f1f5f9 !important;
+  color: #94a3b8 !important;
+}
+
+/* --- Textarea --- */
+[data-theme="light"] textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* --- Modals / Overlays --- */
+[data-theme="light"] .bg-black\/90 {
+  background-color: rgba(15, 23, 42, 0.55) !important;
+}
+
+[data-theme="light"] .bg-black\/80 {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+}
+
+[data-theme="light"] .bg-black\/70 {
+  background-color: rgba(15, 23, 42, 0.4) !important;
+}
+
+/* --- Dropdown / ProfileDropdown --- */
+[data-theme="light"] .shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- Danger Zone (stays slightly red-tinted in light mode) --- */
+[data-theme="light"] .bg-red-950\/20 {
+  background-color: rgba(254, 242, 242, 0.9) !important;
+}
+
+[data-theme="light"] .border-red-900\/30 {
+  border-color: rgba(252, 165, 165, 0.5) !important;
+}
+
+/* --- Amber / Streak Badge (keep warm amber feel) --- */
+[data-theme="light"] .bg-amber-500\/10 {
+  background-color: rgba(245, 158, 11, 0.12) !important;
+}
+
+[data-theme="light"] .border-amber-500\/20 {
+  border-color: rgba(245, 158, 11, 0.25) !important;
+}
+
+/* --- Emerald Accents (keep brand accent intact) --- */
+[data-theme="light"] .bg-emerald-500\/10 {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+}
+
+[data-theme="light"] .border-emerald-500\/20 {
+  border-color: rgba(16, 185, 129, 0.25) !important;
+}
+
+[data-theme="light"] .border-emerald-500\/30 {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+/* --- Scrollbars in Light Mode --- */
+[data-theme="light"] ::-webkit-scrollbar {
+  width: 6px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* --- Nav links in light mode --- */
+[data-theme="light"] nav .text-gray-400 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] nav .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+/* --- Pricing Page tier cards --- */
+[data-theme="light"] .from-slate-950 {
+  --tw-gradient-from: #f8fafc !important;
+}
+
+[data-theme="light"] .to-slate-900 {
+  --tw-gradient-to: #f1f5f9 !important;
+}
+
+/* --- Code blocks --- */
+[data-theme="light"] code {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* --- Smooth transition for all background and color changes --- */
+[data-theme="light"] *,
+[data-theme="dark"] * {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }

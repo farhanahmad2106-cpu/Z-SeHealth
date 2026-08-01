@@ -12,6 +12,7 @@ import ProfileDropdown from './components/ProfileDropdown';
 import HelpModal from './components/HelpModal';
 import { useAuth } from './context/AuthContext';
 import { useUserStats } from './context/UserStatsContext';
+import { useUserProfile } from './context/UserProfileContext';
 
 function App() {
   // Simple tab-based navigation state for the MVP
@@ -32,6 +33,16 @@ function App() {
 
   const { currentUser, setShowLoginModal, logout } = useAuth();
   const { streak, tier } = useUserStats();
+  const { settings } = useUserProfile();
+
+  // --- Theme Switching: Wire settings.darkMode → data-theme on root element ---
+  useEffect(() => {
+    const theme = settings.darkMode ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    // Also set on app-root for scoped CSS override selectors
+    const appRoot = document.getElementById('app-root');
+    if (appRoot) appRoot.setAttribute('data-theme', theme);
+  }, [settings.darkMode]);
 
   // --- Freemium: Listen for Razorpay payment events ---
   useEffect(() => {
@@ -53,7 +64,11 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen font-manrope text-white bg-slate-950">
+    <div
+      id="app-root"
+      data-theme={settings.darkMode ? 'dark' : 'light'}
+      className="min-h-screen font-manrope text-white bg-slate-950"
+    >
       <LoginModal />
       <HelpModal isOpen={isHelpModalOpen} onClose={() => setIsHelpModalOpen(false)} />
       {/* Universal Navigation Header */}
