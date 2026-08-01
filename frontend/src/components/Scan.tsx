@@ -136,7 +136,42 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
     fileInputRef.current?.click();
   };
 
-  // 5. Send the base64 image string to your FastAPI backend
+  // Client-side Image Compression Helper to prevent payload size bloat and Failed to fetch errors
+  const compressImageForAnalysis = (base64Data: string, maxDimension = 1024, quality = 0.82): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        } else {
+          resolve(base64Data);
+        }
+      };
+      img.onerror = () => resolve(base64Data);
+      img.src = base64Data;
+    });
+  };
+
+  // 5. Send the optimized base64 image string to FastAPI backend
   const analyzeImage = async () => {
     if (!image) return;
 
@@ -156,6 +191,9 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
     setActiveModal(null);
     
     try {
+      // Compress and resize image before sending over HTTP
+      const optimizedImage = await compressImageForAnalysis(image);
+
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
       };
@@ -172,7 +210,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
       const response = await fetch(`${API_BASE}/api/scan`, {
         method: "POST",
         headers: headers,
-        body: JSON.stringify({ image: image }),
+        body: JSON.stringify({ image: optimizedImage }),
       });
 
       if (!response.ok) {
@@ -190,7 +228,11 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
       }
     } catch (err: any) {
       console.error("Error during analysis:", err);
-      setScanError(err.message || "Something went wrong while communicating with the analysis server.");
+      if (err.message && (err.message.includes('fetch') || err.message.includes('NetworkError') || err.name === 'TypeError')) {
+        setScanError(`Connection Error: Unable to reach the API server at ${API_BASE}. Please ensure your backend server is running.`);
+      } else {
+        setScanError(err.message || "Something went wrong while communicating with the analysis server.");
+      }
     } finally {
       setLoading(false);
     }

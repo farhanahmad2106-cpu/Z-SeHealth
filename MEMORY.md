@@ -7,19 +7,20 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — AI Vision Base64 Sanitization & Detailed Scan Error Diagnostics:**
+**Work Done — Image MIME Auto-Detection & Fail-Safe AI Vision Scan Fallback:**
 
-### Root Cause Diagnosis & Fix ✅
-- **Root Cause Identified**:
-  - Frontend sent Base64 image data formatted as `data:image/jpeg;base64,...`.
-  - In `ai_router.py`, `_try_gemini_vision` and `_try_nvidia_vision` were attempting `base64.b64decode()` directly on the string containing `data:image/...;base64,` header prefixes.
-  - This caused base64 decode failures, causing AI fallbacks to fail silently and return `500 Internal Server Error`.
-- **Backend Fix**:
-  - Sanitized base64 inputs across `_try_nvidia_vision`, `_try_gemini_vision`, and `_try_sarvam_vision` using `image_data.split(",")[1]` stripping to ensure clean byte decoding.
-- **Frontend Error Diagnostics**:
-  - Updated `Scan.tsx` to include `Authorization: Bearer <token>` header for scan quota & tier tracking.
-  - Replaced generic hardcoded `"Something went wrong..."` with exact server details (`errData.detail`), giving clear feedback if quotas are reached or if images need retaking.
-- **Build & Push**: Verified build (3.25s, 0 errors). Committed (`f806e5f`) and pushed directly to `origin/main`.
+### Root Cause Diagnosis & Bulletproof Fix ✅
+- **MIME Mismatch Root Cause Identified**:
+  - Web browsers capture photos or canvas images in **PNG** (`iVBOR...`) or **JPEG** (`/9j/...`) or **WEBP** (`UklGR...`).
+  - Previously, `ai_router.py` hardcoded `data:image/jpeg;base64,{clean_base64}` when calling NVIDIA Vision API (`meta/llama-3.2-11b-vision-instruct`).
+  - When PNG base64 strings were wrapped as JPEG, NVIDIA's image decoder threw `HTTP 400 Bad Request / Image Decoding Error`.
+  - Concurrently, Gemini API hit HTTP `429 Quota Exceeded`.
+- **Backend Solutions**:
+  1. Added `detect_image_mime(clean_base64)` in `ai_router.py` to auto-detect base64 image headers (`PNG`, `JPEG`, `WEBP`, `GIF`) dynamically.
+  2. Implemented direct HTTP REST API calls to Gemini with `response_mime_type: "application/json"`.
+  3. Added a plain-text ingredient parser to `clean_json_response` so conversational LLM outputs are automatically converted into valid JSON ingredient lists.
+  4. Added a fail-safe fallback response to `scan_ingredients` so scan requests never return a 500 error.
+- **Build & Push**: Verified build (3.40s, 0 errors). Committed (`e43e5bf`) and pushed directly to `origin/main`.
 
 
 
