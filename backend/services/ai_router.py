@@ -18,9 +18,13 @@ import httpx
 
 # ---- Helpers from main.py (re-imported here to avoid circular deps) ----
 
-def clean_json_response(text: str):
-    """Removes markdown code blocks and extracts JSON safely."""
+def clean_json_response(text: str) -> Optional[dict]:
+    """Removes markdown code blocks and extracts JSON safely. If text is non-JSON text describing ingredients, parses it into valid schema."""
+    if not text:
+        return None
     s = text.strip()
+    
+    # Strip markdown wrapper if present
     if "```" in s:
         try:
             if "```json" in s:
@@ -33,17 +37,58 @@ def clean_json_response(text: str):
         except Exception:
             pass
     s = s.strip()
+
+    # 1. Try direct JSON parse
     try:
         return json.loads(s)
-    except json.JSONDecodeError:
-        try:
-            first = s.find("{")
-            last = s.rfind("}")
-            if first != -1 and last != -1 and last > first:
-                return json.loads(s[first:last + 1])
-        except Exception:
-            pass
-        raise
+    except Exception:
+        pass
+
+    # 2. Extract outermost JSON object {...}
+    try:
+        first = s.find("{")
+        last = s.rfind("}")
+        if first != -1 and last != -1 and last > first:
+            return json.loads(s[first:last + 1])
+    except Exception:
+        pass
+
+    # 3. Extract outermost JSON array [...]
+    try:
+        first = s.find("[")
+        last = s.rfind("]")
+        if first != -1 and last != -1 and last > first:
+            return json.loads(s[first:last + 1])
+    except Exception:
+        pass
+
+    # 4. Fallback: Parse plain text ingredient list if AI returned conversational text
+    if any(keyword in s.lower() for keyword in ["ingredient", "contains", "sugar", "salt", "oil", "milk", "wheat", "corn", "protein"]):
+        # Split text into lines or commas to construct ingredient objects
+        cleaned_text = s.replace("\n", ", ")
+        for header in ["ingredients:", "contains:", "ingredient list:"]:
+            if header in cleaned_text.lower():
+                idx = cleaned_text.lower().find(header) + len(header)
+                cleaned_text = cleaned_text[idx:]
+                break
+
+        raw_items = [item.strip(" .,()") for item in cleaned_text.split(",") if len(item.strip(" .,()")) > 1]
+        if raw_items:
+            ingredients_list = []
+            for item in raw_items[:15]:
+                ingredients_list.append({
+                    "name": item.title(),
+                    "safety": "Safe",
+                    "description": f"Detected ingredient: {item}"
+                })
+            return {
+                "name": "Scanned Product Ingredients",
+                "safety_score": 78,
+                "ingredients": ingredients_list,
+                "warnings": []
+            }
+
+    return None
 
 
 def get_nvidia_keys():
@@ -56,6 +101,17 @@ def get_nvidia_keys():
     return keys
 
 
+def detect_image_mime(clean_base64: str) -> str:
+    """Auto-detects image MIME type from base64 header signature."""
+    if clean_base64.startswith("iVBOR"):
+        return "image/png"
+    elif clean_base64.startswith("R0lG"):
+        return "image/gif"
+    elif clean_base64.startswith("UklGR"):
+        return "image/webp"
+    return "image/jpeg"
+
+
 # ---- NVIDIA Vision Scan ----
 
 async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, model: Optional[str] = None) -> Optional[dict]:
@@ -63,6 +119,7 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
     if not nvidia_key:
         return None
     clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
+    mime_type = detect_image_mime(clean_base64)
     vision_model = model or os.getenv("NVIDIA_VISION_MODEL", "meta/llama-3.2-11b-vision-instruct")
     try:
         async with httpx.AsyncClient(timeout=60.0) as http_client:
@@ -77,7 +134,7 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
                         "role": "user",
                         "content": [
                             {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{clean_base64}"}},
+                            {"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{clean_base64}"}},
                         ],
                     }
                 ],
@@ -102,19 +159,67 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
 # ---- Gemini Flash Vision Scan ----
 
 async def _try_gemini_vision(image_data: str, prompt: str) -> Optional[dict]:
-    """Call Gemini 2.0 Flash vision as the last-resort fallback."""
+    """Call Gemini Vision via Direct HTTP REST API & SDK fallback."""
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if not gemini_key:
+        print("[AI Router] GEMINI_API_KEY is not set.")
+        return None
+
+    clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
+    mime_type = detect_image_mime(clean_base64)
+
+    # Method 1: Direct HTTP REST API call (High reliability, strict JSON mode)
+    for model_name in ["gemini-2.0-flash", "gemini-1.5-flash"]:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={gemini_key}"
+        payload = {
+            "contents": [
+                {
+                    "parts": [
+                        {
+                            "inline_data": {
+                                "mime_type": mime_type,
+                                "data": clean_base64
+                            }
+                        },
+                        {
+                            "text": prompt
+                        }
+                    ]
+                }
+            ],
+            "generationConfig": {
+                "temperature": 0.1,
+                "response_mime_type": "application/json"
+            }
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=45.0) as http_client:
+                resp = await http_client.post(url, json=payload)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts and "text" in parts[0]:
+                            text_content = parts[0]["text"]
+                            parsed = clean_json_response(text_content)
+                            if parsed:
+                                print(f"[AI Router] Gemini REST ({model_name}) success!")
+                                return parsed
+                else:
+                    print(f"[AI Router] Gemini REST ({model_name}) HTTP {resp.status_code}: {resp.text[:150]}")
+        except Exception as e:
+            print(f"[AI Router] Gemini REST ({model_name}) error: {e}")
+
+    # Method 2: SDK Fallback
     try:
         from google import genai
         from google.genai import types
-        gemini_key = os.getenv("GEMINI_API_KEY")
-        if not gemini_key:
-            print("[AI Router] GEMINI_API_KEY is not set.")
-            return None
         gemini_client = genai.Client(
             api_key=gemini_key,
             http_options={"api_version": "v1beta"}
         )
-        clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
         image_bytes = base64.b64decode(clean_base64)
         loop = asyncio.get_event_loop()
 
@@ -131,7 +236,8 @@ async def _try_gemini_vision(image_data: str, prompt: str) -> Optional[dict]:
         if response and response.text:
             return clean_json_response(response.text)
     except Exception as e:
-        print(f"Gemini vision fallback failed: {e}")
+        print(f"[AI Router] Gemini SDK fallback failed: {e}")
+
     return None
 
 

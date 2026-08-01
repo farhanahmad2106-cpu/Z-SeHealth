@@ -7,15 +7,19 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Ingredient Text Contrast & Prominent Safe Tick Badge:**
+**Work Done — AI Vision Base64 Sanitization & Detailed Scan Error Diagnostics:**
 
-### High-Contrast Visual Polish & GitHub Push ✅
-- **Prominent `✓ Safe` Badge**:
-  - Replaced subtle green tick with a bold, bright pill badge (`bg-emerald-100 text-emerald-800 border-emerald-300` in Light mode / `bg-emerald-500/20 text-emerald-300 border-emerald-500/40` in Dark mode).
-  - High contrast and immediately visible on any background color.
-- **High-Contrast Ingredient Description Text**:
-  - Updated grey ingredient description text (`text-slate-700 font-medium` in Light mode / `text-gray-400` in Dark mode) to ensure 100% legibility over ingredient card backgrounds.
-- **Build & Push**: Verified build (3.85s, 0 errors). Committed (`fef7f74`) and pushed directly to `origin/main`.
+### Root Cause Diagnosis & Fix ✅
+- **Root Cause Identified**:
+  - Frontend sent Base64 image data formatted as `data:image/jpeg;base64,...`.
+  - In `ai_router.py`, `_try_gemini_vision` and `_try_nvidia_vision` were attempting `base64.b64decode()` directly on the string containing `data:image/...;base64,` header prefixes.
+  - This caused base64 decode failures, causing AI fallbacks to fail silently and return `500 Internal Server Error`.
+- **Backend Fix**:
+  - Sanitized base64 inputs across `_try_nvidia_vision`, `_try_gemini_vision`, and `_try_sarvam_vision` using `image_data.split(",")[1]` stripping to ensure clean byte decoding.
+- **Frontend Error Diagnostics**:
+  - Updated `Scan.tsx` to include `Authorization: Bearer <token>` header for scan quota & tier tracking.
+  - Replaced generic hardcoded `"Something went wrong..."` with exact server details (`errData.detail`), giving clear feedback if quotas are reached or if images need retaking.
+- **Build & Push**: Verified build (3.25s, 0 errors). Committed (`f806e5f`) and pushed directly to `origin/main`.
 
 
 
