@@ -57,7 +57,11 @@ MODEL_NAME = "gemini-2.0-flash"
 
 # --- DATABASE SETUP ---
 MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-mongo_client = AsyncIOMotorClient(MONGODB_URI)
+mongo_client = AsyncIOMotorClient(
+    MONGODB_URI,
+    serverSelectionTimeoutMS=3000,
+    connectTimeoutMS=3000
+)
 db = mongo_client["Z-sehealth"]
 foods_collection = db["foods"]
 users_collection = db["users"]
@@ -77,32 +81,32 @@ try:
 except Exception as e:
     print(f"Warning: Failed to initialize Firebase Admin SDK. {e}")
 
-@app.on_event("startup")
-async def startup_event():
+async def background_db_init():
+    """Non-blocking background initialization and indexing."""
     try:
+        # Create search index for instant queries
+        await foods_collection.create_index([("name", 1)], background=True)
         count = await foods_collection.count_documents({})
         if count == 0:
-            print("Database is empty. Automatically seeding items...")
-            try:
-                from seed_1000 import generate_1000_items
-                await generate_1000_items()
-                print("Database successfully seeded with 1,000 items.")
-            except Exception as e:
-                print(f"Failed to run seed_1000 generator: {e}. Falling back to mock_foods.json.")
-                mock_file = os.path.join(os.path.dirname(__file__), "mock_foods.json")
-                if os.path.exists(mock_file):
-                    with open(mock_file, "r", encoding="utf-8") as f:
-                        foods = json.load(f)
-                    for food in foods:
-                        if "_id" in food:
-                            del food["_id"]
-                    if foods:
-                        await foods_collection.insert_many(foods)
-                        print(f"Successfully auto-seeded database with {len(foods)} items from mock_foods.json.")
-                else:
-                    print("mock_foods.json not found. Auto-seeding skipped.")
+            print("Database is empty. Automatically seeding items in background...")
+            mock_file = os.path.join(os.path.dirname(__file__), "mock_foods.json")
+            if os.path.exists(mock_file):
+                with open(mock_file, "r", encoding="utf-8") as f:
+                    foods = json.load(f)
+                for food in foods:
+                    if "_id" in food:
+                        del food["_id"]
+                if foods:
+                    await foods_collection.insert_many(foods)
+                    print(f"Successfully auto-seeded database with {len(foods)} items.")
     except Exception as e:
-        print(f"Error during auto-seeding check: {e}")
+        print(f"Background DB init warning: {e}")
+
+@app.on_event("startup")
+async def startup_event():
+    # Fire background DB initialization without blocking FastAPI startup
+    asyncio.create_task(background_db_init())
+    print("Z-SeHealth API started instantly.")
 
 # --- HELPER: GET NVIDIA KEYS ---
 def get_nvidia_keys() -> List[str]:

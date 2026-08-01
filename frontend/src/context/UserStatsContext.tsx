@@ -62,8 +62,8 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (currentUser) {
-      fetchStats();
-      fetchSubscriptionStatus();
+      // Execute initial user profile and stats fetches in parallel for maximum speed
+      Promise.all([fetchStats(), fetchSubscriptionStatus()]);
     } else {
       setStats(defaultStats);
       setStreak(0);
