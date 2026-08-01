@@ -7,15 +7,13 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Full Light Mode Theme Support:**
+**Work Done — Full Light Mode Polish (Text Contrast & Dark Button Borders):**
 
-### Light Mode Implementation ✅
-- **`index.css`**: Replaced old CSS variables with a complete `[data-theme="light"]` override system. 60+ Tailwind class overrides flip the entire dark palette (bg-slate-950 → #f1f5f9, bg-slate-900 → #fff, text-white → #0f172a, etc.) across all pages with zero component rewrites.
-- **`App.tsx`**: Imported `useUserProfile`, added `useEffect` watching `settings.darkMode` that reactively applies `data-theme="dark"` or `data-theme="light"` on both `document.documentElement` and `#app-root` div. The root div now has `id="app-root"` and `data-theme` attribute set dynamically.
-- **Settings toggle already working**: `handleSetDarkMode` in `Settings.tsx` already called `updateSettings({ darkMode: isDark })` — only the DOM wiring was missing.
-- **Persistence**: Theme preference is saved to MongoDB as `settings.darkMode`. Survives page refresh — restored via `UserProfileContext.fetchProfile` on login.
-- **Build**: ✅ Passed — 1795 modules, 0 TypeScript errors, CSS bundle grew by ~3.5 KB for light mode overrides.
-- **Commit**: `095fe59` pushed to `origin/main`.
+### Light Mode Adjustments & Pushed to GitHub ✅
+- **Darker High-Contrast Text**: Flipped all faint gray text classes (`text-gray-400`, `text-gray-500`, `text-gray-600`, `text-slate-400`, `text-slate-500`) in light mode to deep slate shades (`#334155` / `#1e293b`). Small labels, subheadings, input descriptions, disabled email inputs, and hints now stand out clearly with sharp legibility.
+- **Crisp Dark Borders on Buttons**: Added prominent dark/slate `1.5px solid` borders (`#64748b` / `#94a3b8` / `#cbd5e1`) to all buttons in light mode—including sidebar navigation pills (Account, Notifications, Privacy, Devices), secondary buttons (Send Password Reset Email), primary buttons (Save, Clear Photo), theme/language buttons, and cards.
+- **Build & Deployment**: Verified Vite build (0 TypeScript/CSS errors). Committed (`6deeda3`) and pushed directly to `origin/main`.
+
 
 
 ### Account Dropdown ("A/c Tab") & Profile Button Fixes ✅

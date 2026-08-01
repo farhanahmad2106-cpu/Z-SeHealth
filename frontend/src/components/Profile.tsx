@@ -214,7 +214,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
         <div className="col-span-1 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col items-center text-center relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <div className="absolute inset-0 bg-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           
           <div className="w-32 h-32 rounded-full bg-slate-800 border-4 border-slate-700 flex items-center justify-center overflow-hidden mb-4 relative group/photo">
             {currentUser.photoURL ? (
@@ -224,7 +224,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
             )}
             <button 
               onClick={handleOpenPhotoModal}
-              className="absolute bottom-0 inset-x-0 bg-black/70 hover:bg-black/90 text-white text-xs py-1.5 transition-all flex items-center justify-center gap-1 font-bold cursor-pointer opacity-90 group-hover/photo:opacity-100"
+              className="absolute bottom-0 inset-x-0 bg-black/70 hover:bg-black/90 text-white text-xs py-1.5 transition-all flex items-center justify-center gap-1 font-bold cursor-pointer opacity-90 group-hover/photo:opacity-100 border-0"
             >
               <Edit2 className="w-3.5 h-3.5 text-emerald-400" /> Edit Photo
             </button>
@@ -257,7 +257,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
         {/* Health Profile Overview */}
         <div className="col-span-1 md:col-span-2 space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <Activity className="w-5 h-5 text-blue-500" />
               Health Profile Overview

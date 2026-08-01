@@ -49,8 +49,7 @@ code {
    3. LIGHT MODE OVERRIDES
    ==========================================
    Applied when data-theme="light" is on #app-root / <html>.
-   Uses CSS specificity to flip all hardcoded Tailwind dark classes
-   to a premium light palette with rich text contrast and dark button borders.
+   Flipping dark elements to a high-contrast, clean light palette.
    ==========================================*/
 
 /* --- Page Background --- */
@@ -118,37 +117,74 @@ code {
 [data-theme="light"] .hover\:bg-slate-800\/50:hover { background-color: rgba(203, 213, 225, 0.9) !important; }
 [data-theme="light"] .hover\:text-white:hover { color: #0f172a !important; }
 
-/* --- BUTTON BORDERS & CONTRAST IN LIGHT MODE --- */
-[data-theme="light"] button {
-  border: 1.5px solid #94a3b8;
+/* ==========================================
+   BUTTON & NAVIGATION BORDER CLEANUP
+   ==========================================*/
+
+/* REMOVE generic button borders from non-actionable elements */
+[data-theme="light"] nav button {
+  border: none !important;
 }
 
-/* Secondary / Slate Buttons */
-[data-theme="light"] .bg-slate-800,
-[data-theme="light"] .bg-slate-700,
+[data-theme="light"] nav button.border-b-2 {
+  border-bottom: 2.5px solid #10b981 !important;
+  color: #059669 !important;
+}
+
+[data-theme="light"] header button {
+  border: none !important;
+}
+
+[data-theme="light"] .bg-slate-900\/95 button {
+  border: none !important;
+}
+
+[data-theme="light"] .bg-slate-600 {
+  border: none !important;
+  background-color: #475569 !important;
+  color: #ffffff !important;
+}
+
+/* Theme toggle inner buttons (Light / Dark) */
+[data-theme="light"] .bg-slate-800.rounded-xl button {
+  border: none !important;
+}
+
+[data-theme="light"] .bg-slate-800.rounded-xl button.bg-slate-700 {
+  border: none !important;
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* Back to Dashboard link button */
+[data-theme="light"] button:has(.lucide-arrow-left) {
+  border: none !important;
+  background: transparent !important;
+  color: #475569 !important;
+}
+[data-theme="light"] button:has(.lucide-arrow-left):hover {
+  color: #0f172a !important;
+}
+
+/* Modal Close buttons (X) */
+[data-theme="light"] button:has(.lucide-x) {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Explicit Action Buttons ONLY (Action CTAs & Secondary Action Buttons) */
 [data-theme="light"] button.bg-slate-800,
 [data-theme="light"] button.bg-slate-700 {
   border: 1.5px solid #64748b !important;
   color: #0f172a !important;
 }
 
-[data-theme="light"] button.bg-slate-800:hover,
-[data-theme="light"] button.bg-slate-700:hover {
-  border-color: #334155 !important;
-  background-color: #cbd5e1 !important;
-}
-
-/* Primary Emerald Buttons */
-[data-theme="light"] .bg-emerald-600,
-[data-theme="light"] .bg-emerald-500,
 [data-theme="light"] button.bg-emerald-600,
 [data-theme="light"] button.bg-emerald-500 {
   border: 1.5px solid #047857 !important;
   color: #ffffff !important;
 }
 
-/* Red / Danger Buttons */
-[data-theme="light"] .bg-red-600\/10,
 [data-theme="light"] button.bg-red-600\/10 {
   border: 1.5px solid #f87171 !important;
   color: #dc2626 !important;
@@ -160,7 +196,7 @@ code {
   color: #ffffff !important;
 }
 
-/* Navigation / Sidebar Tabs in Settings */
+/* Settings Sidebar Nav Buttons */
 [data-theme="light"] .col-span-1 button {
   border: 1.5px solid #cbd5e1 !important;
   color: #1e293b !important;
@@ -225,28 +261,32 @@ code {
 
 /* ==========================================
    DASHBOARD HERO CARD — Keep it dark (intentional dark panel)
-   The hero div uses bg-gradient-to-br from-slate-900 via-[#162032] to-slate-950.
-   We preserve darkness so white text inside stays readable.
+   Targeting ONLY the main dashboard container!
    ==========================================*/
-[data-theme="light"] .bg-gradient-to-br {
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br {
   background: linear-gradient(to bottom right, #1e293b, #162032, #0f172a) !important;
 }
 
 /* Text inside the dark hero card → keep white */
-[data-theme="light"] .bg-gradient-to-br .text-white { color: #ffffff !important; }
-[data-theme="light"] .bg-gradient-to-br .text-gray-400 { color: #cbd5e1 !important; }
-[data-theme="light"] .bg-gradient-to-br .text-gray-300 { color: #e2e8f0 !important; }
-[data-theme="light"] .bg-gradient-to-br .text-gray-500 { color: #94a3b8 !important; }
-[data-theme="light"] .bg-gradient-to-br .bg-slate-800\/60 { background-color: rgba(30,41,59,0.7) !important; }
-[data-theme="light"] .bg-gradient-to-br .bg-slate-800\/50 { background-color: rgba(30,41,59,0.6) !important; }
-[data-theme="light"] .bg-gradient-to-br .border-slate-700\/50 { border-color: rgba(51,65,85,0.6) !important; }
-[data-theme="light"] .bg-gradient-to-br .border-slate-700 { border-color: #334155 !important; }
-[data-theme="light"] .bg-gradient-to-br .border-slate-800 { border-color: #1e293b !important; }
-[data-theme="light"] .bg-gradient-to-br .bg-slate-900 { background-color: #1e293b !important; }
-[data-theme="light"] .bg-gradient-to-br input {
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-white { color: #ffffff !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-400 { color: #cbd5e1 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-300 { color: #e2e8f0 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .text-gray-500 { color: #94a3b8 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/60 { background-color: rgba(30,41,59,0.7) !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-800\/50 { background-color: rgba(30,41,59,0.6) !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700\/50 { border-color: rgba(51,65,85,0.6) !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-700 { border-color: #334155 !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .border-slate-800 { border-color: #1e293b !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br .bg-slate-900 { background-color: #1e293b !important; }
+[data-theme="light"] .max-w-6xl.bg-gradient-to-br input {
   background-color: #1e293b !important;
   color: #f1f5f9 !important;
   border-color: #334155 !important;
+}
+
+/* Ensure hover overlay divs on Profile cards don't darken card backgrounds */
+[data-theme="light"] .group-hover\:opacity-100 {
+  background-color: rgba(16, 185, 129, 0.05) !important;
 }
 
 /* ==========================================
@@ -293,7 +333,7 @@ code {
 [data-theme="light"] .bg-gradient-to-b .bg-slate-800 { background-color: #e2e8f0 !important; }
 [data-theme="light"] .bg-gradient-to-b .border-slate-700 { border-color: #cbd5e1 !important; }
 
-/* Free CTA button — needs visible border + contrast */
+/* Free CTA button */
 [data-theme="light"] .bg-slate-700.text-slate-300 {
   background-color: #e2e8f0 !important;
   color: #1e293b !important;
@@ -302,7 +342,6 @@ code {
 
 /* ==========================================
    HELP MODAL — "Need Personal Support?" section fix
-   bg-emerald-950/30 was teal-dark with white text → fix to mint-light with deep green text
    ==========================================*/
 [data-theme="light"] .bg-emerald-950\/30 {
   background-color: rgba(209, 250, 229, 0.75) !important;
@@ -324,14 +363,6 @@ code {
 [data-theme="light"] .bg-slate-800.rounded-xl {
   background-color: #e2e8f0 !important;
   border: 1.5px solid #94a3b8 !important;
-}
-
-/* Active button inside the pill */
-[data-theme="light"] .bg-slate-700.text-white.shadow-sm {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
-  border: 1.5px solid #64748b !important;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.14) !important;
 }
 
 /* Notification toggle track */
@@ -356,16 +387,8 @@ code {
   color: #0f172a !important;
 }
 
-/* Edit Health Profile / photo buttons */
-[data-theme="light"] button.bg-slate-800,
-[data-theme="light"] .bg-slate-800:is(button) {
-  background-color: #e2e8f0 !important;
-  color: #0f172a !important;
-  border: 1.5px solid #64748b !important;
-}
-
 /* ==========================================
-   ACCENT & BRAND COLORS (preserved)
+   ACCENT & BRAND COLORS
    ==========================================*/
 [data-theme="light"] .bg-amber-500\/10 { background-color: rgba(245,158,11,0.1) !important; }
 [data-theme="light"] .border-amber-500\/20 { border-color: rgba(245,158,11,0.3) !important; }
@@ -382,45 +405,24 @@ code {
   border: 1.5px solid rgba(248,113,113,0.5) !important;
 }
 [data-theme="light"] .border-red-900\/30 { border-color: rgba(252,165,165,0.6) !important; }
-[data-theme="light"] .bg-red-600\/10 { background-color: rgba(254,242,242,1) !important; }
-[data-theme="light"] .border-red-600\/20 { border-color: rgba(248,113,113,0.5) !important; }
 
 /* ==========================================
    SCAN PAGE — Error card + button fixes
    ==========================================*/
-
-/* "Detection Failed" rose error card */
 [data-theme="light"] .bg-rose-950\/40 {
   background-color: rgba(255, 228, 230, 0.9) !important;
   border: 1.5px solid rgba(251, 113, 133, 0.5) !important;
 }
 
-/* Text inside the error card */
 [data-theme="light"] .bg-rose-950\/40 .text-gray-300 {
   color: #6b2737 !important;
 }
 
-/* Scan page wrapping div */
 [data-theme="light"] .font-manrope.text-white {
   color: #0f172a !important;
 }
 
-/* Scan page heading + description */
 [data-theme="light"] h2.font-outfit { color: #0f172a !important; }
-
-/* Clear Photo button in Scan */
-[data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-xl {
-  background-color: #e2e8f0 !important;
-  color: #0f172a !important;
-  border: 1.5px solid #64748b !important;
-}
-
-/* Use Camera button in Scan empty state */
-[data-theme="light"] .bg-slate-800.hover\:bg-slate-700.rounded-2xl {
-  background-color: #e2e8f0 !important;
-  color: #0f172a !important;
-  border: 1.5px solid #64748b !important;
-}
 
 /* ==========================================
    SEARCH PAGE — Ingredient list dark box fix
@@ -430,7 +432,6 @@ code {
   border: 1.5px solid #cbd5e1 !important;
 }
 
-/* Ingredient text inside the box */
 [data-theme="light"] .bg-slate-950\/50 .text-slate-200 {
   color: #0f172a !important;
 }
@@ -443,7 +444,6 @@ code {
   border-color: rgba(203, 213, 225, 0.8) !important;
 }
 
-/* bg-slate-950/20 used in multiselect tick button area */
 [data-theme="light"] .bg-slate-950\/20 {
   background-color: rgba(226, 232, 240, 0.8) !important;
 }
@@ -456,20 +456,17 @@ code {
   border: 1.5px solid #cbd5e1 !important;
 }
 
-/* Header section of the dropdown */
 [data-theme="light"] .bg-slate-800\/40 {
   background-color: rgba(241, 245, 249, 0.95) !important;
   border-bottom: 1.5px solid #cbd5e1 !important;
 }
 
-/* Dropdown text items */
 [data-theme="light"] .bg-slate-900\/95 .text-white { color: #0f172a !important; }
 [data-theme="light"] .bg-slate-900\/95 .text-gray-400 { color: #1e293b !important; }
 [data-theme="light"] .bg-slate-900\/95 .text-gray-300 { color: #1e293b !important; }
 [data-theme="light"] .bg-slate-900\/95 .text-gray-500 { color: #334155 !important; }
 [data-theme="light"] .bg-slate-900\/95 .border-slate-800 { border-color: #cbd5e1 !important; }
 
-/* Dropdown hover rows */
 [data-theme="light"] .bg-slate-900\/95 .hover\:bg-slate-800:hover {
   background-color: #e2e8f0 !important;
 }
@@ -478,19 +475,16 @@ code {
   color: #0f172a !important;
 }
 
-/* Chevron icons in dropdown */
 [data-theme="light"] .bg-slate-900\/95 .text-gray-500 {
   color: #64748b !important;
 }
 
-/* FREE TIER badge in dropdown */
 [data-theme="light"] .bg-slate-900\/95 .bg-slate-800.text-gray-300 {
   background-color: #e2e8f0 !important;
   color: #1e293b !important;
   border: 1.5px solid #64748b !important;
 }
 
-/* Upgrade badge inside dropdown */
 [data-theme="light"] .bg-emerald-500\/20.text-emerald-300 {
   background-color: rgba(16, 185, 129, 0.15) !important;
   color: #047857 !important;
