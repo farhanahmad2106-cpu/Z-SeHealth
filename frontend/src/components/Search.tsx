@@ -509,13 +509,13 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                 {/* Ingredients List with Ingredient-Level Allergen & Diet Marking */}
                 <div className="grow space-y-3 mb-6">
                     <div className="flex items-center justify-between">
-                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Key Ingredients & Safety Flags</p>
+                      <p className="text-[10px] font-black text-slate-500 dark:text-gray-400 uppercase tracking-widest">Key Ingredients & Safety Flags</p>
                       {preferences.allergies?.length > 0 && (
-                        <span className="text-[9px] font-bold text-emerald-400">Checked against profile</span>
+                        <span className="text-[9px] font-extrabold text-emerald-600 dark:text-emerald-400">Checked against profile</span>
                       )}
                     </div>
                     
-                    <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800/50 max-h-52 overflow-y-auto custom-scrollbar space-y-2.5">
+                    <div className="bg-slate-100/90 dark:bg-slate-950/50 rounded-2xl p-3 sm:p-4 border border-slate-300 dark:border-slate-800/50 max-h-52 overflow-y-auto custom-scrollbar space-y-2.5">
                     {food.ingredients.map((ing, idx) => {
                         const tName = translatedData[food._id]?.[idx * 2];
                         const tDesc = translatedData[food._id]?.[idx * 2 + 1];
@@ -542,31 +542,35 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                         return (
                           <div 
                             key={idx} 
-                            className={`p-2.5 rounded-xl transition-all border ${
+                            className={`p-3 rounded-xl transition-all border shadow-sm ${
                               matchedAllergy 
-                                ? 'bg-rose-500/15 border-rose-500/40 text-rose-200' 
+                                ? 'bg-rose-50 border-rose-300 dark:bg-rose-500/15 dark:border-rose-500/40 text-rose-900 dark:text-rose-200' 
                                 : isDietConflict
-                                ? 'bg-amber-500/15 border-amber-500/40 text-amber-200'
-                                : 'bg-slate-900/40 border-slate-800/60'
+                                ? 'bg-amber-50 border-amber-300 dark:bg-amber-500/15 dark:border-amber-500/40 text-amber-900 dark:text-amber-200'
+                                : 'bg-white border-slate-300 dark:bg-slate-900/60 dark:border-slate-800/80'
                             }`}
                           >
                             <div className="flex items-center justify-between gap-2 mb-1">
-                              <p className={`text-sm font-bold ${matchedAllergy ? 'text-rose-400' : isDietConflict ? 'text-amber-400' : 'text-slate-200'}`}>
+                              <p className={`text-sm font-extrabold ${matchedAllergy ? 'text-rose-700 dark:text-rose-400' : isDietConflict ? 'text-amber-800 dark:text-amber-400' : 'text-slate-900 dark:text-slate-100'}`}>
                                 {displayName}
                               </p>
                               {matchedAllergy ? (
-                                <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1 shrink-0">
-                                  <AlertTriangle className="w-2.5 h-2.5 text-rose-400" /> ⚠️ Allergen: {matchedAllergy}
+                                <span className="text-[9px] font-black px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 dark:bg-rose-500/20 dark:text-rose-300 dark:border-rose-500/40 flex items-center gap-1 shrink-0 shadow-sm">
+                                  <AlertTriangle className="w-2.5 h-2.5 text-rose-600 dark:text-rose-400" /> ⚠️ Allergen: {matchedAllergy}
                                 </span>
                               ) : isDietConflict ? (
-                                <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0">
+                                <span className="text-[9px] font-black px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-500/20 dark:text-amber-300 dark:border-amber-500/40 shrink-0 shadow-sm">
                                   ❌ {preferences.diet} Conflict
                                 </span>
                               ) : (
-                                <span className="text-[9px] font-bold text-emerald-400/80 shrink-0">✓ Safe</span>
+                                <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 dark:bg-emerald-500/20 dark:text-emerald-300 dark:border-emerald-500/40 shrink-0 shadow-sm flex items-center gap-1">
+                                  ✓ Safe
+                                </span>
                               )}
                             </div>
-                            <p className="text-xs text-gray-400 leading-relaxed">{displayDesc}</p>
+                            <p className={`text-xs leading-relaxed ${matchedAllergy ? 'text-rose-800 dark:text-rose-200' : isDietConflict ? 'text-amber-800 dark:text-amber-200' : 'text-slate-700 dark:text-gray-400 font-medium'}`}>
+                              {displayDesc}
+                            </p>
                           </div>
                         );
                     })}

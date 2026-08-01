@@ -7,18 +7,18 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Health Profile Credentials Modal & Cross-App Dietary Safety Enforcement:**
+**Work Done — Ingredient-Level Allergen & Dietary Marking (Search & Scan):**
 
-### Full Stack Feature Delivery & GitHub Push ✅
-- **Workable Health Profile Overview & Edit Credentials Modal**:
-  - Clicking **"Edit Health Profile"** now opens a dedicated interactive modal allowing full editing of **Age, Gender, Height, Weight, Activity Level, Health Goal**, and **Target Water Intake**.
-  - Includes real-time **BMI Calculator** (e.g. `BMI 22.5 • Healthy Weight`) and **BMR Calorie Goal estimation**.
-  - All metrics persist via `UserProfileContext` and MongoDB backend.
-- **Cross-App Active Dietary Preferences Integration**:
-  - **Dashboard**: Added a dedicated **"Active Dietary Safety Profile"** card displaying active diet mode and allergy shields (`Vegetarian`, `chana`, `Fish`, `Peanuts`, `Eggs`, `Nuts`).
-  - **Food Search**: Automatically cross-references searched foods against the user's allergies and renders a prominent **"⚠️ Allergy Alert: Contains [Ingredient]"** badge in red on conflicting food cards.
-  - **AI Label Scan**: Scanned ingredient labels are automatically matched against user allergies, displaying an interactive **"⚠️ ALLERGY CONFLICT WARNING!"** banner when a match is detected.
-- **Build & Deployment**: Verified Vite build (0 TypeScript/CSS errors). Committed (`9744703`) and pushed directly to `origin/main`.
+### Full Stack Ingredient Marking & GitHub Push ✅
+- **Instant Reactive Safety Profile**: Updating dietary preferences/allergies in Profile now instantly updates all open components reactively across the app.
+- **Search Page Ingredient-Level Safety Badges**:
+  - Each individual ingredient inside a food card is evaluated against `preferences.allergies` and `preferences.diet`.
+  - Ingredients matching an allergy are highlighted in a red box with an explicit `⚠️ Allergen: [Allergy]` badge.
+  - Ingredients conflicting with diet mode (e.g. non-veg in Vegetarian mode) are highlighted in an amber box with a `❌ Diet Conflict` badge.
+  - Safe ingredients show a `✓ Safe` indicator tag.
+- **Scan Page AI Ingredient Cards**:
+  - Scanned product ingredient cards now highlight in rose red with glowing borders and a `⚠️ Allergen: [Allergy]` tag whenever an ingredient matches the user's profile.
+- **Build & Push**: Verified build (3.39s, 0 errors). Committed (`bb3978b`) and pushed directly to `origin/main`.
 
 
 
