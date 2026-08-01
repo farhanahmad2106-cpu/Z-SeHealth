@@ -7,6 +7,10 @@ export interface HealthProfile {
   gender: string;
   height: number | string;
   weight: number | string;
+  activityLevel?: string;
+  healthGoal?: string;
+  targetWater?: number | string;
+  dailyCalorieTarget?: number | string;
 }
 
 export interface Preferences {
@@ -30,7 +34,16 @@ interface UserProfileContextType {
   updateSettings: (data: Partial<Settings>) => Promise<boolean>;
 }
 
-const defaultHealth: HealthProfile = { age: '', gender: '', height: '', weight: '' };
+const defaultHealth: HealthProfile = { 
+  age: '', 
+  gender: '', 
+  height: '', 
+  weight: '',
+  activityLevel: 'Moderately Active',
+  healthGoal: 'Healthy Lifestyle',
+  targetWater: '2.5',
+  dailyCalorieTarget: '2000'
+};
 const defaultPreferences: Preferences = { diet: 'None', allergies: [] };
 const defaultSettings: Settings = { notificationsEnabled: true, darkMode: true, language: 'English' };
 

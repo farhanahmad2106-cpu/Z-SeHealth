@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useUserStats } from '../context/UserStatsContext';
-import { Loader2, Camera } from 'lucide-react';
+import { useUserProfile } from '../context/UserProfileContext';
+import { Loader2, Camera, Utensils, AlertTriangle } from 'lucide-react';
 import UsageIndicator from './UsageIndicator';
 import SubscriptionBadge from './SubscriptionBadge';
 import UpgradeModal from './UpgradeModal';
@@ -12,6 +13,7 @@ interface DashboardProps {
 
 export default function Dashboard({ onNavigateToScan, onGoToPricing }: DashboardProps) {
   const { stats, loadingStats, showUpgradeModal, setShowUpgradeModal } = useUserStats();
+  const { preferences } = useUserProfile();
   
   const [isCameraActive, setIsCameraActive] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -70,7 +72,7 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
   
   // Set goals
   const caloriesGoal = 2000;
-  const proteinGoal = 50;
+  const proteinGoal = 140;
   const carbsGoal = 250;
   const fatGoal = 70;
 
@@ -105,6 +107,35 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
         </div>
         <SubscriptionBadge variant="full" onUpgradeClick={onGoToPricing} />
       </div>
+
+      {/* Active Dietary Preferences & Allergies Summary Card */}
+      {(preferences.diet !== 'None' || (preferences.allergies && preferences.allergies.length > 0)) && (
+        <div className="mb-6 p-4 bg-slate-800/60 backdrop-blur-xl border border-slate-700/50 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+              <Utensils className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">Active Dietary Safety Profile</p>
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                {preferences.diet !== 'None' && (
+                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                    Diet: {preferences.diet}
+                  </span>
+                )}
+                {preferences.allergies?.map(a => (
+                  <span key={a} className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20 flex items-center gap-1">
+                    <AlertTriangle className="w-3 h-3 text-rose-400" /> {a}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <span className="text-[11px] font-semibold text-gray-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+            Active in Search & Scan
+          </span>
+        </div>
+      )}
 
       {/* Usage Indicator */}
       <div className="mb-8">

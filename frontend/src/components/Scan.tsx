@@ -1,6 +1,7 @@
 import { useState, useRef, useMemo, useEffect } from 'react';
-import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useUserProfile } from '../context/UserProfileContext';
 import { API_BASE } from '../config';
 
 const ALL_INDIAN_LANGUAGES = [
@@ -49,6 +50,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
   const streamRef = useRef<MediaStream | null>(null);
 
   const { currentUser, setShowLoginModal } = useAuth();
+  const { preferences } = useUserProfile();
 
   // Handle initialImage passed from other tabs (like Dashboard)
   useEffect(() => {
@@ -366,6 +368,36 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
 
       {analysisResult && (
         <div className="mt-8 bg-slate-900 border border-slate-800 rounded-3xl p-8 font-manrope">
+          {/* Allergen Warning Banner for Scanned Label */}
+          {(() => {
+            const userAllergies = preferences.allergies || [];
+            if (userAllergies.length === 0 || !analysisResult.ingredients) return null;
+
+            const detectedAllergies = userAllergies.filter(allergy => {
+              const algLower = allergy.toLowerCase().trim();
+              if (!algLower) return false;
+              return analysisResult.ingredients.some((ing: any) => 
+                (ing.name && ing.name.toLowerCase().includes(algLower)) || 
+                (ing.description && ing.description.toLowerCase().includes(algLower))
+              );
+            });
+
+            if (detectedAllergies.length > 0) {
+              return (
+                <div className="mb-6 p-4 bg-rose-500/15 border border-rose-500/40 rounded-2xl flex items-center gap-3 text-rose-300 font-bold text-sm shadow-md animate-bounce">
+                  <AlertTriangle className="w-6 h-6 text-rose-400 shrink-0" />
+                  <div>
+                    <p className="text-sm font-black text-rose-400">⚠️ ALLERGY CONFLICT WARNING!</p>
+                    <p className="text-xs font-semibold text-rose-200 mt-0.5">
+                      This scanned item contains ingredients matching your configured allergies: <span className="underline font-bold text-white">{detectedAllergies.join(', ')}</span>.
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })()}
+
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
             <h3 className="text-2xl font-outfit font-bold text-white">{analysisResult.name || "Scanned Product"}</h3>
             <div className="flex items-center gap-3 self-end sm:self-auto">

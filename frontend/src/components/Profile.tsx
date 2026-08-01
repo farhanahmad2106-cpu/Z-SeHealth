@@ -68,8 +68,8 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
     setTimeout(() => setToastMessage(null), 3500);
   };
 
-  // --- Health Profile State ---
-  const [isEditingHealth, setIsEditingHealth] = useState(false);
+  // --- Health Profile Modal State & Calculator ---
+  const [isHealthModalOpen, setIsHealthModalOpen] = useState(false);
   const [isSavingHealth, setIsSavingHealth] = useState(false);
   const [localHealth, setLocalHealth] = useState(healthProfile);
 
@@ -77,11 +77,30 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
     setLocalHealth(healthProfile);
   }, [healthProfile]);
 
+  const calculateBMI = (heightCm: number | string, weightKg: number | string) => {
+    const h = Number(heightCm) / 100;
+    const w = Number(weightKg);
+    if (!h || !w || h <= 0 || w <= 0) return null;
+    const bmi = Number((w / (h * h)).toFixed(1));
+    let category = 'Normal';
+    let color = 'text-emerald-400';
+    if (bmi < 18.5) { category = 'Underweight'; color = 'text-amber-400'; }
+    else if (bmi < 25) { category = 'Healthy Weight'; color = 'text-emerald-400'; }
+    else if (bmi < 30) { category = 'Overweight'; color = 'text-amber-400'; }
+    else { category = 'Obese'; color = 'text-rose-400'; }
+    return { bmi, category, color };
+  };
+
+  const handleOpenHealthModal = () => {
+    setLocalHealth(healthProfile);
+    setIsHealthModalOpen(true);
+  };
+
   const handleSaveHealth = async () => {
     setIsSavingHealth(true);
     try {
       await updateHealthProfile(localHealth);
-      setIsEditingHealth(false);
+      setIsHealthModalOpen(false);
       showToast('Health profile updated successfully!');
     } catch (err) {
       console.error(err);
@@ -258,118 +277,85 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
         <div className="col-span-1 md:col-span-2 space-y-6">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden group">
             <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-blue-500" />
-              Health Profile Overview
-            </h3>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                <p className="text-sm text-gray-400 mb-1">Age</p>
-                {isEditingHealth ? (
-                  <input 
-                    type="number" 
-                    value={localHealth.age} 
-                    onChange={e => setLocalHealth({...localHealth, age: e.target.value})} 
-                    placeholder="e.g. 25"
-                    className="w-full bg-slate-700 rounded-xl px-3 py-1.5 text-white border border-slate-600 focus:outline-none focus:border-emerald-500" 
-                  />
-                ) : (
-                  <p className="text-lg font-bold text-white">{healthProfile.age ? `${healthProfile.age} yrs` : '--'}</p>
-                )}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <Activity className="w-5 h-5 text-blue-500" />
+                Health Profile Overview
+              </h3>
+              {(() => {
+                const bmiData = calculateBMI(healthProfile.height, healthProfile.weight);
+                return bmiData ? (
+                  <span className={`text-xs font-bold px-3 py-1 rounded-full bg-slate-800 border border-slate-700 ${bmiData.color}`}>
+                    BMI {bmiData.bmi} • {bmiData.category}
+                  </span>
+                ) : null;
+              })()}
+            </div>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div className="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-700/50 text-left">
+                <p className="text-xs text-gray-400 mb-1">Age</p>
+                <p className="text-lg font-bold text-white">{healthProfile.age ? `${healthProfile.age} yrs` : '--'}</p>
               </div>
 
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                <p className="text-sm text-gray-400 mb-1">Gender</p>
-                {isEditingHealth ? (
-                  <select 
-                    value={localHealth.gender} 
-                    onChange={e => setLocalHealth({...localHealth, gender: e.target.value})} 
-                    className="w-full bg-slate-700 rounded-xl px-3 py-1.5 text-white border border-slate-600 focus:outline-none focus:border-emerald-500"
-                  >
-                    <option value="">-- Select --</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </select>
-                ) : (
-                  <p className="text-lg font-bold text-white">{healthProfile.gender || '--'}</p>
-                )}
+              <div className="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-700/50 text-left">
+                <p className="text-xs text-gray-400 mb-1">Gender</p>
+                <p className="text-lg font-bold text-white">{healthProfile.gender || '--'}</p>
               </div>
 
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                <p className="text-sm text-gray-400 mb-1">Height (cm)</p>
-                {isEditingHealth ? (
-                  <input 
-                    type="number" 
-                    value={localHealth.height} 
-                    onChange={e => setLocalHealth({...localHealth, height: e.target.value})} 
-                    placeholder="e.g. 175"
-                    className="w-full bg-slate-700 rounded-xl px-3 py-1.5 text-white border border-slate-600 focus:outline-none focus:border-emerald-500" 
-                  />
-                ) : (
-                  <p className="text-lg font-bold text-white">{healthProfile.height ? `${healthProfile.height} cm` : '--'}</p>
-                )}
+              <div className="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-700/50 text-left">
+                <p className="text-xs text-gray-400 mb-1">Height</p>
+                <p className="text-lg font-bold text-white">{healthProfile.height ? `${healthProfile.height} cm` : '--'}</p>
               </div>
 
-              <div className="bg-slate-800/50 p-4 rounded-2xl border border-slate-700/50">
-                <p className="text-sm text-gray-400 mb-1">Weight (kg)</p>
-                {isEditingHealth ? (
-                  <input 
-                    type="number" 
-                    value={localHealth.weight} 
-                    onChange={e => setLocalHealth({...localHealth, weight: e.target.value})} 
-                    placeholder="e.g. 70"
-                    className="w-full bg-slate-700 rounded-xl px-3 py-1.5 text-white border border-slate-600 focus:outline-none focus:border-emerald-500" 
-                  />
-                ) : (
-                  <p className="text-lg font-bold text-white">{healthProfile.weight ? `${healthProfile.weight} kg` : '--'}</p>
-                )}
+              <div className="bg-slate-800/50 p-3.5 rounded-2xl border border-slate-700/50 text-left">
+                <p className="text-xs text-gray-400 mb-1">Weight</p>
+                <p className="text-lg font-bold text-white">{healthProfile.weight ? `${healthProfile.weight} kg` : '--'}</p>
+              </div>
+            </div>
+
+            {/* Additional Credentials Summary Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+              <div className="bg-slate-800/30 p-3 rounded-2xl border border-slate-700/30 text-left">
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Activity Level</p>
+                <p className="text-xs font-bold text-emerald-400">{healthProfile.activityLevel || 'Moderately Active'}</p>
+              </div>
+              <div className="bg-slate-800/30 p-3 rounded-2xl border border-slate-700/30 text-left">
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Health Goal</p>
+                <p className="text-xs font-bold text-blue-400">{healthProfile.healthGoal || 'Healthy Lifestyle'}</p>
+              </div>
+              <div className="bg-slate-800/30 p-3 rounded-2xl border border-slate-700/30 text-left">
+                <p className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-0.5">Daily Target Water</p>
+                <p className="text-xs font-bold text-cyan-400">{healthProfile.targetWater || '2.5'} Liters / day</p>
               </div>
             </div>
             
-            <div className="mt-6">
-              {isEditingHealth ? (
-                <div className="flex gap-3">
-                  <button 
-                    onClick={handleSaveHealth} 
-                    disabled={isSavingHealth}
-                    className="flex-1 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white rounded-xl text-sm font-bold transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-emerald-950/40"
-                  >
-                    {isSavingHealth ? 'Saving...' : 'Save Changes'}
-                  </button>
-                  <button 
-                    onClick={() => { setIsEditingHealth(false); setLocalHealth(healthProfile); }} 
-                    className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-colors border border-slate-700 cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              ) : (
-                <button 
-                  onClick={() => { setLocalHealth(healthProfile); setIsEditingHealth(true); }} 
-                  className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold transition-all border border-slate-700 w-full flex items-center justify-center gap-2 cursor-pointer hover:border-emerald-500/50"
-                >
-                  <Edit2 className="w-4 h-4 text-emerald-400" /> Edit Health Profile
-                </button>
-              )}
-            </div>
+            <button 
+              onClick={handleOpenHealthModal} 
+              className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-bold transition-all border border-slate-700 w-full flex items-center justify-center gap-2 cursor-pointer hover:border-emerald-500/50 active:scale-95 shadow-sm"
+            >
+              <Edit2 className="w-4 h-4 text-emerald-400" /> Edit Health Profile Credentials
+            </button>
           </div>
 
           {/* Dietary Preferences Card */}
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
-                <Utensils className="w-5 h-5 text-emerald-400" /> Dietary Preferences
+                <Utensils className="w-5 h-5 text-emerald-400" /> Dietary Preferences & Allergy Flags
               </h3>
-              <div className="flex flex-wrap items-center gap-2 mt-2">
+              <p className="text-xs text-gray-400 mb-3">
+                Active across <span className="text-emerald-400 font-bold">Dashboard</span>, <span className="text-emerald-400 font-bold">Food Search</span> & <span className="text-emerald-400 font-bold">AI Label Scans</span> for instant allergen warnings.
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
                   Diet: {preferences.diet || 'None'}
                 </span>
                 {preferences.allergies && preferences.allergies.length > 0 ? (
                   preferences.allergies.map(allergy => (
-                    <span key={allergy} className="text-xs font-medium px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">
-                      {allergy}
+                    <span key={allergy} className="text-xs font-bold px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20">
+                      ⚠️ Allergy: {allergy}
                     </span>
                   ))
                 ) : (
@@ -379,7 +365,7 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
             </div>
             <button 
               onClick={() => setIsDietModalOpen(true)}
-              className="px-4 py-2 bg-emerald-600/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm font-bold transition-all cursor-pointer whitespace-nowrap active:scale-95"
+              className="px-4 py-2.5 bg-emerald-600/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-xl text-sm font-bold transition-all cursor-pointer whitespace-nowrap active:scale-95"
             >
               Configure
             </button>
@@ -553,6 +539,155 @@ const Profile: React.FC<ProfileProps> = ({ onBack, onGoToPricing }) => {
               </button>
               <button 
                 onClick={() => setIsDietModalOpen(false)}
+                className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- Edit Health Profile Modal --- */}
+      {isHealthModalOpen && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button 
+              onClick={() => setIsHealthModalOpen(false)}
+              className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full hover:bg-slate-800 cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-xl font-bold font-outfit text-white mb-2 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-blue-400" /> Edit Health Profile Credentials
+            </h3>
+            <p className="text-xs text-gray-400 mb-6">Update your biometrics, daily goals, and activity level for personalized health metrics.</p>
+
+            {/* Calculated BMI Preview */}
+            {(() => {
+              const bmiData = calculateBMI(localHealth.height, localHealth.weight);
+              return bmiData ? (
+                <div className="mb-6 p-4 bg-slate-800/80 border border-slate-700 rounded-2xl flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Calculated BMI</p>
+                    <p className="text-xl font-black text-white">{bmiData.bmi}</p>
+                  </div>
+                  <span className={`text-xs font-black px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 ${bmiData.color}`}>
+                    {bmiData.category}
+                  </span>
+                </div>
+              ) : null;
+            })()}
+
+            <div className="space-y-4 mb-6">
+              {/* Row 1: Age & Gender */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Age (Years)</label>
+                  <input 
+                    type="number"
+                    value={localHealth.age}
+                    onChange={e => setLocalHealth({ ...localHealth, age: e.target.value })}
+                    placeholder="e.g. 25"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Gender</label>
+                  <select 
+                    value={localHealth.gender}
+                    onChange={e => setLocalHealth({ ...localHealth, gender: e.target.value })}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  >
+                    <option value="">-- Select --</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Row 2: Height & Weight */}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Height (cm)</label>
+                  <input 
+                    type="number"
+                    value={localHealth.height}
+                    onChange={e => setLocalHealth({ ...localHealth, height: e.target.value })}
+                    placeholder="e.g. 175"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Weight (kg)</label>
+                  <input 
+                    type="number"
+                    value={localHealth.weight}
+                    onChange={e => setLocalHealth({ ...localHealth, weight: e.target.value })}
+                    placeholder="e.g. 70"
+                    className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+
+              {/* Activity Level */}
+              <div>
+                <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Daily Activity Level</label>
+                <select 
+                  value={localHealth.activityLevel || 'Moderately Active'}
+                  onChange={e => setLocalHealth({ ...localHealth, activityLevel: e.target.value })}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                >
+                  <option value="Sedentary">Sedentary (Little or no exercise)</option>
+                  <option value="Lightly Active">Lightly Active (1-3 days/week exercise)</option>
+                  <option value="Moderately Active">Moderately Active (3-5 days/week exercise)</option>
+                  <option value="Very Active">Very Active (6-7 days/week hard exercise)</option>
+                  <option value="Super Active">Super Active (Physical job or 2x/day training)</option>
+                </select>
+              </div>
+
+              {/* Primary Goal */}
+              <div>
+                <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Primary Health Goal</label>
+                <select 
+                  value={localHealth.healthGoal || 'Healthy Lifestyle'}
+                  onChange={e => setLocalHealth({ ...localHealth, healthGoal: e.target.value })}
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                >
+                  <option value="Weight Loss">Weight Loss & Fat Burn</option>
+                  <option value="Muscle Gain">Muscle Gain & Hypertrophy</option>
+                  <option value="Maintenance">Weight Maintenance</option>
+                  <option value="Healthy Lifestyle">Healthy Balanced Lifestyle</option>
+                  <option value="Stamina & Endurance">Stamina & Athletic Endurance</option>
+                </select>
+              </div>
+
+              {/* Row 3: Target Water Intake */}
+              <div>
+                <label className="block text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">Daily Target Water (Liters)</label>
+                <input 
+                  type="number"
+                  step="0.1"
+                  value={localHealth.targetWater || '2.5'}
+                  onChange={e => setLocalHealth({ ...localHealth, targetWater: e.target.value })}
+                  placeholder="e.g. 2.5"
+                  className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-4 border-t border-slate-800">
+              <button 
+                onClick={handleSaveHealth}
+                disabled={isSavingHealth}
+                className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-xl text-sm transition-all active:scale-95 cursor-pointer shadow-lg shadow-emerald-950/40"
+              >
+                {isSavingHealth ? 'Saving Credentials...' : 'Save Health Credentials'}
+              </button>
+              <button 
+                onClick={() => setIsHealthModalOpen(false)}
                 className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-semibold cursor-pointer"
               >
                 Cancel

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search as SearchIcon, SlidersHorizontal, Plus, Minus, Check, X, Globe, Search as MiniSearch, Loader2 } from 'lucide-react';
+import { Search as SearchIcon, SlidersHorizontal, Plus, Minus, Check, X, Globe, Search as MiniSearch, Loader2, AlertTriangle } from 'lucide-react';
 import { useUserStats } from '../context/UserStatsContext';
+import { useUserProfile } from '../context/UserProfileContext';
 import { API_BASE } from '../config';
 
 /** * INTERFACES
@@ -61,6 +62,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   const [translatedData, setTranslatedData] = useState<Record<string, string[]>>({});
   
   const { logMultipleMeals } = useUserStats();
+  const { preferences } = useUserProfile();
 
   // --- MULTI-MEAL SELECTION HELPERS ---
   const addMealToSelection = (food: FoodItem) => {
@@ -446,7 +448,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                 >
                 
                 {/* Food Header (Name, Brand, Score) */}
-                <div className="flex justify-between items-start mb-6">
+                <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="text-2xl font-bold text-white leading-tight">
@@ -458,10 +460,36 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 mb-2">
                         <span className="text-gray-500 text-[11px] font-black uppercase tracking-[0.15em]">Brand:</span>
                         <p className="text-gray-200 text-[11px] font-black uppercase tracking-[0.15em]">{food.brand}</p>
                     </div>
+
+                    {/* Allergen Warning Banner based on User's Dietary Preferences */}
+                    {(() => {
+                      const userAllergies = preferences.allergies || [];
+                      if (userAllergies.length === 0) return null;
+
+                      // Check if food name or ingredients match user's configured allergies
+                      const matchedAllergies = userAllergies.filter(allergy => {
+                        const algLower = allergy.toLowerCase().trim();
+                        if (!algLower) return false;
+                        const inName = food.name.toLowerCase().includes(algLower);
+                        const inIng = food.ingredients?.some(i => i.name.toLowerCase().includes(algLower) || i.description.toLowerCase().includes(algLower));
+                        return inName || inIng;
+                      });
+
+                      if (matchedAllergies.length > 0) {
+                        return (
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-500/15 border border-rose-500/40 text-rose-400 text-xs font-bold rounded-xl animate-pulse">
+                            <AlertTriangle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                            <span>Allergy Alert: Contains {matchedAllergies.join(', ')}</span>
+                          </div>
+                        );
+                      }
+                      return null;
+                    })()}
+
                     </div>
                     <div className="flex flex-col items-end gap-3">
                     <button 
