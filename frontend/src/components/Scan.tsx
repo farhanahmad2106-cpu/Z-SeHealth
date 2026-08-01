@@ -424,6 +424,29 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
                 {analysisResult.ingredients?.map((ing: any, idx: number) => {
                   const tName = translatedList?.[idx * 2];
                   const tDesc = translatedList?.[idx * 2 + 1];
+                  const displayName = tName || ing.name;
+                  const displayDesc = tDesc || ing.description;
+
+                  // Allergen Check
+                  const userAllergies = preferences.allergies || [];
+                  const matchedAllergy = userAllergies.find(a => {
+                    const algLower = a.toLowerCase().trim();
+                    if (!algLower) return false;
+                    return (ing.name && ing.name.toLowerCase().includes(algLower)) || 
+                           (ing.description && ing.description.toLowerCase().includes(algLower));
+                  });
+
+                  // Diet Check
+                  const dietMode = preferences.diet?.toLowerCase() || '';
+                  let isDietConflict = false;
+                  if (dietMode === 'vegetarian' || dietMode === 'vegan') {
+                    const nonVegKeywords = ['chicken', 'mutton', 'beef', 'pork', 'fish', 'meat', 'gelatin', 'gelatine', 'lard'];
+                    if (dietMode === 'vegan') nonVegKeywords.push('milk', 'dairy', 'cheese', 'butter', 'egg', 'honey');
+                    isDietConflict = nonVegKeywords.some(kw => 
+                      (ing.name && ing.name.toLowerCase().includes(kw)) || 
+                      (ing.description && ing.description.toLowerCase().includes(kw))
+                    );
+                  }
 
                   const getSafetyBadgeColor = (safety: string) => {
                     const s = safety?.toLowerCase() || '';
@@ -433,16 +456,40 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
                   };
 
                   return (
-                    <div key={idx} className="bg-slate-800/50 p-4 rounded-2xl border border-slate-800/80 flex flex-col justify-between hover:border-slate-700/80 transition duration-150">
+                    <div 
+                      key={idx} 
+                      className={`p-4 rounded-2xl border flex flex-col justify-between transition duration-150 ${
+                        matchedAllergy
+                          ? 'bg-rose-500/15 border-rose-500/50 shadow-lg shadow-rose-950/20'
+                          : isDietConflict
+                          ? 'bg-amber-500/15 border-amber-500/50'
+                          : 'bg-slate-800/50 border-slate-800/80 hover:border-slate-700/80'
+                      }`}
+                    >
                       <div className="flex justify-between items-start gap-2 mb-2">
-                        <p className="text-sm font-bold text-gray-200">{tName || ing.name}</p>
+                        <div className="flex flex-col gap-1">
+                          <p className={`text-sm font-bold ${matchedAllergy ? 'text-rose-400' : isDietConflict ? 'text-amber-400' : 'text-gray-200'}`}>
+                            {displayName}
+                          </p>
+                          {matchedAllergy && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-rose-300 bg-rose-500/30 px-2 py-0.5 rounded-md border border-rose-500/40 w-fit">
+                              <AlertTriangle className="w-2.5 h-2.5 text-rose-400" /> ⚠️ Allergen: {matchedAllergy}
+                            </span>
+                          )}
+                          {isDietConflict && !matchedAllergy && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-black text-amber-300 bg-amber-500/30 px-2 py-0.5 rounded-md border border-amber-500/40 w-fit">
+                              ❌ {preferences.diet} Conflict
+                            </span>
+                          )}
+                        </div>
+
                         {ing.safety && (
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border whitespace-nowrap ${getSafetyBadgeColor(ing.safety)}`}>
                             {ing.safety}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-gray-400 leading-relaxed mt-1">{tDesc || ing.description}</p>
+                      <p className="text-xs text-gray-400 leading-relaxed mt-1">{displayDesc}</p>
                     </div>
                   );
                 })}

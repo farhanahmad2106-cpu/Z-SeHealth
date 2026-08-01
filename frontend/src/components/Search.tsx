@@ -506,23 +506,68 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
                     </div>
                 </div>
 
-                {/* Ingredients List */}
+                {/* Ingredients List with Ingredient-Level Allergen & Diet Marking */}
                 <div className="grow space-y-3 mb-6">
-                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Key Ingredients</p>
-                    <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800/50 max-h-48 overflow-y-auto custom-scrollbar">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Key Ingredients & Safety Flags</p>
+                      {preferences.allergies?.length > 0 && (
+                        <span className="text-[9px] font-bold text-emerald-400">Checked against profile</span>
+                      )}
+                    </div>
+                    
+                    <div className="bg-slate-950/50 rounded-2xl p-4 border border-slate-800/50 max-h-52 overflow-y-auto custom-scrollbar space-y-2.5">
                     {food.ingredients.map((ing, idx) => {
-                        /** * DYNAMIC TRANSLATION INJECTION
-                         * Check if this food has translated data. 
-                         * Indices are multiplied by 2 because names are at [0, 2, 4...] and descriptions at [1, 3, 5...]
-                         */
                         const tName = translatedData[food._id]?.[idx * 2];
                         const tDesc = translatedData[food._id]?.[idx * 2 + 1];
+                        const displayName = tName || ing.name;
+                        const displayDesc = tDesc || ing.description;
+
+                        // Allergen Check
+                        const userAllergies = preferences.allergies || [];
+                        const matchedAllergy = userAllergies.find(a => {
+                          const algLower = a.toLowerCase().trim();
+                          if (!algLower) return false;
+                          return ing.name.toLowerCase().includes(algLower) || ing.description.toLowerCase().includes(algLower);
+                        });
+
+                        // Diet Check (Vegetarian / Vegan vs. Meat / Fish / Egg)
+                        const dietMode = preferences.diet?.toLowerCase() || '';
+                        let isDietConflict = false;
+                        if (dietMode === 'vegetarian' || dietMode === 'vegan') {
+                          const nonVegKeywords = ['chicken', 'mutton', 'beef', 'pork', 'fish', 'meat', 'gelatin', 'gelatine', 'lard'];
+                          if (dietMode === 'vegan') nonVegKeywords.push('milk', 'dairy', 'cheese', 'butter', 'egg', 'honey');
+                          isDietConflict = nonVegKeywords.some(kw => ing.name.toLowerCase().includes(kw) || ing.description.toLowerCase().includes(kw));
+                        }
                         
                         return (
-                        <div key={idx} className="mb-3 last:mb-0 border-b border-slate-800/50 last:border-0 pb-2 last:pb-0">
-                            <p className="text-sm font-bold text-slate-200">{tName || ing.name}</p>
-                            <p className="text-xs text-gray-500 leading-relaxed">{tDesc || ing.description}</p>
-                        </div>
+                          <div 
+                            key={idx} 
+                            className={`p-2.5 rounded-xl transition-all border ${
+                              matchedAllergy 
+                                ? 'bg-rose-500/15 border-rose-500/40 text-rose-200' 
+                                : isDietConflict
+                                ? 'bg-amber-500/15 border-amber-500/40 text-amber-200'
+                                : 'bg-slate-900/40 border-slate-800/60'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <p className={`text-sm font-bold ${matchedAllergy ? 'text-rose-400' : isDietConflict ? 'text-amber-400' : 'text-slate-200'}`}>
+                                {displayName}
+                              </p>
+                              {matchedAllergy ? (
+                                <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1 shrink-0">
+                                  <AlertTriangle className="w-2.5 h-2.5 text-rose-400" /> ⚠️ Allergen: {matchedAllergy}
+                                </span>
+                              ) : isDietConflict ? (
+                                <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0">
+                                  ❌ {preferences.diet} Conflict
+                                </span>
+                              ) : (
+                                <span className="text-[9px] font-bold text-emerald-400/80 shrink-0">✓ Safe</span>
+                              )}
+                            </div>
+                            <p className="text-xs text-gray-400 leading-relaxed">{displayDesc}</p>
+                          </div>
                         );
                     })}
                     </div>
