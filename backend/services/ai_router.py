@@ -62,6 +62,7 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
     """Call NVIDIA vision model with a given API key."""
     if not nvidia_key:
         return None
+    clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
     vision_model = model or os.getenv("NVIDIA_VISION_MODEL", "meta/llama-3.2-11b-vision-instruct")
     try:
         async with httpx.AsyncClient(timeout=60.0) as http_client:
@@ -76,7 +77,7 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
                         "role": "user",
                         "content": [
                             {"type": "text", "text": prompt},
-                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}},
+                            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{clean_base64}"}},
                         ],
                     }
                 ],
@@ -91,6 +92,8 @@ async def _try_nvidia_vision(image_data: str, prompt: str, nvidia_key: str, mode
             if resp.status_code == 200:
                 content = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
                 return clean_json_response(content)
+            else:
+                print(f"[NVIDIA Vision] HTTP {resp.status_code}: {resp.text[:200]}")
     except Exception as e:
         print(f"NVIDIA vision ({vision_model}) failed: {e}")
     return None
@@ -105,12 +108,14 @@ async def _try_gemini_vision(image_data: str, prompt: str) -> Optional[dict]:
         from google.genai import types
         gemini_key = os.getenv("GEMINI_API_KEY")
         if not gemini_key:
+            print("[AI Router] GEMINI_API_KEY is not set.")
             return None
         gemini_client = genai.Client(
             api_key=gemini_key,
             http_options={"api_version": "v1beta"}
         )
-        image_bytes = base64.b64decode(image_data)
+        clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
+        image_bytes = base64.b64decode(clean_base64)
         loop = asyncio.get_event_loop()
 
         def call_gemini():
@@ -123,7 +128,8 @@ async def _try_gemini_vision(image_data: str, prompt: str) -> Optional[dict]:
             )
 
         response = await loop.run_in_executor(None, call_gemini)
-        return clean_json_response(response.text)
+        if response and response.text:
+            return clean_json_response(response.text)
     except Exception as e:
         print(f"Gemini vision fallback failed: {e}")
     return None
@@ -135,7 +141,8 @@ async def _try_sarvam_vision(image_data: str, prompt: str) -> Optional[dict]:
     """Call Sarvam AI Vision — only for Z-Elite tier."""
     try:
         from services.sarvam_client import sarvam_scan
-        result = await sarvam_scan(image_data, prompt)
+        clean_base64 = image_data.split(",")[1] if "," in image_data else image_data
+        result = await sarvam_scan(clean_base64, prompt)
         return result
     except Exception as e:
         print(f"Sarvam vision failed: {e}")

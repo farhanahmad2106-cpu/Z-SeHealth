@@ -7,18 +7,15 @@
 
 ## 🗓️ Last Session Summary
 **Date:** 2026-08-01
-**Work Done — Ingredient-Level Allergen & Dietary Marking (Search & Scan):**
+**Work Done — Ingredient Text Contrast & Prominent Safe Tick Badge:**
 
-### Full Stack Ingredient Marking & GitHub Push ✅
-- **Instant Reactive Safety Profile**: Updating dietary preferences/allergies in Profile now instantly updates all open components reactively across the app.
-- **Search Page Ingredient-Level Safety Badges**:
-  - Each individual ingredient inside a food card is evaluated against `preferences.allergies` and `preferences.diet`.
-  - Ingredients matching an allergy are highlighted in a red box with an explicit `⚠️ Allergen: [Allergy]` badge.
-  - Ingredients conflicting with diet mode (e.g. non-veg in Vegetarian mode) are highlighted in an amber box with a `❌ Diet Conflict` badge.
-  - Safe ingredients show a `✓ Safe` indicator tag.
-- **Scan Page AI Ingredient Cards**:
-  - Scanned product ingredient cards now highlight in rose red with glowing borders and a `⚠️ Allergen: [Allergy]` tag whenever an ingredient matches the user's profile.
-- **Build & Push**: Verified build (3.39s, 0 errors). Committed (`bb3978b`) and pushed directly to `origin/main`.
+### High-Contrast Visual Polish & GitHub Push ✅
+- **Prominent `✓ Safe` Badge**:
+  - Replaced subtle green tick with a bold, bright pill badge (`bg-emerald-100 text-emerald-800 border-emerald-300` in Light mode / `bg-emerald-500/20 text-emerald-300 border-emerald-500/40` in Dark mode).
+  - High contrast and immediately visible on any background color.
+- **High-Contrast Ingredient Description Text**:
+  - Updated grey ingredient description text (`text-slate-700 font-medium` in Light mode / `text-gray-400` in Dark mode) to ensure 100% legibility over ingredient card backgrounds.
+- **Build & Push**: Verified build (3.85s, 0 errors). Committed (`fef7f74`) and pushed directly to `origin/main`.
 
 
 

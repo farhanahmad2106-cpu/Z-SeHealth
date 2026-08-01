@@ -156,29 +156,41 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
     setActiveModal(null);
     
     try {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (currentUser) {
+        try {
+          const token = await currentUser.getIdToken();
+          headers["Authorization"] = `Bearer ${token}`;
+        } catch (tokenErr) {
+          console.warn("Could not retrieve auth token:", tokenErr);
+        }
+      }
+
       const response = await fetch(`${API_BASE}/api/scan`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: headers,
         body: JSON.stringify({ image: image }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to analyze image");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `Scan service error (HTTP ${response.status})`);
       }
 
       const data = await response.json();
 
-      // Check if Gemini found valid ingredients
+      // Check if AI found valid ingredients
       if (data.has_ingredients === false) {
         setScanError(data.error_message || "No ingredients list detected. Please retake the image showing the label clearly.");
       } else {
         setAnalysisResult(data);
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error during analysis:", err);
-      setScanError("Something went wrong while communicating with the analysis server.");
+      setScanError(err.message || "Something went wrong while communicating with the analysis server.");
     } finally {
       setLoading(false);
     }
