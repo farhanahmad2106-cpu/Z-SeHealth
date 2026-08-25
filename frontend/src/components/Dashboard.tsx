@@ -4,7 +4,7 @@ import { useUserProfile } from '../context/UserProfileContext';
 import { Camera, Utensils } from 'lucide-react';
 import SubscriptionBadge from './SubscriptionBadge';
 import UpgradeModal from './UpgradeModal';
-import { LandingLoadingOverlay } from './LandingLoadingOverlay';
+import { LandingLoadingOverlay, InteractiveQuoteCard } from './LandingLoadingOverlay';
 
 interface DashboardProps {
   onNavigateToScan?: (imageData: string) => void;
@@ -95,6 +95,9 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
           onGoToPricing={() => { setShowUpgradeModal(false); onGoToPricing?.(); }}
         />
       )}
+
+      {/* Interactive Motivational Quote Deck Card */}
+      <InteractiveQuoteCard userStreakDays={streak} />
 
       {/* Welcome Heading */}
       <div className="mb-6 text-left flex items-start justify-between gap-4">
