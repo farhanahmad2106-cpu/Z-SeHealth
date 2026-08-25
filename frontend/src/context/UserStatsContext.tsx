@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+﻿import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { useAuth } from './AuthContext';
 import { API_BASE } from '../config';
 
@@ -13,7 +13,6 @@ interface UserStats {
 interface UserStatsContextType {
   stats: UserStats;
   streak: number;
-  // --- Freemium ---
   tier: string;
   scansUsed: number;
   scanLimit: number;
@@ -22,19 +21,18 @@ interface UserStatsContextType {
   setShowUpgradeModal: (show: boolean) => void;
   upgradePlan: (planId: string) => Promise<void>;
   refreshSubscription: () => Promise<void>;
-  // --- Existing ---
   logMeal: (foodItem: any, options?: { silent?: boolean }) => Promise<boolean>;
   logMultipleMeals: (items: Array<{ food: any; count: number }>) => Promise<boolean>;
   loadingStats: boolean;
   requestNotificationPermission: () => void;
 }
 
-const defaultStats: UserStats = {
-  calories: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
-  last_updated: ''
+const dummyStats: UserStats = {
+  calories: 1250,
+  protein: 85,
+  carbs: 140,
+  fat: 42,
+  last_updated: new Date().toISOString()
 };
 
 const UserStatsContext = createContext<UserStatsContextType | undefined>(undefined);
@@ -49,9 +47,28 @@ export function useUserStats() {
 
 export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const { currentUser, setShowLoginModal } = useAuth();
-  const [stats, setStats] = useState<UserStats>(defaultStats);
-  const [streak, setStreak] = useState(0);
-  const [loadingStats, setLoadingStats] = useState(false);
+
+  const [stats, setStats] = useState<UserStats>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('z_sehealth_cached_user_stats');
+      if (saved) {
+        try { return JSON.parse(saved); } catch (e) { console.error(e); }
+      }
+    }
+    return dummyStats;
+  });
+
+  const [streak, setStreak] = useState<number>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('z_sehealth_cached_user_streak');
+      if (saved) {
+        try { return JSON.parse(saved); } catch (e) { console.error(e); }
+      }
+    }
+    return 1;
+  });
+
+  const [loadingStats, setLoadingStats] = useState<boolean>(false);
 
   // --- FREEMIUM STATE ---
   const [tier, setTier] = useState<string>('free');
@@ -59,19 +76,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const [scanLimit, setScanLimit] = useState<number>(20);
   const [loadingUpgrade, setLoadingUpgrade] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
-
-  useEffect(() => {
-    if (currentUser) {
-      // Execute initial user profile and stats fetches in parallel for maximum speed
-      Promise.all([fetchStats(), fetchSubscriptionStatus()]);
-    } else {
-      setStats(defaultStats);
-      setStreak(0);
-      setTier('free');
-      setScansUsed(0);
-      setScanLimit(20);
-    }
-  }, [currentUser]);
 
   // --- FREEMIUM: Fetch subscription status ---
   const fetchSubscriptionStatus = useCallback(async () => {
@@ -94,7 +98,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
 
   const fetchStats = async () => {
     if (!currentUser) return;
-    setLoadingStats(true);
     try {
       const token = await currentUser.getIdToken();
       const response = await fetch(`${API_BASE}/api/user/stats`, {
@@ -104,8 +107,14 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       });
       if (response.ok) {
         const data = await response.json();
-        setStats(data.stats);
-        setStreak(data.streak);
+        if (data.stats) {
+          setStats(data.stats);
+          localStorage.setItem('z_sehealth_cached_user_stats', JSON.stringify(data.stats));
+        }
+        if (data.streak !== undefined) {
+          setStreak(data.streak);
+          localStorage.setItem('z_sehealth_cached_user_streak', JSON.stringify(data.streak));
+        }
       }
     } catch (error) {
       console.error("Failed to fetch user stats", error);
@@ -113,6 +122,19 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       setLoadingStats(false);
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      // Revalidate in background without blocking initial instant cached/dummy render
+      Promise.all([fetchStats(), fetchSubscriptionStatus()]);
+    } else {
+      setStats(dummyStats);
+      setStreak(1);
+      setTier('free');
+      setScansUsed(0);
+      setScanLimit(20);
+    }
+  }, [currentUser]);
 
   // --- FREEMIUM: Upgrade plan (create Razorpay subscription) ---
   const upgradePlan = useCallback(async (planId: string): Promise<void> => {
@@ -145,7 +167,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
         throw new Error('Razorpay Key ID is missing. Please check your environment configuration.');
       }
 
-      // Load Razorpay Checkout script dynamically
       await new Promise<void>((resolve, reject) => {
         if ((window as any).Razorpay) { resolve(); return; }
         const script = document.createElement('script');
@@ -164,15 +185,12 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       const options = {
         key: keyIdToUse,
         subscription_id: subscription_id,
-
         name: 'Z-SeHealth',
         description: `${planNames[planId] ?? planId} Premium Subscription`,
         image: '/icon.svg',
-        theme: { color: '#10b981' }, // emerald-500
+        theme: { color: '#10b981' },
         handler: async (response: any) => {
-          // Webhook is the source of truth — just refresh subscription status
           await fetchSubscriptionStatus();
-          // PaymentStatus shown by App.tsx via a state event (post-message pattern)
           window.dispatchEvent(new CustomEvent('z-payment-success', {
             detail: {
               planName: planNames[planId],
@@ -217,6 +235,7 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
       if (response.ok) {
         const data = await response.json();
         setStats(data.new_stats);
+        localStorage.setItem('z_sehealth_cached_user_stats', JSON.stringify(data.new_stats));
         if (!options?.silent) {
           alert(`Successfully logged ${foodItem.name}. Estimated macros added!`);
         }
@@ -258,11 +277,9 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const scheduleDailyNotification = () => {
-    // Schedule local browser notification if permitted
-    // To trigger at 9:00 PM daily
     const now = new Date();
     let targetTime = new Date();
-    targetTime.setHours(21, 0, 0, 0); // 9:00 PM
+    targetTime.setHours(21, 0, 0, 0);
 
     if (now > targetTime) {
       targetTime.setDate(targetTime.getDate() + 1);
@@ -276,7 +293,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
           body: "Don't forget to track your meals today! Keep your streak going."
         });
       }
-      // Re-schedule for next day
       setInterval(() => {
         if (Notification.permission === 'granted') {
           new Notification("Z-SeHealth", {
@@ -303,7 +319,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Setup notifications
   useEffect(() => {
     if (currentUser) {
       requestNotificationPermission();
@@ -313,7 +328,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
   const value = {
     stats,
     streak,
-    // --- Freemium ---
     tier,
     scansUsed,
     scanLimit,
@@ -322,7 +336,6 @@ export function UserStatsProvider({ children }: { children: React.ReactNode }) {
     setShowUpgradeModal,
     upgradePlan,
     refreshSubscription: fetchSubscriptionStatus,
-    // --- Existing ---
     logMeal,
     logMultipleMeals,
     loadingStats,

@@ -1,10 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+﻿import { useState, useRef, useEffect } from 'react';
 import { useUserStats } from '../context/UserStatsContext';
 import { useUserProfile } from '../context/UserProfileContext';
-import { Loader2, Camera, Utensils, AlertTriangle } from 'lucide-react';
-import UsageIndicator from './UsageIndicator';
+import { Camera, Utensils } from 'lucide-react';
 import SubscriptionBadge from './SubscriptionBadge';
 import UpgradeModal from './UpgradeModal';
+import { LandingLoadingOverlay } from './LandingLoadingOverlay';
 
 interface DashboardProps {
   onNavigateToScan?: (imageData: string) => void;
@@ -12,7 +12,7 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ onNavigateToScan, onGoToPricing }: DashboardProps) {
-  const { stats, loadingStats, showUpgradeModal, setShowUpgradeModal } = useUserStats();
+  const { stats, streak, loadingStats, showUpgradeModal, setShowUpgradeModal } = useUserStats();
   const { preferences } = useUserProfile();
   
   const [isCameraActive, setIsCameraActive] = useState(false);
@@ -78,10 +78,11 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
 
   if (loadingStats) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 space-y-4 min-h-[50vh]">
-        <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
-        <p className="text-gray-500 animate-pulse font-bold tracking-widest uppercase text-xs">Loading Dashboard...</p>
-      </div>
+      <LandingLoadingOverlay
+        isLoading={loadingStats}
+        userStreakDays={streak}
+        userName={preferences.diet || 'Farhan Ahmad'}
+      />
     );
   }
 
@@ -119,53 +120,42 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
               <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">Active Dietary Safety Profile</p>
               <div className="flex flex-wrap items-center gap-2 mt-1">
                 {preferences.diet !== 'None' && (
-                  <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                    Diet: {preferences.diet}
+                  <span className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    {preferences.diet}
                   </span>
                 )}
-                {preferences.allergies?.map(a => (
-                  <span key={a} className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-300 border border-rose-500/20 flex items-center gap-1">
-                    <AlertTriangle className="w-3 h-3 text-rose-400" /> {a}
+                {preferences.allergies?.map((allergy, i) => (
+                  <span key={i} className="text-xs font-semibold px-2.5 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                    {allergy}
                   </span>
                 ))}
               </div>
             </div>
           </div>
-          <span className="text-[11px] font-semibold text-gray-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-            Active in Search & Scan
-          </span>
         </div>
       )}
 
-      {/* Usage Indicator */}
-      <div className="mb-8">
-        <UsageIndicator onUpgradeClick={() => setShowUpgradeModal(true)} />
-      </div>
-
-      {/* Quick Scan Section */}
-      <div className="mb-10 bg-slate-800/60 backdrop-blur-xl rounded-3xl border border-slate-700/50 shadow-xl overflow-hidden relative">
+      {/* Embedded Live Camera Scanner Widget inside Dashboard */}
+      <div className="mb-10 bg-slate-900/90 rounded-3xl overflow-hidden border border-slate-800 shadow-2xl relative">
         <canvas ref={canvasRef} className="hidden" />
+        
         {isCameraActive ? (
-          <div className="relative w-full h-[350px] sm:h-[450px] flex items-center justify-center bg-black rounded-3xl overflow-hidden">
+          <div className="relative w-full h-[320px] bg-black flex items-center justify-center overflow-hidden">
             <video 
               ref={videoRef} 
               autoPlay 
               playsInline 
-              className="absolute inset-0 w-full h-full object-cover"
+              muted 
+              className="w-full h-full object-cover"
             />
-            {/* Overlay for brackets and logo */}
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-              <div className="relative w-64 h-64 sm:w-80 sm:h-80 opacity-90">
-                {/* Top-left bracket */}
+            {/* Viewfinder overlay */}
+            <div className="absolute inset-0 border-2 border-emerald-500/40 pointer-events-none flex items-center justify-center">
+              <div className="w-64 h-48 border-2 border-emerald-400/80 rounded-3xl relative animate-pulse shadow-[0_0_50px_rgba(16,185,129,0.3)]">
                 <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-white rounded-tl-3xl drop-shadow-md"></div>
-                {/* Top-right bracket */}
                 <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-white rounded-tr-3xl drop-shadow-md"></div>
-                {/* Bottom-left bracket */}
                 <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-white rounded-bl-3xl drop-shadow-md"></div>
-                {/* Bottom-right bracket */}
                 <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-white rounded-br-3xl drop-shadow-md"></div>
                 
-                {/* Center Logo Area mimicking Open Food Facts Scanner */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center drop-shadow-2xl">
                   <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-white/70 bg-black/30 backdrop-blur-sm flex items-center justify-center p-3">
                     <img src="/logo.png" alt="Scan Target" className="w-full h-full object-contain opacity-100 drop-shadow-md animate-pulse" />
@@ -174,13 +164,12 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
               </div>
             </div>
             
-            {/* Camera Controls */}
             <div className="absolute bottom-6 left-0 right-0 flex justify-center gap-4 z-10 px-4">
               <button 
                 onClick={capturePhoto} 
                 className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-bold shadow-xl transition transform hover:scale-105"
               >
-                📸 Capture & Analyze
+                Capture & Analyze
               </button>
               <button 
                 onClick={stopCamera} 
@@ -207,13 +196,12 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
         )}
       </div>
 
-      {/* Grid Layout for Cards - Changed to grid-cols-1 sm:grid-cols-2 for responsiveness and removed 3rd card */}
+      {/* Grid Layout for Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         
         {/* CARD 1: DAILY CALORIES */}
         <div className="bg-slate-800/60 backdrop-blur-xl p-7 rounded-3xl border border-slate-700/50 shadow-xl flex flex-col justify-between hover:bg-slate-800/80 transition-all duration-300">
           <div>
-            {/* Header with SVG Icon */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-rose-500/20 rounded-2xl flex items-center justify-center text-rose-400 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -225,7 +213,6 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
               </span>
             </div>
 
-            {/* Content stats */}
             <div className="text-left">
               <span className="text-4xl font-black text-white drop-shadow-md">{stats.calories}</span>
               <span className="text-gray-400 text-sm font-bold ml-1">/ {caloriesGoal} kcal</span>
@@ -244,7 +231,6 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
         {/* CARD 2: MACRONUTRIENT TARGETS */}
         <div className="bg-slate-800/60 backdrop-blur-xl p-7 rounded-3xl border border-slate-700/50 shadow-xl flex flex-col justify-between hover:bg-slate-800/80 transition-all duration-300">
           <div>
-            {/* Header with SVG Icon */}
             <div className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
@@ -258,7 +244,6 @@ export default function Dashboard({ onNavigateToScan, onGoToPricing }: Dashboard
               </span>
             </div>
 
-            {/* Content stats */}
             <div className="space-y-4 text-left">
               <div>
                 <div className="flex justify-between text-xs font-bold mb-1.5">
