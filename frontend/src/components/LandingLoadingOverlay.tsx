@@ -9,6 +9,20 @@ import {
 } from '../quoteEngine';
 import { Heart, Sparkles, Bookmark, ArrowRight, X, Flame } from 'lucide-react';
 
+
+// Helper to calculate dynamic quote display duration:
+// 8 seconds for short/single line quotes, 15 seconds for long or comma-separated/multi-sentence quotes.
+export const getQuoteDurationSeconds = (quoteText?: string): number => {
+  if (!quoteText) return 8;
+  const trimmed = quoteText.trim();
+  const isLongOrMultiClause =
+    trimmed.includes(',') ||
+    trimmed.includes(';') ||
+    (trimmed.match(/[.!?]/g) || []).length > 1 ||
+    trimmed.length > 60;
+  return isLongOrMultiClause ? 15 : 8;
+};
+
 interface InteractiveQuoteCardProps {
   userStreakDays?: number;
 }
@@ -23,7 +37,7 @@ export const InteractiveQuoteCard: React.FC<InteractiveQuoteCardProps> = ({
   const [savedQuotesList, setSavedQuotesList] = useState<Quote[]>([]);
   const [key, setKey] = useState(0);
 
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const loadNextQuote = () => {
     const { quote } = getNextQuote(currentQuote?.id);
@@ -36,25 +50,31 @@ export const InteractiveQuoteCard: React.FC<InteractiveQuoteCardProps> = ({
     setKey(prev => prev + 1);
   };
 
+  const currentDurationSec = getQuoteDurationSeconds(currentQuote?.text);
+
   useEffect(() => {
     loadNextQuote();
-
-    timerRef.current = setInterval(() => {
-      loadNextQuote();
-    }, 7000);
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleNextClick = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    loadNextQuote();
-    timerRef.current = setInterval(() => {
+  useEffect(() => {
+    if (!currentQuote) return;
+
+    if (timerRef.current) clearTimeout(timerRef.current);
+
+    timerRef.current = setTimeout(() => {
       loadNextQuote();
-    }, 7000);
+    }, currentDurationSec * 1000);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentQuote]);
+
+  const handleNextClick = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    loadNextQuote();
   };
 
   const handleToggleSave = () => {
@@ -105,7 +125,7 @@ export const InteractiveQuoteCard: React.FC<InteractiveQuoteCardProps> = ({
           key={key}
           className="h-full bg-emerald-500 transition-all"
           style={{
-            animation: 'progressFill 7s linear infinite'
+            animation: `progressFill ${currentDurationSec}s linear 1 forwards`
           }}
         />
       </div>
