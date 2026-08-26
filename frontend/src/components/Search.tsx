@@ -23,6 +23,229 @@ interface FoodItem {
   warnings: string[];
 }
 
+
+const DEFAULT_FALLBACK_FOODS: FoodItem[] = [
+  {
+    _id: 'fallback-1',
+    name: 'Paneer Butter Masala',
+    brand: 'Amul / Fresh Cottage',
+    safety_score: 92,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Cottage Cheese (Paneer)', safety: 'Safe', description: 'Rich in protein and healthy fats.' },
+      { name: 'Tomato Puree', safety: 'Safe', description: 'Natural lycopene and vitamin C source.' },
+      { name: 'Butter & Cream', safety: 'Moderate', description: 'Provides richness; consume in moderation.' },
+      { name: 'Kasuri Methi', safety: 'Safe', description: 'Traditional aromatic herb.' }
+    ],
+    warnings: ['Contains Dairy']
+  },
+  {
+    _id: 'fallback-2',
+    name: 'Whole Wheat Tawa Roti',
+    brand: 'Mother Dairy Atta',
+    safety_score: 96,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Whole Wheat Flour', safety: 'Safe', description: 'High dietary fiber and complex carbs.' },
+      { name: 'Water & Sea Salt', safety: 'Safe', description: 'Pure hydration and minimal sodium.' }
+    ],
+    warnings: ['Contains Gluten']
+  },
+  {
+    _id: 'fallback-3',
+    name: 'Yellow Dal Tadka',
+    brand: 'MTR Foods',
+    safety_score: 94,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Arhar Dal (Toor)', safety: 'Safe', description: 'Plant-based lean protein.' },
+      { name: 'Desi Ghee', safety: 'Safe', description: 'Healthy butyric acid for gut health.' },
+      { name: 'Cumin & Mustard', safety: 'Safe', description: 'Digestive spices.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-4',
+    name: 'Rolled Oats Porridge',
+    brand: 'Quaker Oats',
+    safety_score: 97,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Whole Grain Rolled Oats', safety: 'Safe', description: 'Beta-glucan fiber lowers cholesterol.' },
+      { name: 'Skimmed Milk', safety: 'Safe', description: 'Calcium and protein.' },
+      { name: 'Raw Honey', safety: 'Safe', description: 'Natural antioxidant sweetener.' }
+    ],
+    warnings: ['Contains Gluten']
+  },
+  {
+    _id: 'fallback-5',
+    name: 'Punjabi Chana Masala',
+    brand: "Haldiram's",
+    safety_score: 90,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Kabuli Chana (Chickpeas)', safety: 'Safe', description: 'High fiber and plant protein.' },
+      { name: 'Onion & Tomato Gravy', safety: 'Safe', description: 'Rich flavor base.' },
+      { name: 'Amchur (Dry Mango)', safety: 'Safe', description: 'Tangy digestive spice.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-6',
+    name: 'Crispy Masala Dosa',
+    brand: 'iD Fresh Food',
+    safety_score: 89,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Fermented Batter', safety: 'Safe', description: 'Probiotic benefits for digestion.' },
+      { name: 'Spiced Potato Masala', safety: 'Safe', description: 'Carbohydrates and potassium.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-7',
+    name: 'Protein Egg Bhurji',
+    brand: 'Farm Fresh',
+    safety_score: 95,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Whole Eggs', safety: 'Safe', description: 'Complete protein and choline.' },
+      { name: 'Green Chilies & Onions', safety: 'Safe', description: 'Metabolism boosting veggies.' }
+    ],
+    warnings: ['Contains Eggs']
+  },
+  {
+    _id: 'fallback-8',
+    name: 'Steamed Idli & Sambar',
+    brand: 'iD Fresh Food',
+    safety_score: 96,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Steamed Rice & Urad Dal', safety: 'Safe', description: 'Easy to digest fermented meal.' },
+      { name: 'Mixed Vegetable Sambar', safety: 'Safe', description: 'Fiber-rich lentil soup.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-9',
+    name: 'Brown Basmati Rice',
+    brand: 'Daawat',
+    safety_score: 93,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Whole Grain Brown Rice', safety: 'Safe', description: 'Low glycemic index carb.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-10',
+    name: 'Grilled Chicken Salad',
+    brand: 'Fresho',
+    safety_score: 96,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Boneless Chicken Breast', safety: 'Safe', description: 'Lean muscle building protein.' },
+      { name: 'Lettuce & Bell Peppers', safety: 'Safe', description: 'Vitamins A & C.' }
+    ],
+    warnings: ['Poultry']
+  },
+  {
+    _id: 'fallback-11',
+    name: 'Fresh Plain Dahi / Curd',
+    brand: 'Mother Dairy',
+    safety_score: 98,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Pasteurized Milk', safety: 'Safe', description: 'Calcium rich.' },
+      { name: 'Lactic Cultures', safety: 'Safe', description: 'Gut microbiome support.' }
+    ],
+    warnings: ['Contains Dairy']
+  },
+  {
+    _id: 'fallback-12',
+    name: 'Palak Paneer',
+    brand: 'ITC Master Chef',
+    safety_score: 94,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Spinach Puree', safety: 'Safe', description: 'Iron and folate rich.' },
+      { name: 'Cottage Cheese', safety: 'Safe', description: 'Quality dairy protein.' }
+    ],
+    warnings: ['Contains Dairy']
+  },
+  {
+    _id: 'fallback-13',
+    name: 'Rajma Chawal Curry',
+    brand: "Haldiram's",
+    safety_score: 91,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Red Kidney Beans', safety: 'Safe', description: 'Complex carbohydrates and protein.' },
+      { name: 'Spiced Tomato Onion Gravy', safety: 'Safe', description: 'Rich flavor profile.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-14',
+    name: 'Almonds & Walnut Mix',
+    brand: 'Happilo',
+    safety_score: 97,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Raw California Almonds', safety: 'Safe', description: 'Vitamin E and healthy monounsaturated fats.' },
+      { name: 'Chilean Walnuts', safety: 'Safe', description: 'Omega-3 fatty acid powerhouse.' }
+    ],
+    warnings: ['Contains Tree Nuts']
+  },
+  {
+    _id: 'fallback-15',
+    name: 'Moong Dal Khichdi',
+    brand: 'MTR Foods',
+    safety_score: 95,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Yellow Moong Dal & Rice', safety: 'Safe', description: 'Comforting, balanced, gut-friendly meal.' },
+      { name: 'Cumin & Ghee', safety: 'Safe', description: 'Digestive aid.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-16',
+    name: 'Vegetable Pulao',
+    brand: "Haldiram's",
+    safety_score: 90,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Basmati Rice', safety: 'Safe', description: 'Aromatic carbohydrate source.' },
+      { name: 'Green Peas & Carrots', safety: 'Safe', description: 'Essential micronutrients.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-17',
+    name: 'Sprouts & Chana Salad',
+    brand: 'Fresho',
+    safety_score: 97,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Sprouted Moong & Chana', safety: 'Safe', description: 'Enzyme-rich raw plant power.' },
+      { name: 'Pomegranate & Lemon', safety: 'Safe', description: 'Vitamin C boost.' }
+    ],
+    warnings: []
+  },
+  {
+    _id: 'fallback-18',
+    name: 'Multigrain Chapati',
+    brand: 'Aashirvaad',
+    safety_score: 95,
+    status: 'Safe',
+    ingredients: [
+      { name: 'Multi-Grain Atta Mix', safety: 'Safe', description: 'Oats, Soy, Chana, and Wheat blend.' }
+    ],
+    warnings: ['Contains Gluten', 'Contains Soy']
+  }
+];
+
 const ALL_INDIAN_LANGUAGES = [
   'Hindi', 'Bengali', 'Marathi', 'Telugu', 'Tamil', 'Gujarati', 'Urdu', 'Kannada', 'Odia', 'Punjabi', 
   'Malayalam', 'Assamese', 'Sanskrit', 'Maithili', 'Santali', 'Kashmiri', 'Konkani', 'Dogri', 'Nepali', 'Sindhi',
@@ -34,7 +257,21 @@ const ALL_INDIAN_LANGUAGES = [
 export default function Search({ onNavigateToDashboard }: { onNavigateToDashboard?: () => void }) {
   // --- STATE MANAGEMENT ---
   const [searchQuery, setSearchQuery] = useState('');           // Main search input
-  const [foods, setFoods] = useState<FoodItem[]>([]);           // Data from Backend
+  const [foods, setFoods] = useState<FoodItem[]>(() => {
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem('z_sehealth_cached_search_foods');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        } catch (e) {
+          console.error("Failed to parse cached search foods", e);
+        }
+      }
+    }
+    return DEFAULT_FALLBACK_FOODS;
+  });
+  const [isRevalidating, setIsRevalidating] = useState(false);           // Data from Backend
   const [loading, setLoading] = useState(false);                 // Loading spinner toggle
   const [searchError, setSearchError] = useState<string | null>(null); // Error for non-food search
   const [visibleCount, setVisibleCount] = useState(18);          // Pagination: items to show
@@ -99,6 +336,16 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
     setSelectedMealsMap({});
     setLastSelectedFoodId(null);
   };
+
+  const displayedFoods = useMemo(() => {
+    if (!searchQuery.trim()) return foods;
+    const q = searchQuery.toLowerCase().trim();
+    return foods.filter(f => 
+      f.name.toLowerCase().includes(q) ||
+      f.brand.toLowerCase().includes(q) ||
+      (f.ingredients && f.ingredients.some(i => i.name.toLowerCase().includes(q)))
+    );
+  }, [foods, searchQuery]);
 
   const totalSelectedCount = useMemo(() => {
     return Object.values(selectedMealsMap).reduce((sum, item) => sum + item.count, 0);
@@ -180,19 +427,29 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
   };
 
   const fetchInitialFoods = async () => {
-    setLoading(true);
+    setIsRevalidating(true);
     try {
       const response = await fetch(`${API_BASE}/api/foods?search=`);
-      const data = await response.json();
-      setFoods(data);
-    } catch (err) { console.error(err); } finally { setLoading(false); }
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setFoods(data);
+          localStorage.setItem('z_sehealth_cached_search_foods', JSON.stringify(data));
+        }
+      }
+    } catch (err) {
+      console.error("Background search fetch failed:", err);
+    } finally {
+      setIsRevalidating(false);
+      setLoading(false);
+    }
   };
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    setIsRevalidating(true);
     setSearchError(null);
-    setVisibleCount(18); // Reset pagination on new search
+    setVisibleCount(18);
     try {
       const response = await fetch(`${API_BASE}/api/foods?search=${encodeURIComponent(searchQuery)}`);
       if (!response.ok) {
@@ -201,18 +458,19 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
       const data = await response.json();
       if (data.error) {
         setSearchError(data.error);
-        setFoods([]);
       } else if (Array.isArray(data) && data.length === 0) {
         setSearchError("No results found. Please check your spelling or try another food item.");
-        setFoods([]);
-      } else {
+      } else if (Array.isArray(data)) {
         setFoods(data);
+        localStorage.setItem('z_sehealth_cached_search_foods', JSON.stringify(data));
       }
     } catch (err) { 
       console.error(err); 
       setSearchError("Failed to connect to the server or search timed out. Please try again.");
-      setFoods([]);
-    } finally { setLoading(false); }
+    } finally { 
+      setIsRevalidating(false);
+      setLoading(false); 
+    }
   };
 
   /**
@@ -426,16 +684,24 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
           </div>
         )}
 
-        {/* Loading State UI */}
-        {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 space-y-4">
-                <Loader2 className="w-12 h-12 text-emerald-500 animate-spin" />
-                <p className="text-gray-500 animate-pulse font-bold tracking-widest uppercase text-xs">Fetching Healthy Data...</p>
-            </div>
+        {/* Non-Blocking Background Revalidation Indicator */}
+        {isRevalidating && (
+          <div className="flex items-center justify-center gap-2 mb-6 text-xs font-bold text-emerald-400 bg-emerald-500/10 py-2 px-4 rounded-full border border-emerald-500/20 w-fit mx-auto animate-pulse">
+            <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+            <span>Syncing fresh database items...</span>
+          </div>
+        )}
+
+        {/* Food Grid */}
+        {displayedFoods.length === 0 && !isRevalidating ? (
+          <div className="text-center py-16 text-gray-400 bg-slate-900 border border-slate-800 rounded-3xl p-8 mb-16">
+            <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto mb-3" />
+            <p className="text-lg font-bold text-white">No food items found</p>
+            <p className="text-sm text-gray-400 mt-1">Try searching for &apos;paneer&apos;, &apos;roti&apos;, &apos;dal&apos;, or &apos;oats&apos;</p>
+          </div>
         ) : (
-            /* Food Grid */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {foods.slice(0, visibleCount).map((food) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            {displayedFoods.slice(0, visibleCount).map((food) => {
               const selectedCount = selectedMealsMap[food._id]?.count || 0;
               return (
                 <div 
@@ -614,7 +880,7 @@ export default function Search({ onNavigateToDashboard }: { onNavigateToDashboar
         )}
 
         {/* Load More Button */}
-        {foods.length > visibleCount && !loading && (
+        {displayedFoods.length > visibleCount && !loading && (
           <div className="flex justify-center mt-12 mb-20">
             <button 
               onClick={() => setVisibleCount(prev => prev + 18)}
