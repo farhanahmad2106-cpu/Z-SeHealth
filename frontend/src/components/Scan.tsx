@@ -425,7 +425,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
         <div className="mt-8 bg-slate-900 border border-slate-800 rounded-3xl p-8 font-manrope">
           {/* Allergen Warning Banner for Scanned Label */}
           {(() => {
-            const userAllergies = preferences.allergies || [];
+            const userAllergies = Array.isArray(preferences?.allergies) ? preferences.allergies : [];
             if (userAllergies.length === 0 || !analysisResult.ingredients) return null;
 
             const detectedAllergies = userAllergies.filter(allergy => {
@@ -476,11 +476,11 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
             <div>
               <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-3">Key Ingredients</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {parseScannedIngredients(analysisResult.ingredients).map((ing: any, idx: number) => {
+                {parseScannedIngredients(analysisResult.ingredients).filter((ing: any) => ing && ing.name).map((ing: any, idx: number) => {
                   const tName = translatedList?.[idx * 2];
                   const tDesc = translatedList?.[idx * 2 + 1];
-                  const displayName = tName || ing.name;
-                  const displayDesc = tDesc || ing.description;
+                  const displayName = tName || ing?.name || "Ingredient";
+                  const displayDesc = tDesc || ing?.description || "Product ingredient detected in scan.";
 
                   // Allergen Check
                   const userAllergies = preferences.allergies || [];
@@ -551,7 +551,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
               </div>
             </div>
 
-            {analysisResult.warnings?.length > 0 && (
+            {Array.isArray(analysisResult.warnings) && analysisResult.warnings.length > 0 && (
               <div className="border-t border-slate-800 pt-6">
                 <p className="text-xs text-rose-400 uppercase tracking-wider font-semibold mb-3">Warnings</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
