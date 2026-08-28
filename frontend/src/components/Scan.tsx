@@ -1,3 +1,4 @@
+import { ErrorBoundary } from './ErrorBoundary';
 import { parseScannedIngredients } from '../utils/ingredientParser';
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2, AlertTriangle } from 'lucide-react';
@@ -31,7 +32,7 @@ interface ScanProps {
   onClearInitialImage?: () => void;
 }
 
-export default function Scan({ onNavigateToSearch, initialImage, onClearInitialImage }: ScanProps) {
+function ScanContent({ onNavigateToSearch, initialImage, onClearInitialImage }: ScanProps) {
   const [image, setImage] = useState<string | null>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -419,7 +420,8 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
         </div>
       )}
 
-      {/* Your existing {analysisResult && (...)} container goes directly below here */}
+      {/* Your existing {analysisResult && (
+      ...)} container goes directly below here */}
 
       {analysisResult && (
         <div className="mt-8 bg-slate-900 border border-slate-800 rounded-3xl p-8 font-manrope">
@@ -475,7 +477,10 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
           <div className="space-y-6">
             <div>
               <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-3">Key Ingredients</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              
+                
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {parseScannedIngredients(analysisResult.ingredients).filter((ing: any) => ing && ing.name).map((ing: any, idx: number) => {
                   const tName = translatedList?.[idx * 2];
                   const tDesc = translatedList?.[idx * 2 + 1];
@@ -504,7 +509,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
                   }
 
                   const getSafetyBadgeColor = (safety: string) => {
-                    const s = safety?.toLowerCase() || '';
+                    const s = String(safety ?? '').toLowerCase();
                     if (s.includes('safe')) return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
                     if (s.includes('moderate')) return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
                     return 'bg-rose-500/10 text-rose-400 border-rose-500/20';
@@ -540,7 +545,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
 
                         {ing.safety && (
                           <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border whitespace-nowrap ${getSafetyBadgeColor(ing.safety)}`}>
-                            {ing.safety}
+                            {ing.safetyLabel || ing.safety}
                           </span>
                         )}
                       </div>
@@ -679,5 +684,13 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
         </div>
       )}
     </div>
+  );
+}
+
+export default function Scan(props: ScanProps) {
+  return (
+    <ErrorBoundary>
+      <ScanContent {...props} />
+    </ErrorBoundary>
   );
 }
