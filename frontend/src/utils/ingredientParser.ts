@@ -4,7 +4,7 @@
  * Guarantees a clear definition and health description for every single ingredient.
  */
 
-import { lookupMedicalVault, generateIngredientDefinition, ParsedIngredient as BaseParsedIngredient } from './ingredientVault';
+import { lookupMedicalVault, generateIngredientDefinition } from './ingredientVault';
 
 export interface ParsedIngredient {
   id: string;
@@ -53,7 +53,7 @@ function isMetadataRow(text: string): boolean {
 /**
  * Enriches ingredient object with Medical Knowledge Vault or Fallback Definitions
  */
-function enrichIngredient(name: string, rawDesc?: string, rawSafety?: any): ParsedIngredient | null {
+function enrichIngredient(name: string, rawDesc?: string, _rawSafety?: any): ParsedIngredient | null {
   const cleanName = sanitizeIngredientName(name);
   if (!cleanName || isMetadataRow(cleanName)) return null;
 
