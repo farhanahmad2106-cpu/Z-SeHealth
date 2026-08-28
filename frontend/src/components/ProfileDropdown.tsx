@@ -25,6 +25,7 @@ interface ProfileDropdownProps {
 export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   isOpen,
   currentUser,
+  onClose,
   tier = 'free',
   streak = 0,
   onNavigate,
