@@ -1,3 +1,4 @@
+import { parseScannedIngredients } from '../utils/ingredientParser';
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, X, Globe, Search as MiniSearch, Loader2, AlertTriangle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -475,7 +476,7 @@ export default function Scan({ onNavigateToSearch, initialImage, onClearInitialI
             <div>
               <p className="text-xs text-gray-400 uppercase tracking-wider font-semibold mb-3">Key Ingredients</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {analysisResult.ingredients?.map((ing: any, idx: number) => {
+                {parseScannedIngredients(analysisResult.ingredients).map((ing: any, idx: number) => {
                   const tName = translatedList?.[idx * 2];
                   const tDesc = translatedList?.[idx * 2 + 1];
                   const displayName = tName || ing.name;
