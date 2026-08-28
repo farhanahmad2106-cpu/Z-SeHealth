@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createContext, useContext, useEffect, useState } from 'react';
-// @ts-ignore
-import type { User } from 'firebase/auth';
 import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
-
 import { auth } from '../firebase';
 
 interface AuthContextType {
-  currentUser: User | null;
+  currentUser: any | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
@@ -27,12 +24,12 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUser, setCurrentUser] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user: User | null) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user: any | null) => {
       setCurrentUser(user);
       setLoading(false);
       
@@ -80,7 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await updateProfile(auth.currentUser, data);
       // Force refresh user state in app
-      setCurrentUser({ ...auth.currentUser } as User);
+      setCurrentUser({ ...auth.currentUser } as any);
       
       const token = await auth.currentUser.getIdToken();
       const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
