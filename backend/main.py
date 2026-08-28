@@ -49,10 +49,17 @@ app.add_middleware(
 
 # --- GEMINI CLIENT SETUP ---
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-client = genai.Client(
-    api_key=GEMINI_API_KEY,
-    http_options={'api_version': 'v1beta'}
-)
+client = None
+if GEMINI_API_KEY:
+    try:
+        client = genai.Client(
+            api_key=GEMINI_API_KEY,
+            http_options={'api_version': 'v1beta'}
+        )
+    except Exception as e:
+        print(f"Warning: Failed to initialize Gemini client: {e}")
+else:
+    print("Warning: GEMINI_API_KEY not found. Gemini functions will be bypassed/disabled.")
 MODEL_NAME = "gemini-2.0-flash" 
 
 # --- DATABASE SETUP ---
@@ -242,6 +249,9 @@ async def try_nvidia_fallback_food(prompt: str, nvidia_key: str) -> Optional[dic
 
 async def try_gemini_fallback_food(prompt: str) -> Optional[dict]:
     print("Attempting AI fallback using Gemini API...")
+    if not client:
+        print("Gemini client not initialized (missing API key). Skipping.")
+        return None
     try:
         loop = asyncio.get_event_loop()
         def call_gemini():
@@ -297,6 +307,9 @@ async def get_ai_fallback_food(food_query: str) -> Optional[dict]:
 
 async def try_gemini_translate(text_items: List[str], target_lang: str) -> Optional[List[str]]:
     """Attempts translation using the Gemini API."""
+    if not client:
+        print("Gemini client not initialized (missing API key). Skipping.")
+        return None
     print("Attempting translation using Gemini API...")
     prompt = f"Translate this list to {target_lang}: {text_items}. Return ONLY a JSON list of strings. No markdown."
     try:
@@ -355,7 +368,7 @@ async def try_ollama_translate(text_items: List[str], target_lang: str) -> Optio
             if resp.status_code == 200:
                 result = resp.json()
                 message_content = result.get("message", {}).get("content", "")
-                print(f"Ollama translation response received: {message_content[:200]}...")
+                print(f"Ollama translation response received: {ascii(message_content[:200])}...")
                 return clean_json_response(message_content)
     except Exception as e:
         print(f"Ollama translation failed: {e}")
@@ -394,7 +407,7 @@ async def try_nvidia_translate(text_items: List[str], target_lang: str, nvidia_k
             if resp.status_code == 200:
                 result = resp.json()
                 content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
-                print(f"NVIDIA translation response received: {content[:200]}...")
+                print(f"NVIDIA translation response received: {ascii(content[:200])}...")
                 return clean_json_response(content)
             else:
                 print(f"NVIDIA API returned status code {resp.status_code}: {resp.text}")
@@ -449,6 +462,9 @@ async def translate_text(request: dict):
 
 async def try_gemini_scan(image_data: str, prompt: str) -> Optional[dict]:
     """Attempts to analyze the image using the Gemini API."""
+    if not client:
+        print("Gemini client not initialized (missing API key). Skipping.")
+        return None
     print("Attempting scan using Gemini API...")
     try:
         loop = asyncio.get_event_loop()
@@ -514,7 +530,7 @@ async def try_ollama_scan(image_data: str, prompt: str) -> Optional[dict]:
             if resp.status_code == 200:
                 result = resp.json()
                 message_content = result.get("message", {}).get("content", "")
-                print(f"Ollama response received: {message_content[:200]}...")
+                print(f"Ollama response received: {ascii(message_content[:200])}...")
                 return clean_json_response(message_content)
             else:
                 print(f"Ollama returned status code: {resp.status_code}")
@@ -563,7 +579,7 @@ async def try_nvidia_scan(image_data: str, prompt: str, nvidia_key: str) -> Opti
             if resp.status_code == 200:
                 result = resp.json()
                 content = result.get("choices", [{}])[0].get("message", {}).get("content", "")
-                print(f"NVIDIA API response received: {content[:200]}...")
+                print(f"NVIDIA API response received: {ascii(content[:200])}...")
                 return clean_json_response(content)
             else:
                 print(f"NVIDIA API returned status code {resp.status_code}: {resp.text}")
@@ -776,6 +792,9 @@ async def try_nvidia_estimate_macros(prompt: str, nvidia_key: str) -> Optional[d
     return None
 
 async def try_gemini_estimate_macros(prompt: str) -> Optional[dict]:
+    if not client:
+        print("Gemini client not initialized (missing API key). Skipping.")
+        return None
     try:
         loop = asyncio.get_event_loop()
         def call_gemini():

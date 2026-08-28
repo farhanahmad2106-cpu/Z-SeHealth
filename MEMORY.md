@@ -1,11 +1,23 @@
 # Z-SeHealth — MEMORY.md
 > **⚠️ MUST BE UPDATED after every session or feature change.**
 > This file is the living memory of the project — its current state, what's done, what's in progress, and what's next.
-> **Last Updated:** 2026-08-01 (Session: Profile Dropdown options & Tap/Click-outside dismiss)
+> **Last Updated:** 2026-08-28 (Session: Fix Language Translator startup and Unicode console prints on Windows)
 
 ---
 
 ## 🗓️ Last Session Summary
+**Date:** 2026-08-28
+**Work Done — Fix Language Translator & Console Encoding Crashes:**
+
+### 🛠️ Language Translator & Startup Crash Fixes ✅
+- **Fixed FastAPI Module-level Initialization Crash**: Discovered that when `GEMINI_API_KEY` was missing from local environments, the module-level instantiation of `genai.Client()` would immediately throw a `ValueError` on startup, crashing the entire backend. Shifted `genai.Client` initialization to be lazy/conditional, and guarded all downstream Gemini API calls (`try_gemini_translate`, `try_gemini_fallback_food`, `try_gemini_scan`, `try_gemini_estimate_macros`) to prevent runtime errors when the key is absent.
+- **Fixed Windows Unicode standard-out prints**: Identified that when the backend logs translated strings or vision labels containing non-ASCII characters (e.g., regional Indian language text) in standard-out prints, Python on Windows raises a `UnicodeEncodeError: 'charmap' codec can't encode characters`. This error was captured by the service-level `try-except` blocks, causing translate functions to silently return `None` and fail.
+- **Applied `ascii()` Encoding Escape**: Updated the log print statements inside `try_ollama_translate`, `try_nvidia_translate`, `try_ollama_scan`, and `try_nvidia_scan` to use the built-in `ascii()` function, ensuring console output stays strictly ASCII-safe and preventing codec exceptions.
+- **Verified Success**: Tested the local translation flow successfully using a script within the FastAPI virtual environment, achieving error-free Indian language translations through Ollama fallbacks.
+
+---
+
+## 🗓️ Previous Session Summary
 **Date:** 2026-08-01
 **Work Done — Site Startup Performance Optimization (2-5 Min Delay to <1 Sec Instant Load):**
 
@@ -19,8 +31,6 @@
   2. **Parallel Frontend Requests (`UserStatsContext.tsx`)**: Parallelized user stats & subscription requests using `Promise.all()`.
   3. **Font Preconnect Optimization (`index.html`)**: Added preconnect hints to eliminate rendering blocking.
 - **Build & Push**: Verified build (3.29s, 0 errors). Committed (`8a22342`) and pushed directly to `origin/main`.
-
-
 
 ### Account Dropdown ("A/c Tab") & Profile Button Fixes ✅
 - **Account Dropdown Persistence**: Updated `ProfileDropdown.tsx` so clicking options inside the dropdown menu (Dashboard Overview, Personal Details, Membership & Plan, App Settings, Help & Support) navigates to the respective views without hiding the Account Tab. The Account Tab now toggles exclusively when clicking the Account tab profile button.
@@ -171,14 +181,14 @@
 | `frontend/src/context/AuthContext.tsx` | Firebase auth state | 2026-06-25 |
 | `frontend/src/context/UserStatsContext.tsx` | Daily stats + logMeal + logMultipleMeals | **2026-07-30** |
 | `frontend/src/context/UserProfileContext.tsx` | User health profile + settings | 2026-07-30 |
-| `backend/main.py` | All FastAPI routes + AI fallback chain | **2026-07-30** |
+| `backend/main.py` | All FastAPI routes + AI fallback chain | **2026-08-28** |
 | `backend/requirements.txt` | Python dependencies (pinned) | 2026-07-30 |
 | `backend/seed_1000.py` | 1000 Indian food DB seeder | 2026-06-25 |
 | `backend/mock_foods.json` | Fallback food data (local) | 2026-06-25 |
 | `backend/.env` | Local secrets (NOT committed) | — |
 | `backend/.env.example` | Secret key template | 2026-07-30 |
 | `RULES.md` | Development rules and conventions | **2026-07-30** |
-| `MEMORY.md` | This file — project state | **2026-07-30** |
+| `MEMORY.md` | This file — project state | **2026-08-28** |
 | `Z-SeHealth_project_features.md` | Feature list and roadmap | 2026-07-30 |
 
 ---
