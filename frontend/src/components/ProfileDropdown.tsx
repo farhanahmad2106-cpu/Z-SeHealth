@@ -9,7 +9,7 @@ import {
   LayoutDashboard, 
   ChevronRight
 } from 'lucide-react';
-import { User } from 'firebase/auth';
+import type { User } from 'firebase/auth';
 
 interface ProfileDropdownProps {
   isOpen: boolean;
